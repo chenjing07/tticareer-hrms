@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tticareer.hrms.mapper.ExaminationQuestionsMapper">
+  <resultMap id="BaseResultMap" type="com.tticareer.hrms.pojo.ExaminationQuestions">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="question" jdbcType="VARCHAR" property="question" />
+    <result column="answer" jdbcType="VARCHAR" property="answer" />
+    <result column="score" jdbcType="DECIMAL" property="score" />
+    <result column="difficulty_level" jdbcType="INTEGER" property="difficultyLevel" />
+    <result column="category" jdbcType="INTEGER" property="category" />
+    <result column="explanation" jdbcType="VARCHAR" property="explanation" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+  </resultMap>
+</mapper>

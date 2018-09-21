@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tticareer.hrms.mapper.ResumeMapper">
+  <resultMap id="BaseResultMap" type="com.tticareer.hrms.pojo.Resume">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="application_name" jdbcType="VARCHAR" property="applicationName" />
+    <result column="expected_position" jdbcType="VARCHAR" property="expectedPosition" />
+    <result column="id_card_number" jdbcType="VARCHAR" property="idCardNumber" />
+    <result column="id_card_picture" jdbcType="VARCHAR" property="idCardPicture" />
+    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
+    <result column="registered_address" jdbcType="VARCHAR" property="registeredAddress" />
+    <result column="house_address" jdbcType="VARCHAR" property="houseAddress" />
+    <result column="political_status" jdbcType="INTEGER" property="politicalStatus" />
+    <result column="marital_status" jdbcType="INTEGER" property="maritalStatus" />
+    <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="qq" jdbcType="VARCHAR" property="qq" />
+    <result column="education" jdbcType="VARCHAR" property="education" />
+    <result column="academic_degree" jdbcType="VARCHAR" property="academicDegree" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="tie" jdbcType="VARCHAR" property="tie" />
+    <result column="graduated_school" jdbcType="VARCHAR" property="graduatedSchool" />
+    <result column="graduated_time" jdbcType="TIMESTAMP" property="graduatedTime" />
+    <result column="awards_received" jdbcType="VARCHAR" property="awardsReceived" />
+    <result column="language_level" jdbcType="VARCHAR" property="languageLevel" />
+    <result column="work_experience" jdbcType="VARCHAR" property="workExperience" />
+    <result column="hobbies" jdbcType="VARCHAR" property="hobbies" />
+    <result column="self_evaluation" jdbcType="VARCHAR" property="selfEvaluation" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+  </resultMap>
+</mapper>

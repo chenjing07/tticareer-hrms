@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tticareer.hrms.mapper.EmployeeAssessmentMapper">
+  <resultMap id="BaseResultMap" type="com.tticareer.hrms.pojo.EmployeeAssessment">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="employee_id" jdbcType="BIGINT" property="employeeId" />
+    <result column="assessment_type" jdbcType="INTEGER" property="assessmentType" />
+    <result column="work_result" jdbcType="INTEGER" property="workResult" />
+    <result column="attitude" jdbcType="INTEGER" property="attitude" />
+    <result column="quality" jdbcType="INTEGER" property="quality" />
+    <result column="skill" jdbcType="INTEGER" property="skill" />
+    <result column="assessment_result" jdbcType="INTEGER" property="assessmentResult" />
+    <result column="evaluate" jdbcType="VARCHAR" property="evaluate" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="check_status" jdbcType="INTEGER" property="checkStatus" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+  </resultMap>
+</mapper>

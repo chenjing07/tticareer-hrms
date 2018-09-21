@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+	<properties resource="application.properties" />
+
+	<context id="MysqlContext" targetRuntime="MyBatis3Simple"
+		defaultModelType="flat">
+
+		<property name="beginningDelimiter" value="`" />
+		<property name="endingDelimiter" value="`" />
+		
+		<!-- 配置pojo的序列化 -->
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+		
+		<plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+			<property name="mappers" value="com.tticareer.hrms.util.MyMapper" />
+		</plugin>
+
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="${spring.datasource.url}" userId="${spring.datasource.username}"
+			password="${spring.datasource.password}">
+		</jdbcConnection>
+
+        <!-- 对于生成的pojo所在包 -->
+		<javaModelGenerator targetPackage="com.tticareer.hrms.pojo"
+			targetProject="src/test/java" />
+
+		<!-- 对于生成的mapper所在目录 -->
+		<sqlMapGenerator targetPackage="mapper" targetProject="src/test/resources" />
+
+		<!-- 配置mapper对应的java映射 -->
+		<javaClientGenerator targetPackage="com.tticareer.hrms.mapper"
+			targetProject="src/test/java" type="XMLMAPPER" />
+
+
+		<table tableName="expense_account"></table>
+
+	</context>
+</generatorConfiguration>

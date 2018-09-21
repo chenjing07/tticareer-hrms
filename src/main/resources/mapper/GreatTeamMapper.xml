@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tticareer.hrms.mapper.GreatTeamMapper">
+  <resultMap id="BaseResultMap" type="com.tticareer.hrms.pojo.GreatTeam">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="department_id" jdbcType="BIGINT" property="departmentId" />
+    <result column="commend" jdbcType="VARCHAR" property="commend" />
+    <result column="reward" jdbcType="VARCHAR" property="reward" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="check_status" jdbcType="INTEGER" property="checkStatus" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+  </resultMap>
+</mapper>

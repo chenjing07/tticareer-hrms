@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tticareer.hrms.mapper.RecruitmentDemandMapper">
+  <resultMap id="BaseResultMap" type="com.tticareer.hrms.pojo.RecruitmentDemand">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="position_id" jdbcType="BIGINT" property="positionId" />
+    <result column="plan_number" jdbcType="INTEGER" property="planNumber" />
+    <result column="salary" jdbcType="DECIMAL" property="salary" />
+    <result column="supplemental_number" jdbcType="INTEGER" property="supplementalNumber" />
+    <result column="supplement_reason" jdbcType="VARCHAR" property="supplementReason" />
+    <result column="arrival_date" jdbcType="TIMESTAMP" property="arrivalDate" />
+    <result column="language_requirements" jdbcType="VARCHAR" property="languageRequirements" />
+    <result column="professional_requirements" jdbcType="VARCHAR" property="professionalRequirements" />
+    <result column="educational_requirements" jdbcType="VARCHAR" property="educationalRequirements" />
+    <result column="computer_requirements" jdbcType="VARCHAR" property="computerRequirements" />
+    <result column="experience_requirements" jdbcType="VARCHAR" property="experienceRequirements" />
+    <result column="age_requirements" jdbcType="VARCHAR" property="ageRequirements" />
+    <result column="post_duties" jdbcType="VARCHAR" property="postDuties" />
+    <result column="post_requirements" jdbcType="VARCHAR" property="postRequirements" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+  </resultMap>
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tticareer.hrms.mapper.ClockDetailMapper">
+  <resultMap id="BaseResultMap" type="com.tticareer.hrms.pojo.ClockDetail">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="employee_id" jdbcType="BIGINT" property="employeeId" />
+    <result column="morning_in" jdbcType="TIMESTAMP" property="morningIn" />
+    <result column="morning_out" jdbcType="TIMESTAMP" property="morningOut" />
+    <result column="afternoon_in" jdbcType="TIMESTAMP" property="afternoonIn" />
+    <result column="afternoon_out" jdbcType="TIMESTAMP" property="afternoonOut" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="mi_coordinate" jdbcType="BINARY" property="miCoordinate" />
+    <result column="mo_coordinate" jdbcType="BINARY" property="moCoordinate" />
+    <result column="ai_coordinate" jdbcType="BINARY" property="aiCoordinate" />
+    <result column="ao_coordinate" jdbcType="BINARY" property="aoCoordinate" />
+  </resultMap>
+</mapper>

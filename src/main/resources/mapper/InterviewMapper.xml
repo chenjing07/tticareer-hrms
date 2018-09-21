@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tticareer.hrms.mapper.InterviewMapper">
+  <resultMap id="BaseResultMap" type="com.tticareer.hrms.pojo.Interview">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="resume_id" jdbcType="BIGINT" property="resumeId" />
+    <result column="one_content" jdbcType="VARCHAR" property="oneContent" />
+    <result column="one_start" jdbcType="TIMESTAMP" property="oneStart" />
+    <result column="one_end" jdbcType="TIMESTAMP" property="oneEnd" />
+    <result column="one_feedback" jdbcType="VARCHAR" property="oneFeedback" />
+    <result column="two_content" jdbcType="VARCHAR" property="twoContent" />
+    <result column="two_start" jdbcType="TIMESTAMP" property="twoStart" />
+    <result column="two_end" jdbcType="TIMESTAMP" property="twoEnd" />
+    <result column="two_feedback" jdbcType="VARCHAR" property="twoFeedback" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+  </resultMap>
+</mapper>

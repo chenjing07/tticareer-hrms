@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tticareer.hrms.mapper.WrittenExaminationMapper">
+  <resultMap id="BaseResultMap" type="com.tticareer.hrms.pojo.WrittenExamination">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="resume_id" jdbcType="BIGINT" property="resumeId" />
+    <result column="exam_content_id" jdbcType="BIGINT" property="examContentId" />
+    <result column="exam_start" jdbcType="TIMESTAMP" property="examStart" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="exam_score" jdbcType="DECIMAL" property="examScore" />
+    <result column="exam_result" jdbcType="INTEGER" property="examResult" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="exam_end" jdbcType="TIMESTAMP" property="examEnd" />
+  </resultMap>
+</mapper>

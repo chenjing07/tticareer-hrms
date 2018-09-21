@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tticareer.hrms.mapper.DepartmentMapper">
+  <resultMap id="BaseResultMap" type="com.tticareer.hrms.pojo.Department">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="superior_department_id" jdbcType="BIGINT" property="superiorDepartmentId" />
+    <result column="department_number" jdbcType="VARCHAR" property="departmentNumber" />
+    <result column="department_name" jdbcType="VARCHAR" property="departmentName" />
+    <result column="department_introduction" jdbcType="VARCHAR" property="departmentIntroduction" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="check_status" jdbcType="INTEGER" property="checkStatus" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+  </resultMap>
+</mapper>

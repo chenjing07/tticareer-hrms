@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tticareer.hrms.mapper.LeaveDetailMapper">
+  <resultMap id="BaseResultMap" type="com.tticareer.hrms.pojo.LeaveDetail">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="employee_id" jdbcType="BIGINT" property="employeeId" />
+    <result column="leave_start" jdbcType="TIMESTAMP" property="leaveStart" />
+    <result column="leave_end" jdbcType="TIMESTAMP" property="leaveEnd" />
+    <result column="leave_days" jdbcType="INTEGER" property="leaveDays" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="real_start" jdbcType="TIMESTAMP" property="realStart" />
+    <result column="real_end" jdbcType="TIMESTAMP" property="realEnd" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="check_status" jdbcType="INTEGER" property="checkStatus" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+  </resultMap>
+</mapper>

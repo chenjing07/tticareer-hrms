@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tticareer.hrms.mapper.WrittenExaminationContentMapper">
+  <resultMap id="BaseResultMap" type="com.tticareer.hrms.pojo.WrittenExaminationContent">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="one_id" jdbcType="BIGINT" property="oneId" />
+    <result column="two_id" jdbcType="BIGINT" property="twoId" />
+    <result column="three_id" jdbcType="BIGINT" property="threeId" />
+    <result column="four_id" jdbcType="BIGINT" property="fourId" />
+    <result column="five_id" jdbcType="BIGINT" property="fiveId" />
+    <result column="six_id" jdbcType="BIGINT" property="sixId" />
+    <result column="seven_id" jdbcType="BIGINT" property="sevenId" />
+    <result column="eight_id" jdbcType="BIGINT" property="eightId" />
+    <result column="nine_id" jdbcType="BIGINT" property="nineId" />
+    <result column="ten_id" jdbcType="BIGINT" property="tenId" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+  </resultMap>
+</mapper>

@@ -24,16 +24,16 @@ public class Position implements Serializable {
     private String positionNumber;
 
     /**
-     * 上级岗位id
-     */
-    @Column(name = "position_name")
-    private Long positionName;
-
-    /**
      * 岗位名称
      */
+    @Column(name = "position_name")
+    private String positionName;
+
+    /**
+     * 上级岗位id
+     */
     @Column(name = "superior_positionId")
-    private String superiorPositionid;
+    private Long superiorPositionid;
 
     /**
      * 岗位简介
@@ -120,38 +120,38 @@ public class Position implements Serializable {
     }
 
     /**
-     * 获取上级岗位id
-     *
-     * @return position_name - 上级岗位id
-     */
-    public Long getPositionName() {
-        return positionName;
-    }
-
-    /**
-     * 设置上级岗位id
-     *
-     * @param positionName 上级岗位id
-     */
-    public void setPositionName(Long positionName) {
-        this.positionName = positionName;
-    }
-
-    /**
      * 获取岗位名称
      *
-     * @return superior_positionId - 岗位名称
+     * @return position_name - 岗位名称
      */
-    public String getSuperiorPositionid() {
-        return superiorPositionid;
+    public String getPositionName() {
+        return positionName;
     }
 
     /**
      * 设置岗位名称
      *
-     * @param superiorPositionid 岗位名称
+     * @param positionName 岗位名称
      */
-    public void setSuperiorPositionid(String superiorPositionid) {
+    public void setPositionName(String positionName) {
+        this.positionName = positionName;
+    }
+
+    /**
+     * 获取上级岗位id
+     *
+     * @return superior_positionId - 上级岗位id
+     */
+    public Long getSuperiorPositionid() {
+        return superiorPositionid;
+    }
+
+    /**
+     * 设置上级岗位id
+     *
+     * @param superiorPositionid 上级岗位id
+     */
+    public void setSuperiorPositionid(Long superiorPositionid) {
         this.superiorPositionid = superiorPositionid;
     }
 

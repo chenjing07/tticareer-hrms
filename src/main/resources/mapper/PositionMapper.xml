@@ -8,8 +8,8 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="department_id" jdbcType="BIGINT" property="departmentId" />
     <result column="position_number" jdbcType="VARCHAR" property="positionNumber" />
-    <result column="position_name" jdbcType="BIGINT" property="positionName" />
-    <result column="superior_positionId" jdbcType="VARCHAR" property="superiorPositionid" />
+    <result column="position_name" jdbcType="VARCHAR" property="positionName" />
+    <result column="superior_positionId" jdbcType="BIGINT" property="superiorPositionid" />
     <result column="position_introduction" jdbcType="VARCHAR" property="positionIntroduction" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />

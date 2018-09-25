@@ -37,7 +37,7 @@
 			targetProject="src/test/java" type="XMLMAPPER" />
 
 
-		<table tableName="expense_account"></table>
+		<table tableName="position"></table>
 
 	</context>
 </generatorConfiguration>

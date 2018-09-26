@@ -5,9 +5,13 @@ import java.util.List;
 import com.tticareer.hrms.pojo.Employee;
 
 /**
-* @author dong
-* @version 创建时间：2018年9月21日 下午3:39:03
-*/
+ * <p>CreateTime: 2018年9月21日 下午3:39:03 </p>
+ * <p>ProjectName: hrms</p>
+ * <p>FiletName: EmployeeService.java</p>
+ * @author dong
+ * @version 1.0
+ * <p>Description: IEmployeeService的接口</p>
+ */
 public interface EmployeeService {
 	
 	/**

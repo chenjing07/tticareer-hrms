@@ -14,9 +14,13 @@ import com.tticareer.hrms.service.EmployeeService;
 import com.tticareer.hrms.util.JSONResult;
 
 /**
-* @author dong
-* @version 创建时间：2018年9月21日 下午3:56:23
-*/
+ * <p>CreateTime: 创建时间：2018年9月21日 下午3:56:23 </p>
+ * <p>ProjectName: hrms</p>
+ * <p>FiletName: EmployeeController.java</p>
+ * @author dong
+ * @version 1.0
+ * <p>Description: EmployeeController</p>
+ */
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
@@ -42,6 +46,7 @@ public class EmployeeController {
 				return JSONResult.ok(-1);
 			} else {
 				if (employeeService.queryEmployeeByUserName(userName).getPassword().equals(password)) {
+					
 					return JSONResult.ok(1);
 				} else {
 					return JSONResult.ok(0);

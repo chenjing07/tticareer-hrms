@@ -15,9 +15,13 @@ import com.tticareer.hrms.service.EmployeeService;
 import tk.mybatis.mapper.entity.Example;
 
 /**
-* @author dong
-* @version 创建时间：2018年9月21日 下午3:47:57
-*/
+ * <p>CreateTime: 2018年9月21日 下午3:47:57 </p>
+ * <p>ProjectName: hrms</p>
+ * <p>FiletName: EmployeeService.java</p>
+ * @author dong
+ * @version 1.0
+ * <p>Description: 实现接口EmployeeService</p>
+ */
 @Service
 public class IEmployeeService implements EmployeeService {
 	

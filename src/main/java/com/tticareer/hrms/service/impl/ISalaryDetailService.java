@@ -34,6 +34,7 @@ public class ISalaryDetailService implements SalaryDetailService {
 	public void deleteSalaryDetail(Long id) {
 		SalaryDetail salaryDetail=salaryDetailMapper.selectByPrimaryKey(id);
 		salaryDetail.setState(0);
+		salaryDetailMapper.updateByPrimaryKey(salaryDetail);
 		}
 
 	@Override
@@ -70,5 +71,10 @@ public class ISalaryDetailService implements SalaryDetailService {
 		criteria.andNotEqualTo("state", 0);
 		return salaryDetailMapper.selectByExample(example);
 	}
-
+	@Override
+	public void checkSalaryDetail(Long id) {
+		SalaryDetail salaryDetail=salaryDetailMapper.selectByPrimaryKey(id);
+		salaryDetail.setCheckStatus(1);
+		salaryDetailMapper.updateByPrimaryKey(salaryDetail);		
+	}
 }

@@ -42,4 +42,9 @@ public interface SalaryDetailService {
   	 * 查找出所有未被冻结（删除）的薪酬信息
   	 */
    public List<SalaryDetail> querySalaryDetailWhoIsNotDelete();
+   /**
+	 * 通过id审查薪酬
+	 * @param employee
+	 */
+   public void checkSalaryDetail(Long id);
 }

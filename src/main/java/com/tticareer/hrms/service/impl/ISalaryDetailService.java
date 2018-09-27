@@ -44,11 +44,11 @@ public class ISalaryDetailService implements SalaryDetailService {
 	}
 
 	@Override
-	public SalaryDetail querySalaryDetailByEmployeeId(Long employeeId) {
+	public List<SalaryDetail> querySalaryDetailByEmployeeId(Long employeeId) {
 		Example example=new Example(SalaryDetail.class);
 		Example.Criteria criteria= example.createCriteria();
 		criteria.andEqualTo("employeId", employeeId);
-		 return salaryDetailMapper.selectOneByExample(example);
+		 return salaryDetailMapper.selectByExample(example);
 	}
 
 	@Override

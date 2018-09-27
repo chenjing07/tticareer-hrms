@@ -29,7 +29,7 @@ public interface SalaryDetailService {
   	 * 通过员工id搜索薪酬信息
   	 * @Param employee_id
   	 */
-   public SalaryDetail querySalaryDetailByEmployeeId(Long employeeId);
+   public List<SalaryDetail> querySalaryDetailByEmployeeId(Long employeeId);
    /*
  	 * 查找出所有的薪酬信息
  	 */

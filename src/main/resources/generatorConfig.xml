@@ -37,7 +37,7 @@
 			targetProject="src/test/java" type="XMLMAPPER" />
 
 
-		<table tableName="position"></table>
+		<table tableName="over_work"></table>
 
 	</context>
 </generatorConfiguration>

@@ -132,7 +132,11 @@ public class ITrainingService implements TrainingService {
 
 	@Override
 	public List<TrainingInfo> queryTrainingInfoList(TrainingInfo ti) {
-		return null;
+		Example example = new Example(TrainingInfo.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andLike("purpose", "%" + ti.getPurpose() + "%");
+		criteria.andNotEqualTo("state", 0);
+		return tiMapper.selectByExample(example);
 	}
 
 	@Override
@@ -197,7 +201,11 @@ public class ITrainingService implements TrainingService {
 
 	@Override
 	public List<TrainingFeedback> queryTrainingFeedbackList(TrainingFeedback tf) {
-		return null;
+		Example example = new Example(TrainingFeedback.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andLike("trainingFeedback", "%" + tf.getTrainingFeedback() + "%");
+		criteria.andNotEqualTo("state", 0);
+		return tfMapper.selectByExample(example);
 	}
 
 }

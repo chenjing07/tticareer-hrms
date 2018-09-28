@@ -10,32 +10,28 @@ public class OverWork implements Serializable {
      * 唯一标识，主键自增
      */
     @Id
-    @Column(name = "overWorkId")
-    private Long overworkid;
+    private Long id;
 
     /**
      * 员工id
      */
-    @Column(name = "employeeId")
-    private Long employeeid;
+    @Column(name = "employee_Id")
+    private Long employeeId;
 
     /**
      * 加班日期
      */
-    @Column(name = "overWorkTime")
-    private Date overworktime;
+    private Date time;
 
     /**
      * 加班时长
      */
-    @Column(name = "overWorkDuration")
-    private String overworkduration;
+    private String duration;
 
     /**
      * 加班内容
      */
-    @Column(name = "overWorkContent")
-    private String overworkcontent;
+    private String content;
 
     /**
      * 状态
@@ -48,8 +44,8 @@ public class OverWork implements Serializable {
     /**
      * 录入时间
      */
-    @Column(name = "createTime")
-    private Date createtime;
+    @Column(name = "create_time")
+    private Date createTime;
 
     /**
      * 备注
@@ -61,91 +57,91 @@ public class OverWork implements Serializable {
     /**
      * 获取唯一标识，主键自增
      *
-     * @return overWorkId - 唯一标识，主键自增
+     * @return id - 唯一标识，主键自增
      */
-    public Long getOverworkid() {
-        return overworkid;
+    public Long getId() {
+        return id;
     }
 
     /**
      * 设置唯一标识，主键自增
      *
-     * @param overworkid 唯一标识，主键自增
+     * @param id 唯一标识，主键自增
      */
-    public void setOverworkid(Long overworkid) {
-        this.overworkid = overworkid;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
      * 获取员工id
      *
-     * @return employeeId - 员工id
+     * @return employee_Id - 员工id
      */
-    public Long getEmployeeid() {
-        return employeeid;
+    public Long getEmployeeId() {
+        return employeeId;
     }
 
     /**
      * 设置员工id
      *
-     * @param employeeid 员工id
+     * @param employeeId 员工id
      */
-    public void setEmployeeid(Long employeeid) {
-        this.employeeid = employeeid;
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
     }
 
     /**
      * 获取加班日期
      *
-     * @return overWorkTime - 加班日期
+     * @return time - 加班日期
      */
-    public Date getOverworktime() {
-        return overworktime;
+    public Date getTime() {
+        return time;
     }
 
     /**
      * 设置加班日期
      *
-     * @param overworktime 加班日期
+     * @param time 加班日期
      */
-    public void setOverworktime(Date overworktime) {
-        this.overworktime = overworktime;
+    public void setTime(Date time) {
+        this.time = time;
     }
 
     /**
      * 获取加班时长
      *
-     * @return overWorkDuration - 加班时长
+     * @return duration - 加班时长
      */
-    public String getOverworkduration() {
-        return overworkduration;
+    public String getDuration() {
+        return duration;
     }
 
     /**
      * 设置加班时长
      *
-     * @param overworkduration 加班时长
+     * @param duration 加班时长
      */
-    public void setOverworkduration(String overworkduration) {
-        this.overworkduration = overworkduration;
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 
     /**
      * 获取加班内容
      *
-     * @return overWorkContent - 加班内容
+     * @return content - 加班内容
      */
-    public String getOverworkcontent() {
-        return overworkcontent;
+    public String getContent() {
+        return content;
     }
 
     /**
      * 设置加班内容
      *
-     * @param overworkcontent 加班内容
+     * @param content 加班内容
      */
-    public void setOverworkcontent(String overworkcontent) {
-        this.overworkcontent = overworkcontent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     /**
@@ -181,19 +177,19 @@ public class OverWork implements Serializable {
     /**
      * 获取录入时间
      *
-     * @return createTime - 录入时间
+     * @return create_time - 录入时间
      */
-    public Date getCreatetime() {
-        return createtime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
     /**
      * 设置录入时间
      *
-     * @param createtime 录入时间
+     * @param createTime 录入时间
      */
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     /**

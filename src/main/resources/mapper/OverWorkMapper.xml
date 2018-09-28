@@ -5,13 +5,13 @@
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="overWorkId" jdbcType="BIGINT" property="overworkid" />
-    <result column="employeeId" jdbcType="BIGINT" property="employeeid" />
-    <result column="overWorkTime" jdbcType="TIMESTAMP" property="overworktime" />
-    <result column="overWorkDuration" jdbcType="VARCHAR" property="overworkduration" />
-    <result column="overWorkContent" jdbcType="VARCHAR" property="overworkcontent" />
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="employee_Id" jdbcType="BIGINT" property="employeeId" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="duration" jdbcType="VARCHAR" property="duration" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="state" jdbcType="INTEGER" property="state" />
-    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="note" jdbcType="VARCHAR" property="note" />
   </resultMap>
 </mapper>

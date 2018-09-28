@@ -45,6 +45,7 @@ public class IEmployeeService implements EmployeeService {
 	public void deleteEmployee(Long id) {
 		Employee emp = employeeMapper.selectByPrimaryKey(id);
 		emp.setState(0);
+		employeeMapper.updateByPrimaryKey(emp);
 	}
 
 	@Override

@@ -34,7 +34,7 @@ extend: 'Admin.model.Base',
 		{type: 'string',name: 'msn'},
 		{type: 'string',name: 'emergencyContactName'},
 		{type: 'string', name: 'emergencyContactRelationship'},
-		{type: 'string',name: 'emergencyContactNumbe'},
+		{type: 'string',name: 'emergencyContactNumber'},
 		{type: 'int',name: 'iswork'},
 		{type: 'date', name: 'workStart',dateFormat:'Y/m/d H:i:s'},
 		{type: 'date',name: 'workEnd',dateFormat:'Y/m/d H:i:s'},
@@ -47,6 +47,6 @@ extend: 'Admin.model.Base',
 	],
 	proxy: {
 		type: 'rest',
-		url: '/employee'
+		url: '/employee/save'
 	}
 });

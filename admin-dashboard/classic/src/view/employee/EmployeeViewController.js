@@ -112,7 +112,8 @@ Ext.define('Admin.view.employee.EmployeeViewController', {
 		var win=button.up('window')
 		var form=win.down('form');
 		var record = Ext.create('Admin.model.employee.EmployeeModel');
-		var values  =form.getValues();//获取form数据
+		var values  =form.getValues();//获取form数据 
+			console.log(values);
            	record.set(values);
            	record.save();
            	Ext.data.StoreManager.lookup('employeeGridStore').load();

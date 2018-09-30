@@ -158,10 +158,6 @@ Ext.define('Admin.view.employee.EmployeeAddWindow', {
             xtype: 'textfield',
             fieldLabel: 'Emergency Contact NumbeR',
             name:'emergencyContactNumber'
-        }, {
-            xtype: 'textfield',
-            fieldLabel: 'Emergency Contact Name',
-            name:'emergencyContactName'
         },
         {
             xtype: 'textfield',

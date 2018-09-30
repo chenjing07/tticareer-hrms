@@ -1,5 +1,9 @@
 package com.tticareer.hrms.service.impl;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,5 +80,13 @@ public class ISalaryDetailService implements SalaryDetailService {
 		SalaryDetail salaryDetail=salaryDetailMapper.selectByPrimaryKey(id);
 		salaryDetail.setCheckStatus(1);
 		salaryDetailMapper.updateByPrimaryKey(salaryDetail);		
+	}
+	@Override
+	public SalaryDetail querySalaryDetailByEmpIdAndNowYearMonth(Long employeeId, Date nowYearMonth) {
+		Example example=new Example(SalaryDetail.class);
+		Example.Criteria criteria= example.createCriteria();
+		criteria.andEqualTo("employeeId", employeeId);
+		criteria.andEqualTo("nowYearMonth", nowYearMonth);
+		return salaryDetailMapper.selectOneByExample(example);
 	}
 }

@@ -1,5 +1,6 @@
 package com.tticareer.hrms.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.tticareer.hrms.pojo.SalaryDetail;
@@ -42,9 +43,12 @@ public interface SalaryDetailService {
   	 * 查找出所有未被冻结（删除）的薪酬信息
   	 */
    public List<SalaryDetail> querySalaryDetailWhoIsNotDelete();
-   /**
-	 * 通过id审查薪酬
-	 * @param employee
-	 */
+   /*
+  	 * 审查薪酬信息
+  	 */
    public void checkSalaryDetail(Long id);
+   /*
+  	 * 通过员工id以及年月查找薪酬信息
+  	 */
+   public SalaryDetail querySalaryDetailByEmpIdAndNowYearMonth(Long employeeId,Date nowYearMonth);
 }

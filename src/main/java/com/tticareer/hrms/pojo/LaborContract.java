@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Table(name = "labor_contract")
 public class LaborContract implements Serializable {
     /**
@@ -191,6 +193,7 @@ public class LaborContract implements Serializable {
      *
      * @return contract_start - 开始时间
      */
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     public Date getContractStart() {
         return contractStart;
     }
@@ -209,6 +212,7 @@ public class LaborContract implements Serializable {
      *
      * @return contract_end - 结束时间
      */
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     public Date getContractEnd() {
         return contractEnd;
     }
@@ -389,6 +393,7 @@ public class LaborContract implements Serializable {
      *
      * @return create_time - 录入时间
      */
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     public Date getCreateTime() {
         return createTime;
     }

@@ -6,10 +6,10 @@ Ext.define('Admin.store.employee.EmployeeGridStore', {
 
     proxy: {
         type: 'rest',
-        url: '/employee',	//mvc url  xxx.json
+        url: '/employee/realall',	//mvc url  xxx.json
 	  reader:{
 	    	type:'json',
-	    	rootProperty:'content',
+	    	rootProperty:'data',
 	    	totalProperty: 'totalElements'
 	    },
 	    	writer: {

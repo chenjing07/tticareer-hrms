@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Archives implements Serializable {
     /**
      * 唯一标识，主键自增
@@ -112,6 +114,7 @@ public class Archives implements Serializable {
      *
      * @return in_time - 转入时间
      */
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     public Date getInTime() {
         return inTime;
     }
@@ -130,6 +133,7 @@ public class Archives implements Serializable {
      *
      * @return out_time - 转出时间
      */
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     public Date getOutTime() {
         return outTime;
     }
@@ -220,6 +224,7 @@ public class Archives implements Serializable {
      *
      * @return create_time - 录入时间
      */
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     public Date getCreateTime() {
         return createTime;
     }

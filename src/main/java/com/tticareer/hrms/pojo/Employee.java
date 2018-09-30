@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Employee implements Serializable {
     /**
      * 唯一标识，主键自增
@@ -353,6 +355,7 @@ public class Employee implements Serializable {
      *
      * @return birthday - 出生年月
      */
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     public Date getBirthday() {
         return birthday;
     }
@@ -551,6 +554,7 @@ public class Employee implements Serializable {
      *
      * @return graduated_time - 毕业时间
      */
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     public Date getGraduatedTime() {
         return graduatedTime;
     }
@@ -827,6 +831,7 @@ public class Employee implements Serializable {
      *
      * @return work_start - 入职时间
      */
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     public Date getWorkStart() {
         return workStart;
     }
@@ -845,6 +850,7 @@ public class Employee implements Serializable {
      *
      * @return work_end - 离职时间
      */
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     public Date getWorkEnd() {
         return workEnd;
     }
@@ -863,6 +869,7 @@ public class Employee implements Serializable {
      *
      * @return practice_start - 实习开始时间
      */
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     public Date getPracticeStart() {
         return practiceStart;
     }
@@ -881,6 +888,7 @@ public class Employee implements Serializable {
      *
      * @return practice_end - 实习结束时间
      */
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     public Date getPracticeEnd() {
         return practiceEnd;
     }
@@ -947,6 +955,7 @@ public class Employee implements Serializable {
      *
      * @return create_time - 录入时间
      */
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     public Date getCreateTime() {
         return createTime;
     }

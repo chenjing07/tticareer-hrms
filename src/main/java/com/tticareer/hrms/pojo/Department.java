@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Department implements Serializable {
     /**
      * 唯一id，主键自增
@@ -172,6 +174,7 @@ public class Department implements Serializable {
      *
      * @return create_time - 录入时间
      */
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     public Date getCreateTime() {
         return createTime;
     }

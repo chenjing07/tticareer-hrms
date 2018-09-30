@@ -1,3 +1,4 @@
+
 Ext.define('Admin.view.employee.EmployeePanel', {
     extend: 'Ext.panel.Panel',
     xtype: 'employeePanel',
@@ -22,11 +23,11 @@ Ext.define('Admin.view.employee.EmployeePanel', {
             bind: '{employeeLists}',
             scrollable: false,
             columns: [
-                {xtype: 'gridcolumn',width: 40,dataIndex: 'id',text: 'id',hidden:true},
-       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'employee_number',text: 'Employee Number',flex:1},
-       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'real_name',text: 'Real Name',flex:1},
-       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'id_card_number',text: 'id Card Number',flex:1},
-        	   {xtype: 'datecolumn',cls: 'content-column', width: 160,dataIndex: 'create_time',text: 'Create Time'},
+           {xtype: 'gridcolumn',width: 40,dataIndex: 'id',text: 'id',hidden:true},
+       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'userName',text: 'UserName',flex:1},
+       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'realName',text: 'Real Name',flex:1},
+       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'idCardNumber',text: 'id Card Number',flex:1},
+		   {xtype: 'datecolumn',cls: 'content-column', width: 160,dataIndex: 'createTime',text: 'Create Time',renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s')},
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: 'Actions',tooltip: 'edit ',
                     items: [
                         {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'openEditWindow'},

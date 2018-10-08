@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,7 +35,7 @@ public class DepartmentController {
 	 * @return
 	 */
 	@PostMapping("/save")
-	public JSONResult saveDepartment(Department department) {
+	public JSONResult saveDepartment(@RequestBody Department department) {
 		departmentService.saveDepartment(department);
 		Department emp = departmentService.queryDepartmentById(department.getId());
 		if (emp!=null) {

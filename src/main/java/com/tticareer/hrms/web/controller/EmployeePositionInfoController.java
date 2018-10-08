@@ -3,6 +3,7 @@ package com.tticareer.hrms.web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,8 +30,8 @@ public class EmployeePositionInfoController {
 	 * @return
 	 */
 	@PostMapping("/save")
-	public JSONResult saveEmployeePositionInfo(EmployeePositionInfo employeePositionInfo) {
-		System.out.print("-------------");
+	public JSONResult saveEmployeePositionInfo(@RequestBody EmployeePositionInfo employeePositionInfo) {
+		//System.out.print("-------------");
 			employeePositionInfoService.saveEmployeePositionInfo(employeePositionInfo);
 			EmployeePositionInfo emp = employeePositionInfoService.queryEmployeePositionInfoByEmployeeId(employeePositionInfo.getEmployeeId());
 			if (emp!=null) {

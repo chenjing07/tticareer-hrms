@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,7 +33,7 @@ public class LaborContractController {
 	 * @return
 	 */
 	@PostMapping("/save")
-	public JSONResult saveLaborContract(LaborContract laborContract) {
+	public JSONResult saveLaborContract(@RequestBody LaborContract laborContract) {
 		laborContractService.saveLaborContract(laborContract);
 		LaborContract emp = laborContractService.queryLaborContractByEmployerName(laborContract.getEmployerName());
 		if (emp!=null) {

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,7 +35,7 @@ public class PositionController {
 	 * @return
 	 */
 	@PostMapping("/save")
-	public JSONResult savePosition(Position position) {
+	public JSONResult savePosition(@RequestBody Position position) {
 		positionService.savePosition(position);
 		Position emp = positionService.queryPositionById(position.getId());
 		if (emp!=null) {

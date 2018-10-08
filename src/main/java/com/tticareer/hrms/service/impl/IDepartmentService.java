@@ -99,4 +99,15 @@ public class IDepartmentService implements DepartmentService {
 		return departmentMapper.selectByExample(example);
 	}
 
+	/**
+	 * @author dong
+	 */
+	@Override
+	public Department queryDepartmentByDepartmentNumber(String departmentNumber) {
+		Example example = new Example(Department.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("departmentNumber", departmentNumber);
+		return departmentMapper.selectOneByExample(example);
+	}
+
 }

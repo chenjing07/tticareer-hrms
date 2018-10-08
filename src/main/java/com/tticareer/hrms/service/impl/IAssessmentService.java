@@ -2,10 +2,18 @@ package com.tticareer.hrms.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.tticareer.hrms.mapper.AssessmentStandardMapper;
+import com.tticareer.hrms.mapper.EmployeeAssessmentMapper;
+import com.tticareer.hrms.mapper.GreatTeamMapper;
 import com.tticareer.hrms.pojo.AssessmentStandard;
 import com.tticareer.hrms.pojo.EmployeeAssessment;
 import com.tticareer.hrms.pojo.GreatTeam;
 import com.tticareer.hrms.service.AssessmentService;
+
+import tk.mybatis.mapper.entity.Example;
 
 /**
  * <p>CreateTime: 2018年9月28日 上午8:45:25 </p>
@@ -15,84 +23,92 @@ import com.tticareer.hrms.service.AssessmentService;
  * @version 1.0
  * <p>Description: </p>
  */
+@Service
 public class IAssessmentService implements AssessmentService {
-
+	
+	@Autowired
+	AssessmentStandardMapper asMapper;
+	
+	@Autowired
+	EmployeeAssessmentMapper eaMapper;
+	
+	@Autowired
+	GreatTeamMapper gtMapper;
+	
 	@Override
 	public void saveAssessmentStandard(AssessmentStandard as) {
-		// TODO Auto-generated method stub
-
+		asMapper.insert(as);
 	}
 
 	@Override
 	public void updateAssessmentStandard(AssessmentStandard as) {
-		// TODO Auto-generated method stub
-
+		asMapper.updateByPrimaryKey(as);
 	}
 
 	@Override
 	public void deleteAssessmentStandard(Long id) {
-		// TODO Auto-generated method stub
-
+		AssessmentStandard as = asMapper.selectByPrimaryKey(id);
+		as.setState(0);
+		asMapper.updateByPrimaryKey(as);
 	}
 
 	@Override
 	public void deleteAssessmentStandardList(Long[] ids) {
-		// TODO Auto-generated method stub
-
+		for (Long id : ids) {
+			AssessmentStandard as = asMapper.selectByPrimaryKey(id);
+			as.setState(0);
+			asMapper.updateByPrimaryKey(as);
+		}
 	}
 
 	@Override
 	public AssessmentStandard queryAssessmentStandardById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return asMapper.selectByPrimaryKey(id);
 	}
 
 	@Override
 	public List<AssessmentStandard> queryAssessmentStandardByPositionId(Long positionId) {
-		// TODO Auto-generated method stub
-		return null;
+		Example example = new Example(AssessmentStandard.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("positionId", positionId);
+		return asMapper.selectByExample(example);
 	}
 
 	@Override
 	public List<AssessmentStandard> queryAllAssessmentStandard() {
-		// TODO Auto-generated method stub
-		return null;
+		return asMapper.selectAll();
 	}
 
 	@Override
-	public List<AssessmentStandard> queryAssessmentStandardWhoIsDelete() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<AssessmentStandard> queryAssessmentStandardState(AssessmentStandard as) {
+		Example example = new Example(AssessmentStandard.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("state", as.getState());
+		return asMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<AssessmentStandard> queryAssessmentStandardWhoIsNotDelete(){
+		Example example = new Example(AssessmentStandard.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andNotEqualTo("state", 0);
+		return asMapper.selectByExample(example);
 	}
 
 	@Override
-	public List<AssessmentStandard> queryAssessmentStandardWhoIsNotDelete() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<AssessmentStandard> queryAssessmentStandardCheckStatus(AssessmentStandard as) {
+		Example example = new Example(AssessmentStandard.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("checkStatus", as.getCheckStatus());
+		return asMapper.selectByExample(example);
 	}
-
+	
 	@Override
-	public List<AssessmentStandard> queryAssessmentStandardWhoIsUse() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<AssessmentStandard> queryAssessmentStandardToBeAudited() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<AssessmentStandard> queryAssessmentStandardAuditPass() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<AssessmentStandard> queryAssessmentStandardAuditFailed() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<AssessmentStandard> queryAssessmentStandardAudited() {
+		Example example = new Example(AssessmentStandard.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andNotEqualTo("checkStatus", 0);
+		return asMapper.selectByExample(example);
 	}
 
 	@Override
@@ -103,296 +119,261 @@ public class IAssessmentService implements AssessmentService {
 
 	@Override
 	public void saveEmployeeAssessment(EmployeeAssessment ea) {
-		// TODO Auto-generated method stub
-
+		eaMapper.insert(ea);
 	}
 
 	@Override
 	public void updateEmployeeAssessment(EmployeeAssessment ea) {
-		// TODO Auto-generated method stub
-
+		eaMapper.updateByPrimaryKey(ea);
 	}
 
 	@Override
 	public void deleteEmployeeAssessment(Long id) {
-		// TODO Auto-generated method stub
-
+		EmployeeAssessment ea = eaMapper.selectByPrimaryKey(id);
+		ea.setState(0);
+		eaMapper.updateByPrimaryKey(ea);
 	}
 
 	@Override
 	public void deleteEmployeeAssessmentList(Long[] ids) {
-		// TODO Auto-generated method stub
-
+		for (Long id : ids) {
+			EmployeeAssessment ea = eaMapper.selectByPrimaryKey(id);
+			ea.setState(0);
+			eaMapper.updateByPrimaryKey(ea);
+		}
 	}
 
 	@Override
 	public EmployeeAssessment queryEmployeeAssessmentById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return eaMapper.selectByPrimaryKey(id);
 	}
 
 	@Override
 	public List<EmployeeAssessment> queryEmployeeAssessmentByEmployeeId(Long employeeId) {
-		// TODO Auto-generated method stub
-		return null;
+		Example example = new Example(EmployeeAssessment.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("employeeId", employeeId);
+		return eaMapper.selectByExample(example);
 	}
 
 	@Override
 	public List<EmployeeAssessment> queryAllEmployeeAssessment() {
-		// TODO Auto-generated method stub
-		return null;
+		return eaMapper.selectAll();
 	}
 
 	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentWhoIsDelete() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<EmployeeAssessment> queryEmployeeAssessmentState(EmployeeAssessment ea) {
+		Example example = new Example(EmployeeAssessment.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("state", ea.getState());
+		return eaMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<EmployeeAssessment> queryEmployeeAssessmentWhoIsNotDelete(){
+		Example example = new Example(EmployeeAssessment.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andNotEqualTo("state", 0);
+		return eaMapper.selectByExample(example);
 	}
 
 	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentWhoIsNotDelete() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<EmployeeAssessment> queryEmployeeAssessmentAssessmentType(EmployeeAssessment ea) {
+		Example example = new Example(EmployeeAssessment.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("assessmentType", ea.getAssessmentType());
+		return eaMapper.selectByExample(example);
 	}
 
 	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentAssessmentTypeExcellent() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<EmployeeAssessment> queryEmployeeAssessmentWorkResult(EmployeeAssessment ea) {
+		Example example = new Example(EmployeeAssessment.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("workResult", ea.getWorkResult());
+		return eaMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<EmployeeAssessment> queryEmployeeAssessmentWorkResultWhoIsNotFail() {
+		Example example = new Example(EmployeeAssessment.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andNotEqualTo("workResult", 0);
+		return eaMapper.selectByExample(example);
 	}
 
 	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentAssessmentTypeGood() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<EmployeeAssessment> queryEmployeeAssessmentAttitude(EmployeeAssessment ea) {
+		Example example = new Example(EmployeeAssessment.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("attitude", ea.getAttitude());
+		return eaMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<EmployeeAssessment> queryEmployeeAssessmentAttitudeWhoIsNotFail() {
+		Example example = new Example(EmployeeAssessment.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andNotEqualTo("attitude", 0);
+		return eaMapper.selectByExample(example);
 	}
 
 	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentAssessmentTypePass() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<EmployeeAssessment> queryEmployeeAssessmentQuality(EmployeeAssessment ea) {
+		Example example = new Example(EmployeeAssessment.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("quality", ea.getQuality());
+		return eaMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<EmployeeAssessment> queryEmployeeAssessmentQualityWhoIsNotFail() {
+		Example example = new Example(EmployeeAssessment.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andNotEqualTo("quality", 0);
+		return eaMapper.selectByExample(example);
 	}
 
 	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentAssessmentTypeFail() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<EmployeeAssessment> queryEmployeeAssessmentSkill(EmployeeAssessment ea) {
+		Example example = new Example(EmployeeAssessment.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("skill", ea.getSkill());
+		return eaMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<EmployeeAssessment> queryEmployeeAssessmentSkillWhoIsNotFail() {
+		Example example = new Example(EmployeeAssessment.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andNotEqualTo("skill", 0);
+		return eaMapper.selectByExample(example);
 	}
 
 	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentWorkResultExcellent() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<EmployeeAssessment> queryEmployeeAssessmentAssessmentResult(EmployeeAssessment ea) {
+		Example example = new Example(EmployeeAssessment.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("assessmentResult", ea.getAssessmentResult());
+		return eaMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<EmployeeAssessment> queryEmployeeAssessmentAssessmentResultWhoIsNotFail() {
+		Example example = new Example(EmployeeAssessment.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andNotEqualTo("assessmentResult", 0);
+		return eaMapper.selectByExample(example);
 	}
 
 	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentWorkResultGood() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<EmployeeAssessment> queryEmployeeAssessmentCheckStatus(EmployeeAssessment ea) {
+		Example example = new Example(EmployeeAssessment.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("checkStatus", ea.getCheckStatus());
+		return eaMapper.selectByExample(example);
 	}
-
+	
 	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentWorkResultPass() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentWorkResultFail() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentAttitudeExcellent() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentAttitudeGood() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentAttitudePass() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentAttitudeFail() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentQualityExcellent() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentQualityGood() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentQualityPass() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentQualityFail() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentSkillExcellent() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentSkillGood() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentSkillPass() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentSkillFail() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentAssessmentResultExcellent() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentAssessmentResultGood() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentAssessmentResultPass() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentAssessmentResultFail() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentAuditPass() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentAuditFailed() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<EmployeeAssessment> queryEmployeeAssessmentAudited() {
+		Example example = new Example(EmployeeAssessment.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andNotEqualTo("checkStatus", 0);
+		return eaMapper.selectByExample(example);
 	}
 
 	@Override
 	public List<EmployeeAssessment> queryEmployeeAssessmentList(EmployeeAssessment ea) {
-		// TODO Auto-generated method stub
-		return null;
+		Example example = new Example(EmployeeAssessment.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andLike("evaluate", "%" + ea.getEvaluate() + "%");
+		criteria.andNotEqualTo("state", 0);
+		return eaMapper.selectByExample(example);
 	}
 
 	@Override
 	public void saveGreatTeam(GreatTeam gt) {
-		// TODO Auto-generated method stub
-
+		gtMapper.insert(gt);
 	}
 
 	@Override
 	public void updateGreatTeam(GreatTeam gt) {
-		// TODO Auto-generated method stub
-
+		gtMapper.updateByPrimaryKey(gt);
 	}
 
 	@Override
 	public void deleteGreatTeam(Long id) {
-		// TODO Auto-generated method stub
-
+		GreatTeam gt = gtMapper.selectByPrimaryKey(id);
+		gt.setState(0);
+		gtMapper.updateByPrimaryKey(gt);
 	}
 
 	@Override
 	public void deleteGreatTeamList(Long[] ids) {
-		// TODO Auto-generated method stub
-
+		for (Long id : ids) {
+			GreatTeam gt = gtMapper.selectByPrimaryKey(id);
+			gt.setState(0);
+			gtMapper.updateByPrimaryKey(gt);
+		}
 	}
 
 	@Override
 	public GreatTeam queryGreatTeamById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return gtMapper.selectByPrimaryKey(id);
 	}
 
 	@Override
 	public List<GreatTeam> queryGreatTeamByDepartmentId(Long departmentId) {
-		// TODO Auto-generated method stub
-		return null;
+		Example example = new Example(GreatTeam.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("departmentId", departmentId);
+		return gtMapper.selectByExample(example);
 	}
 
 	@Override
 	public List<GreatTeam> queryAllGreatTeam() {
-		// TODO Auto-generated method stub
-		return null;
+		return gtMapper.selectAll();
 	}
 
 	@Override
-	public List<GreatTeam> queryGreatTeamWhoIsDelete() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<GreatTeam> queryGreatTeamState(GreatTeam gt) {
+		Example example = new Example(GreatTeam.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("state", gt.getState());
+		return gtMapper.selectByExample(example);
 	}
-
+	
 	@Override
 	public List<GreatTeam> queryGreatTeamWhoIsNotDelete() {
-		// TODO Auto-generated method stub
-		return null;
+		Example example = new Example(GreatTeam.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andNotEqualTo("state", 0);
+		return gtMapper.selectByExample(example);
 	}
 
 	@Override
-	public List<GreatTeam> queryGreatTeamToBeAudited() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<GreatTeam> queryGreatTeamCheckStatus(GreatTeam gt) {
+		Example example = new Example(GreatTeam.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("checkStatus", gt.getCheckStatus());
+		return gtMapper.selectByExample(example);
 	}
-
+	
 	@Override
-	public List<GreatTeam> queryGreatTeamAuditPass() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<GreatTeam> queryGreatTeamAuditFailed() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<GreatTeam> queryGreatTeamAudited() {
+		Example example = new Example(GreatTeam.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andNotEqualTo("checkStatus", 0);
+		return gtMapper.selectByExample(example);
 	}
 
 	@Override
 	public List<GreatTeam> queryGreatTeamList(GreatTeam gt) {
-		// TODO Auto-generated method stub
-		return null;
+		Example example = new Example(GreatTeam.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andLike("commend", "%" + gt.getCommend() + "%");
+		criteria.andNotEqualTo("state", 0);
+		return gtMapper.selectByExample(example);
 	}
 
+	
 }

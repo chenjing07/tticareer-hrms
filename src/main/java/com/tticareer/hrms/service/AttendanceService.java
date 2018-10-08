@@ -24,10 +24,8 @@ public interface AttendanceService {
 	public OverWork queryOverWorkById(Long id);
 	public List<OverWork> queryOverWorkByEmployeeId(Long employeeId);
 	public List<OverWork> queryAllOverWork();
-	public List<OverWork> queryOverWorkWhoIsDelete();
+	public List<OverWork> queryOverWorkState(OverWork ow);
 	public List<OverWork> queryOverWorkWhoIsNotDelete();
-	public List<OverWork> queryOverWorkWhoIsOverWork();
-	public List<OverWork> queryOverWorkWhoIsNotOverWork();
 	public List<OverWork> queryOverWorkList(OverWork ow);
 	
 	public void saveLateEarly(LateEarly le);
@@ -37,10 +35,8 @@ public interface AttendanceService {
 	public LateEarly queryLateEarlyById(Long id);
 	public List<LateEarly> queryLateEarlyByEmployeeId(Long employeeId);
 	public List<LateEarly> queryAllLateEarly();
-	public List<LateEarly> queryLateEarlyWhoIsDelete();
+	public List<LateEarly> queryLateEarlyState(LateEarly le);
 	public List<LateEarly> queryLateEarlyWhoIsNotDelete();
-	public List<LateEarly> queryLateEarlyLate();
-	public List<LateEarly> queryLateEarlyEarly();
 	public List<LateEarly> queryLateEarlyList(LateEarly le);
 	
 	public void saveClockDetail(ClockDetail cd);
@@ -50,10 +46,8 @@ public interface AttendanceService {
 	public ClockDetail queryClockDetailById(Long id);
 	public List<ClockDetail> queryClockDetailByEmployeeId(Long employeeId);
 	public List<ClockDetail> queryAllClockDetail();
-	public List<ClockDetail> queryClockDetailWhoIsDelete();
+	public List<ClockDetail> queryClockDetailState(ClockDetail cd);
 	public List<ClockDetail> queryClockDetailWhoIsNotDelete();
-	public List<ClockDetail> queryClockDetailNotAsUsual();
-	public List<ClockDetail> queryClockDetailAsUsual();
 	public List<ClockDetail> queryClockDetailList(ClockDetail cd);
 	
 	public void saveLeaveDetail(LeaveDetail ld);
@@ -63,13 +57,9 @@ public interface AttendanceService {
 	public LeaveDetail queryLeaveDetailById(Long id);
 	public List<LeaveDetail> queryLeaveDetailByEmployeeId(Long employeeId);
 	public List<LeaveDetail> queryAllLeaveDetail();
-	public List<LeaveDetail> queryLeaveDetailWhoIsDelete();
+	public List<LeaveDetail> queryLeaveDetailState(LeaveDetail ld);
 	public List<LeaveDetail> queryLeaveDetailWhoIsNotDelete();
-	public List<LeaveDetail> queryLeaveDetailReadyLeave();
-	public List<LeaveDetail> queryLeaveDetailOnHoliday();
-	public List<LeaveDetail> queryLeaveDetailBackFromLeave();
-	public List<LeaveDetail> queryLeaveDetailToBeAudited();
-	public List<LeaveDetail> queryLeaveDetailAuditPass();
-	public List<LeaveDetail> queryLeaveDetailAuditFailed();
+	public List<LeaveDetail> queryLeaveDetailCheckStatus(LeaveDetail ld);
+	public List<LeaveDetail> queryLeaveDetailAudited();
 	public List<LeaveDetail> queryLeaveDetailList(LeaveDetail ld);
 }

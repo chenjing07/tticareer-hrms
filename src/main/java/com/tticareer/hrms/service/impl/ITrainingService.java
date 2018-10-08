@@ -55,6 +55,21 @@ public class ITrainingService implements TrainingService {
 			tiMapper.updateByPrimaryKey(ti);
 		}
 	}
+	
+	@Override
+	public TrainingInfo queryTrainingInfo(TrainingInfo ti) {
+		Example example = new Example(TrainingInfo.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("lecturer", ti.getLecturer());
+		criteria.andEqualTo("time", ti.getTime());
+		criteria.andEqualTo("duration", ti.getDuration());
+		criteria.andLike("purpose", "%" + ti.getPurpose() + "%");
+		criteria.andEqualTo("number", ti.getNumber());
+		criteria.andEqualTo("cost", ti.getCost());
+		criteria.andLike("place", "%" + ti.getPlace() + "%");
+		criteria.andLike("content", "%" + ti.getContent() + "%");
+		return tiMapper.selectOneByExample(example);
+	}
 
 	@Override
 	public TrainingInfo queryTrainingInfoById(Long id) {
@@ -91,10 +106,10 @@ public class ITrainingService implements TrainingService {
 	}
 
 	@Override
-	public List<TrainingInfo> queryTrainingInfoWhoIsDelete() {
+	public List<TrainingInfo> queryTrainingInfoState(String state) {
 		Example example = new Example(TrainingInfo.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("state", 0);
+		criteria.andEqualTo("state", state);
 		return tiMapper.selectByExample(example);
 	}
 
@@ -103,30 +118,6 @@ public class ITrainingService implements TrainingService {
 		Example example = new Example(TrainingInfo.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andNotEqualTo("state", 0);
-		return tiMapper.selectByExample(example);
-	}
-
-	@Override
-	public List<TrainingInfo> queryTrainingInfoWhoIsNotCarriedOut() {
-		Example example = new Example(TrainingInfo.class);
-		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("state", 1);
-		return tiMapper.selectByExample(example);
-	}
-
-	@Override
-	public List<TrainingInfo> queryTrainingInfoWhoIsCarriedOut() {
-		Example example = new Example(TrainingInfo.class);
-		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("state", 2);
-		return tiMapper.selectByExample(example);
-	}
-
-	@Override
-	public List<TrainingInfo> queryTrainingInfoWhoIsFinish() {
-		Example example = new Example(TrainingInfo.class);
-		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("state", 3);
 		return tiMapper.selectByExample(example);
 	}
 

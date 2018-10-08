@@ -3,13 +3,13 @@ package com.tticareer.hrms.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.tticareer.hrms.mapper.ClockDetailMapper;
 import com.tticareer.hrms.mapper.LateEarlyMapper;
 import com.tticareer.hrms.mapper.LeaveDetailMapper;
 import com.tticareer.hrms.mapper.OverWorkMapper;
 import com.tticareer.hrms.pojo.ClockDetail;
-import com.tticareer.hrms.pojo.Employee;
 import com.tticareer.hrms.pojo.LateEarly;
 import com.tticareer.hrms.pojo.LeaveDetail;
 import com.tticareer.hrms.pojo.OverWork;
@@ -25,6 +25,7 @@ import tk.mybatis.mapper.entity.Example;
  * @version 1.0
  * <p>Description: </p>
  */
+@Service
 public class IAttendenceService implements AttendanceService {
 	
 	@Autowired
@@ -82,34 +83,18 @@ public class IAttendenceService implements AttendanceService {
 	}
 
 	@Override
-	public List<OverWork> queryOverWorkWhoIsDelete() {
+	public List<OverWork> queryOverWorkState(OverWork ow) {
 		Example example = new Example(OverWork.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("state", 0);
+		criteria.andEqualTo("state", ow.getState());
 		return owMapper.selectByExample(example);
 	}
-
+	
 	@Override
 	public List<OverWork> queryOverWorkWhoIsNotDelete() {
 		Example example = new Example(OverWork.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andNotEqualTo("state", 0);
-		return owMapper.selectByExample(example);
-	}
-
-	@Override
-	public List<OverWork> queryOverWorkWhoIsOverWork() {
-		Example example = new Example(OverWork.class);
-		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("state", 1);
-		return owMapper.selectByExample(example);
-	}
-
-	@Override
-	public List<OverWork> queryOverWorkWhoIsNotOverWork() {
-		Example example = new Example(OverWork.class);
-		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("state", 2);
 		return owMapper.selectByExample(example);
 	}
 
@@ -124,242 +109,222 @@ public class IAttendenceService implements AttendanceService {
 
 	@Override
 	public void saveLateEarly(LateEarly le) {
-		// TODO Auto-generated method stub
-
+		leMapper.insert(le);
 	}
 
 	@Override
 	public void updateLateEarly(LateEarly le) {
-		// TODO Auto-generated method stub
-
+		leMapper.updateByPrimaryKey(le);
 	}
 
 	@Override
 	public void deleteLateEarly(Long id) {
-		// TODO Auto-generated method stub
-
+		LateEarly le = leMapper.selectByPrimaryKey(id);
+		le.setState(0);
+		leMapper.updateByPrimaryKey(le);
 	}
 
 	@Override
 	public void deleteLateEarlykList(Long[] ids) {
-		// TODO Auto-generated method stub
-
+		for (Long id : ids) {
+			LateEarly le = leMapper.selectByPrimaryKey(id);
+			le.setState(0);
+			leMapper.updateByPrimaryKey(le);
+		}
 	}
 
 	@Override
 	public LateEarly queryLateEarlyById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return leMapper.selectByPrimaryKey(id);
 	}
 
 	@Override
 	public List<LateEarly> queryLateEarlyByEmployeeId(Long employeeId) {
-		// TODO Auto-generated method stub
-		return null;
+		Example example = new Example(LateEarly.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("employeeId", employeeId);
+		return leMapper.selectByExample(example);
 	}
 
 	@Override
 	public List<LateEarly> queryAllLateEarly() {
-		// TODO Auto-generated method stub
-		return null;
+		return leMapper.selectAll();
 	}
 
 	@Override
-	public List<LateEarly> queryLateEarlyWhoIsDelete() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<LateEarly> queryLateEarlyState(LateEarly le) {
+		Example example = new Example(LateEarly.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("state", le.getState());
+		return leMapper.selectByExample(example);
 	}
 
 	@Override
 	public List<LateEarly> queryLateEarlyWhoIsNotDelete() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<LateEarly> queryLateEarlyLate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<LateEarly> queryLateEarlyEarly() {
-		// TODO Auto-generated method stub
-		return null;
+		Example example = new Example(LateEarly.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andNotEqualTo("state", 0);
+		return leMapper.selectByExample(example);
 	}
 
 	@Override
 	public List<LateEarly> queryLateEarlyList(LateEarly le) {
-		// TODO Auto-generated method stub
-		return null;
+		Example example = new Example(LateEarly.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andLike("lateEarlyReason", "%" + le.getLateEarlyReason() + "%");
+		criteria.andNotEqualTo("state", 0);
+		return leMapper.selectByExample(example);
 	}
 
 	@Override
 	public void saveClockDetail(ClockDetail cd) {
-		// TODO Auto-generated method stub
-
+		cdMapper.insert(cd);
 	}
 
 	@Override
 	public void updateClockDetail(ClockDetail cd) {
-		// TODO Auto-generated method stub
-
+		cdMapper.updateByPrimaryKey(cd);
 	}
 
 	@Override
 	public void deleteClockDetail(Long id) {
-		// TODO Auto-generated method stub
-
+		ClockDetail cd = cdMapper.selectByPrimaryKey(id);
+		cd.setState(0);
+		cdMapper.updateByPrimaryKey(cd);
 	}
 
 	@Override
 	public void deleteClockDetailList(Long[] ids) {
-		// TODO Auto-generated method stub
-
+		for (Long id : ids) {
+			ClockDetail cd = cdMapper.selectByPrimaryKey(id);
+			cd.setState(0);
+			cdMapper.updateByPrimaryKey(cd);
+		}
 	}
 
 	@Override
 	public ClockDetail queryClockDetailById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return cdMapper.selectByPrimaryKey(id);
 	}
 
 	@Override
 	public List<ClockDetail> queryClockDetailByEmployeeId(Long employeeId) {
-		// TODO Auto-generated method stub
-		return null;
+		Example example = new Example(ClockDetail.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("employeeId", employeeId);
+		return cdMapper.selectByExample(example);
 	}
 
 	@Override
 	public List<ClockDetail> queryAllClockDetail() {
-		// TODO Auto-generated method stub
-		return null;
+		return cdMapper.selectAll();
 	}
 
 	@Override
-	public List<ClockDetail> queryClockDetailWhoIsDelete() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ClockDetail> queryClockDetailState(ClockDetail cd) {
+		Example example = new Example(ClockDetail.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("state", cd.getState());
+		return cdMapper.selectByExample(example);
 	}
 
 	@Override
 	public List<ClockDetail> queryClockDetailWhoIsNotDelete() {
-		// TODO Auto-generated method stub
-		return null;
+		Example example = new Example(ClockDetail.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andNotEqualTo("state", 0);
+		return cdMapper.selectByExample(example);
 	}
-
+	
 	@Override
-	public List<ClockDetail> queryClockDetailNotAsUsual() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<ClockDetail> queryClockDetailAsUsual() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<ClockDetail> queryClockDetailList(ClockDetail cd) {
+	public List<ClockDetail> queryClockDetailList(ClockDetail cd){
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void saveLeaveDetail(LeaveDetail ld) {
-		// TODO Auto-generated method stub
-
+		ldMapper.insert(ld);
 	}
 
 	@Override
 	public void updateLeaveDetail(LeaveDetail ld) {
-		// TODO Auto-generated method stub
-
+		ldMapper.updateByPrimaryKey(ld);
 	}
 
 	@Override
 	public void deleteLeaveDetail(Long id) {
-		// TODO Auto-generated method stub
-
+		LeaveDetail ld = ldMapper.selectByPrimaryKey(id);
+		ld.setState(0);
+		ldMapper.updateByPrimaryKey(ld);
 	}
 
 	@Override
 	public void deleteLeaveDetailList(Long[] ids) {
-		// TODO Auto-generated method stub
-
+		for (Long id : ids) {
+			LeaveDetail ld = ldMapper.selectByPrimaryKey(id);
+			ld.setState(0);
+			ldMapper.updateByPrimaryKey(ld);
+		}
 	}
 
 	@Override
 	public LeaveDetail queryLeaveDetailById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return ldMapper.selectByPrimaryKey(id);
 	}
 
 	@Override
 	public List<LeaveDetail> queryLeaveDetailByEmployeeId(Long employeeId) {
-		// TODO Auto-generated method stub
-		return null;
+		Example example = new Example(LeaveDetail.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("employeeId", employeeId);
+		return ldMapper.selectByExample(example);
 	}
 
 	@Override
 	public List<LeaveDetail> queryAllLeaveDetail() {
-		// TODO Auto-generated method stub
-		return null;
+		return ldMapper.selectAll();
 	}
 
 	@Override
-	public List<LeaveDetail> queryLeaveDetailWhoIsDelete() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<LeaveDetail> queryLeaveDetailState(LeaveDetail ld) {
+		Example example = new Example(LeaveDetail.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("state", ld.getState());
+		return ldMapper.selectByExample(example);
 	}
 
 	@Override
 	public List<LeaveDetail> queryLeaveDetailWhoIsNotDelete() {
-		// TODO Auto-generated method stub
-		return null;
+		Example example = new Example(LeaveDetail.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andNotEqualTo("state", 0);
+		return ldMapper.selectByExample(example);
 	}
 
 	@Override
-	public List<LeaveDetail> queryLeaveDetailReadyLeave() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<LeaveDetail> queryLeaveDetailCheckStatus(LeaveDetail ld) {
+		Example example = new Example(LeaveDetail.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("checkStatus", ld.getCheckStatus());
+		return ldMapper.selectByExample(example);
 	}
-
+	
 	@Override
-	public List<LeaveDetail> queryLeaveDetailOnHoliday() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<LeaveDetail> queryLeaveDetailBackFromLeave() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<LeaveDetail> queryLeaveDetailToBeAudited() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<LeaveDetail> queryLeaveDetailAuditPass() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<LeaveDetail> queryLeaveDetailAuditFailed() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<LeaveDetail> queryLeaveDetailAudited() {
+		Example example = new Example(LeaveDetail.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andNotEqualTo("checkStatus", 0);
+		return ldMapper.selectByExample(example);
 	}
 
 	@Override
 	public List<LeaveDetail> queryLeaveDetailList(LeaveDetail ld) {
-		// TODO Auto-generated method stub
-		return null;
+		Example example = new Example(LateEarly.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andLike("reason", "%" + ld.getReason() + "%");
+		criteria.andNotEqualTo("state", 0);
+		return ldMapper.selectByExample(example);
 	}
 
 }

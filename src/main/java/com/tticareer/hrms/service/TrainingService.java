@@ -44,6 +44,15 @@ public interface TrainingService {
 	public void deleteTrainingInfoList(Long[] ids);
 	
 	/**
+	 * 
+	 * <p>Title: queryTrainingInfo</p>
+	 * <p>Description: 查询培训信息中是否有该记录，用于插入数据验证</p>
+	 * @param ti
+	 * @return
+	 */
+	public TrainingInfo queryTrainingInfo(TrainingInfo ti);
+	
+	/**
 	 * <p>Title: queryTrainingInfoById</p>
 	 * <p>Description: 培训信息根据id查询一条</p>
 	 * @param id
@@ -83,11 +92,12 @@ public interface TrainingService {
 	public List<TrainingInfo> queryAllTrainingInfo();
 	
 	/**
-	 * <p>Title: queryTrainingInfoWhoIsDelete</p>
-	 * <p>Description: 查询被冻结即状态为0的培训信息</p>
+	 * <p>Title: queryTrainingInfoState</p>
+	 * <p>Description: 查询被冻结即状态为0的培训信息,查询未进行的即状态为1的培训信息,查询在进行的即状态为2的培训信息,查询已结束的即状态为3的培训信息</p>
+	 * @param state
 	 * @return
 	 */
-	public List<TrainingInfo> queryTrainingInfoWhoIsDelete();
+	public List<TrainingInfo> queryTrainingInfoState(String state);
 	
 	/**
 	 * <p>Title: queryTrainingInfoWhoIsNotDelete</p>
@@ -95,27 +105,6 @@ public interface TrainingService {
 	 * @return
 	 */
 	public List<TrainingInfo> queryTrainingInfoWhoIsNotDelete();
-	
-	/**
-	 * <p>Title: queryTrainingInfoWhoIsNotCarriedOut</p>
-	 * <p>Description: 查询未进行的即状态为1的培训信息</p>
-	 * @return
-	 */
-	public List<TrainingInfo> queryTrainingInfoWhoIsNotCarriedOut();
-	
-	/**
-	 * <p>Title: queryTrainingInfoWhoIsCarriedOut</p>
-	 * <p>Description: 查询在进行的即状态为2的培训信息</p>
-	 * @return
-	 */
-	public List<TrainingInfo> queryTrainingInfoWhoIsCarriedOut();
-	
-	/**
-	 * <p>Title: queryTrainingInfoWhoIsFinish</p>
-	 * <p>Description: 查询已结束的即状态为3的培训信息</p>
-	 * @return
-	 */
-	public List<TrainingInfo> queryTrainingInfoWhoIsFinish();
 	
 	/**
 	 * <p>Title: queryTrainingInfoList</p>

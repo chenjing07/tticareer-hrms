@@ -68,4 +68,10 @@ public interface DepartmentService {
 	 * @return
 	 */
 	public List<Department> queryDepartmentList(Department department);
+	
+	
+	/**
+	 * @author dong
+	 */
+	public Department queryDepartmentByDepartmentNumber(String departmentNumber);
 }

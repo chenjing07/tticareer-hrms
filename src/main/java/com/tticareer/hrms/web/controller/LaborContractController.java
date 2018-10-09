@@ -4,14 +4,18 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import com.tticareer.hrms.pojo.LaborContract;
 import com.tticareer.hrms.service.LaborContractService;
+import com.tticareer.hrms.util.BeanUtils;
 import com.tticareer.hrms.util.JSONResult;
 
 /**
@@ -35,21 +39,22 @@ public class LaborContractController {
 	@PostMapping("/save")
 	public JSONResult saveLaborContract(@RequestBody LaborContract laborContract) {
 		laborContractService.saveLaborContract(laborContract);
-		LaborContract emp = laborContractService.queryLaborContractByEmployerName(laborContract.getEmployerName());
+		/*LaborContract emp = laborContractService.queryLaborContractByEmployerName(laborContract.getEmployerName());
 		if (emp!=null) {
 			String data = emp.getId()+"";
 			return JSONResult.ok(data);
 		} else {
 			String msg = "未知错误，数据未录入";
 			return JSONResult.errorMsg(msg);
-		}
+		}*/
+		return JSONResult.ok();
 	}
 	
 	/**
 	 * 查询所有合同信息
 	 * @return
 	 */
-	@GetMapping("/realall")
+	@GetMapping
 	public JSONResult queryRealAllLaborContract() {
 		return JSONResult.ok(laborContractService.queryAllLaborContract());
 	}
@@ -78,10 +83,16 @@ public class LaborContractController {
 	 * @param laborContract
 	 * @return
 	 */
-	@PutMapping
-	public JSONResult updateLaborContract(LaborContract laborContract) {
-		laborContractService.updateLaborContract(laborContract);
-		LaborContract data = laborContractService.queryLaborContractById(laborContract.getId());
+	@PutMapping(value="{id}")
+	public @ResponseBody JSONResult updateLaborContract(@PathVariable("id") Long id,@RequestBody LaborContract laborContract) {
+		LaborContract entity = laborContractService.queryLaborContractById(id);
+		if(entity!=null) {
+			BeanUtils.copyProperties(laborContract, entity);//使用自定义的BeanUtils
+			//leaveService.save(entity);
+			laborContractService.updateLaborContract(entity);
+		}
+		
+		LaborContract data = laborContractService.queryLaborContractById(id);
 		return JSONResult.ok(data);
 	}
 	
@@ -94,6 +105,7 @@ public class LaborContractController {
 	 */
 	@DeleteMapping
 	public JSONResult deleteLaborContract(@Param("id") Long id) {
+		
 		laborContractService.deleteLaborContract(id);
 		if (laborContractService.queryLaborContractById(id).getState()==0) {
 			return JSONResult.ok(1);

@@ -9,10 +9,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import com.tticareer.hrms.pojo.Employee;
 import com.tticareer.hrms.service.EmployeeService;
+import com.tticareer.hrms.util.BeanUtils;
 import com.tticareer.hrms.util.JSONResult;
 
 /**
@@ -88,7 +91,8 @@ public class EmployeeController {
 	 * 查询所有员工信息
 	 * @return
 	 */
-	@GetMapping("/realall")
+	//@GetMapping("/realall")
+	@GetMapping
 	public JSONResult queryRealAllEmployee() {
 		return JSONResult.ok(employeeService.queryAllEmployee());
 	}
@@ -143,10 +147,17 @@ public class EmployeeController {
 	 * @param employee
 	 * @return
 	 */
-	@PutMapping
-	public JSONResult updateEmployee(Employee employee) {
-		employeeService.updateEmployee(employee);
-		Employee data = employeeService.queryEmployeeById(employee.getId());
+	@PutMapping(value="{id}")
+	public @ResponseBody JSONResult updateEmployee(@PathVariable("id") Long id,@RequestBody Employee employee) {
+		Employee entity = employeeService.queryEmployeeById(id);
+		//System.out.println(entity.getRealName());
+		if(entity!=null) {
+			BeanUtils.copyProperties(employee, entity);//使用自定义的BeanUtils
+			//employeeService.save(entity);
+			employeeService.updateEmployee(entity);
+		}
+		
+		Employee data = employeeService.queryEmployeeById(id);
 		return JSONResult.ok(data);
 	}
 	

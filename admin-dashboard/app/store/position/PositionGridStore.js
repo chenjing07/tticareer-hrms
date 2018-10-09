@@ -1,12 +1,12 @@
-Ext.define('Admin.store.employee.EmployeeGridStore', {
+Ext.define('Admin.store.position.PositionGridStore', {
       extend: 'Ext.data.Store',
-      storeId:'employeeGridStore',
-      alias: 'store.employeeGridStore',
-      model:'Admin.model.employee.EmployeeModel',
+      storeId:'positionGridStore',
+      alias: 'store.positionGridStore',
+      model:'Admin.model.position.PositionModel',
 
     proxy: {
         type: 'rest',
-        url: '/employee',	//mvc url  xxx.json
+        url: '/position',	//mvc url  xxx.json
 	  reader:{
 	    	type:'json',
 	    	rootProperty:'data',

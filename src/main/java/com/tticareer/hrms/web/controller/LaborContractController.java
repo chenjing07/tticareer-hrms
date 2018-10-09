@@ -103,8 +103,8 @@ public class LaborContractController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping
-	public JSONResult deleteLaborContract(@Param("id") Long id) {
+	@DeleteMapping(value="{id}")
+	public @ResponseBody JSONResult deleteLaborContract(@PathVariable("id") Long id) {
 		
 		laborContractService.deleteLaborContract(id);
 		if (laborContractService.queryLaborContractById(id).getState()==0) {

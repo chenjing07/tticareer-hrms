@@ -105,8 +105,8 @@ public class ArchivesController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping
-	public JSONResult deleteArchives(@Param("id") Long id) {
+	@DeleteMapping(value="{id}")
+	public @ResponseBody JSONResult deleteArchives(@PathVariable("id") Long id) {
 		archivesService.deleteArchives(id);
 		if (archivesService.queryArchivesById(id).getState()==0) {
 			return JSONResult.ok(1);

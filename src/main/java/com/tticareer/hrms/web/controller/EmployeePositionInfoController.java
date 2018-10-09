@@ -1,6 +1,7 @@
 package com.tticareer.hrms.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -82,6 +83,17 @@ public class EmployeePositionInfoController {
 		
 		EmployeePositionInfo data = employeePositionInfoService.queryEmployeePositionInfoById(id);
 		return JSONResult.ok(data);
+	}
+	
+	@DeleteMapping(value="{id}")
+	public  @ResponseBody JSONResult deleteEmployeePositionInfo(@PathVariable("id") Long id) {
+		//System.out.println("-----"+id);
+		employeePositionInfoService.deleteEmployeePositionInfo(id);
+		if (employeePositionInfoService.queryEmployeePositionInfoById(id).getState()==0) {
+			return JSONResult.ok(1);
+		} else {
+			return JSONResult.ok(0);
+		}
 	}
 	
 }

@@ -105,8 +105,8 @@ public class PositionController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping
-	public JSONResult deletePosition(@Param("id") Long id) {
+	@DeleteMapping(value="{id}")
+	public @ResponseBody JSONResult deletePosition(@PathVariable("id") Long id) {
 		positionService.deletePosition(id);
 		if (positionService.queryPositionById(id).getState()==0) {
 			return JSONResult.ok(1);

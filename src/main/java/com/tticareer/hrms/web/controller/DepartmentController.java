@@ -105,8 +105,8 @@ public class DepartmentController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping
-	public JSONResult deleteDepartment(@Param("id") Long id) {
+	@DeleteMapping(value="{id}")
+	public @ResponseBody JSONResult deleteDepartment(@PathVariable("id") Long id) {
 		departmentService.deleteDepartment(id);
 		if (departmentService.queryDepartmentById(id).getState()==0) {
 			return JSONResult.ok(1);

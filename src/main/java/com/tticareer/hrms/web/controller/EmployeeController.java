@@ -168,8 +168,9 @@ public class EmployeeController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping
-	public JSONResult deleteEmployee(@Param("id") Long id) {
+	@DeleteMapping(value="{id}")
+	public  @ResponseBody JSONResult deleteEmployee(@PathVariable("id") Long id) {
+		System.out.println("-----"+id);
 		employeeService.deleteEmployee(id);
 		if (employeeService.queryEmployeeById(id).getState()==0) {
 			return JSONResult.ok(1);

@@ -59,17 +59,17 @@ drop table if exists written_examination_content;
 /*==============================================================*/
 create table archives
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   employee_id          bigint comment 'Ô±¹¤id',
-   in_time              datetime comment '×ªÈëÊ±¼ä',
-   out_time             datetime comment '×ª³öÊ±¼ä',
-   archives_source      varchar(50) comment 'µµ°¸À´´¦',
-   archives_destination varchar(50) comment 'µµ°¸È¥´¦',
-   archives_change      varchar(255) comment 'µµ°¸±ä¸üËµÃ÷',
-   state                int not null comment '×´Ì¬ 0ÒÔÍù1ÏÖÔÚ',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
-   check_status         int not null comment 'ÉóºË 0´ıÉóºË1ÒÑÉóºË',
-   note                 varchar(255) comment '±¸×¢',
+   id                   bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   employee_id          bigint comment 'å‘˜å·¥id',
+   in_time              datetime comment 'è½¬å…¥æ—¶é—´',
+   out_time             datetime comment 'è½¬å‡ºæ—¶é—´',
+   archives_source      varchar(50) comment 'æ¡£æ¡ˆæ¥å¤„',
+   archives_destination varchar(50) comment 'æ¡£æ¡ˆå»å¤„',
+   archives_change      varchar(255) comment 'æ¡£æ¡ˆå˜æ›´è¯´æ˜',
+   state                int not null comment 'çŠ¶æ€ 0ä»¥å¾€1ç°åœ¨',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
+   check_status         int not null comment 'å®¡æ ¸ 0å¾…å®¡æ ¸1å·²å®¡æ ¸',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -78,22 +78,22 @@ create table archives
 /*==============================================================*/
 create table assessment_standard
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   position_id          bigint not null comment '¸ÚÎ»id',
-   work_result          varchar(255) not null comment '¹¤×÷Òµ¼¨ËµÃ÷',
-   attitude             varchar(255) not null comment '¹¤×÷Ì¬¶ÈËµÃ÷',
-   quality              varchar(255) not null comment '¹¤×÷ÖÊÁ¿ËµÃ÷',
-   skill                varchar(255) not null comment '¹¤×÷¼¼ÄÜËµÃ÷',
-   calculation_way      varchar(255) not null comment '¿¼ºË¼ÆËã·½·¨ËµÃ÷',
-   assessment_type      varchar(255) not null comment '¿¼ºË·ÖÀàËµÃ÷',
-   result_level         varchar(255) not null comment '½á¹û¼¶±ğ»®·ÖËµÃ÷',
-   state                int not null comment '×´Ì¬
+   id                   bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   position_id          bigint not null comment 'å²—ä½id',
+   work_result          varchar(255) not null comment 'å·¥ä½œä¸šç»©è¯´æ˜',
+   attitude             varchar(255) not null comment 'å·¥ä½œæ€åº¦è¯´æ˜',
+   quality              varchar(255) not null comment 'å·¥ä½œè´¨é‡è¯´æ˜',
+   skill                varchar(255) not null comment 'å·¥ä½œæŠ€èƒ½è¯´æ˜',
+   calculation_way      varchar(255) not null comment 'è€ƒæ ¸è®¡ç®—æ–¹æ³•è¯´æ˜',
+   assessment_type      varchar(255) not null comment 'è€ƒæ ¸åˆ†ç±»è¯´æ˜',
+   result_level         varchar(255) not null comment 'ç»“æœçº§åˆ«åˆ’åˆ†è¯´æ˜',
+   state                int not null comment 'çŠ¶æ€
             {
-            	0¶³½á 1¼¤»î
+            	0å†»ç»“ 1æ¿€æ´»
             }',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
-   check_status         int not null comment 'ÉóºË 0´ıÉóºË1ÒÑÉóºË',
-   note                 varchar(255) comment '±¸×¢',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
+   check_status         int not null comment 'å®¡æ ¸ 0å¾…å®¡æ ¸1å·²å®¡æ ¸',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -102,22 +102,22 @@ create table assessment_standard
 /*==============================================================*/
 create table clock_detail
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   employee_id          bigint not null comment 'Ô±¹¤id',
-   morning_in           datetime comment 'ÉÏÎçÉÏ°à´ò¿¨Ê±¼ä',
-   mi_coordinate        geometry comment 'ÉÏÎçÉÏ°à´ò¿¨µ±Ç°×ø±ê',
-   morning_out          datetime comment 'ÉÏÎçÏÂ°à´ò¿¨Ê±¼ä',
-   mo_coordinate        geometry comment 'ÉÏÎçÏÂ°à´ò¿¨µ±Ç°×ø±ê',
-   afternoon_in         datetime comment 'ÏÂÎçÉÏ°à´ò¿¨Ê±¼ä',
-   ai_coordinate        geometry comment 'ÏÂÎçÉÏ°à´ò¿¨µ±Ç°×ø±ê',
-   afternoon_out        datetime comment 'ÏÂÎçÏÂ°à´ò¿¨Ê±¼ä',
-   ao_coordinate        geometry comment 'ÏÂÎçÏÂ°à´ò¿¨µ±Ç°×ø±ê',
-   state                int not null comment '×´Ì¬
+   id                   bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   employee_id          bigint not null comment 'å‘˜å·¥id',
+   morning_in           datetime comment 'ä¸Šåˆä¸Šç­æ‰“å¡æ—¶é—´',
+   mi_coordinate        geometry comment 'ä¸Šåˆä¸Šç­æ‰“å¡å½“å‰åæ ‡',
+   morning_out          datetime comment 'ä¸Šåˆä¸‹ç­æ‰“å¡æ—¶é—´',
+   mo_coordinate        geometry comment 'ä¸Šåˆä¸‹ç­æ‰“å¡å½“å‰åæ ‡',
+   afternoon_in         datetime comment 'ä¸‹åˆä¸Šç­æ‰“å¡æ—¶é—´',
+   ai_coordinate        geometry comment 'ä¸‹åˆä¸Šç­æ‰“å¡å½“å‰åæ ‡',
+   afternoon_out        datetime comment 'ä¸‹åˆä¸‹ç­æ‰“å¡æ—¶é—´',
+   ao_coordinate        geometry comment 'ä¸‹åˆä¸‹ç­æ‰“å¡å½“å‰åæ ‡',
+   state                int not null comment 'çŠ¶æ€
             {
-            	0Òì³£ 1°´Àı
+            	0å¼‚å¸¸ 1æŒ‰ä¾‹
             }',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
-   note                 varchar(255) comment '±¸×¢',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -126,15 +126,15 @@ create table clock_detail
 /*==============================================================*/
 create table department
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»id£¬Ö÷¼ü×ÔÔö',
-   superior_department_id bigint comment 'ÉÏ¼¶²¿ÃÅid',
-   department_number    varchar(20) not null comment '²¿ÃÅ±àºÅ',
-   department_name      varchar(10) not null comment '²¿ÃÅÃû³Æ',
-   department_introduction varchar(255) not null comment '²¿ÃÅ¼ò½é',
-   state                int not null comment '×´Ì¬ 0¶³½á1¼¤»î',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
-   check_status         int not null comment 'ÉóºË 0´ıÉóºË1ÒÑÉóºË',
-   note                 varchar(255) comment '±¸×¢',
+   id                   bigint not null auto_increment comment 'å”¯ä¸€idï¼Œä¸»é”®è‡ªå¢',
+   superior_department_id bigint comment 'ä¸Šçº§éƒ¨é—¨id',
+   department_number    varchar(20) not null comment 'éƒ¨é—¨ç¼–å·',
+   department_name      varchar(10) not null comment 'éƒ¨é—¨åç§°',
+   department_introduction varchar(255) not null comment 'éƒ¨é—¨ç®€ä»‹',
+   state                int not null comment 'çŠ¶æ€ 0å†»ç»“1æ¿€æ´»',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
+   check_status         int not null comment 'å®¡æ ¸ 0å¾…å®¡æ ¸1å·²å®¡æ ¸',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -143,56 +143,56 @@ create table department
 /*==============================================================*/
 create table employee
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   user_name            varchar(30) comment '¹¤ºÅ  ²¿ÃÅ±àºÅ+¸ÚÎ»±àºÅ+Ô±¹¤id   Â¼ÕËºÅ
+   id                   bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   user_name            varchar(30) comment 'å·¥å·  éƒ¨é—¨ç¼–å·+å²—ä½ç¼–å·+å‘˜å·¥id   å½•è´¦å·
             ',
    password             varchar(36),
-   real_name            varchar(10) not null comment 'Ô±¹¤ÕæÊµĞÕÃû',
-   id_card_number       varchar(20) comment 'Ô±¹¤Éí·İÖ¤ºÅ',
-   id_card_picture      varchar(255) comment 'Éí·İÖ¤Í¼Æ¬´æ·ÅµØÖ·',
-   birthday             datetime not null comment '³öÉúÄêÔÂ',
-   gender               int not null comment 'ĞÔ±ğ1ÄĞ0Å®',
-   nation               varchar(10) not null comment 'Ãñ×å',
-   native_place         varchar(20) not null comment '¼®¹á',
-   registered_address   varchar(30) not null comment '»§¿ÚµØÖ·',
-   house_address        varchar(255) not null comment '¼ÒÍ¥×¡Ö·',
-   education            varchar(20) comment 'Ñ§Àú',
-   academic_degree      varchar(20) comment 'Ñ§Î»',
-   major                varchar(20) comment '×¨Òµ',
-   tie                  varchar(20) comment 'Ïµ±ğ',
-   graduated_school     varchar(20) comment '±ÏÒµÔºĞ£',
-   graduated_time       datetime comment '±ÏÒµÊ±¼ä',
-   political_status     int not null comment 'ÕşÖÎÃæÃ²
+   real_name            varchar(10) not null comment 'å‘˜å·¥çœŸå®å§“å',
+   id_card_number       varchar(20) comment 'å‘˜å·¥èº«ä»½è¯å·',
+   id_card_picture      varchar(255) comment 'èº«ä»½è¯å›¾ç‰‡å­˜æ”¾åœ°å€',
+   birthday             datetime not null comment 'å‡ºç”Ÿå¹´æœˆ',
+   gender               int not null comment 'æ€§åˆ«1ç”·0å¥³',
+   nation               varchar(10) not null comment 'æ°‘æ—',
+   native_place         varchar(20) not null comment 'ç±è´¯',
+   registered_address   varchar(30) not null comment 'æˆ·å£åœ°å€',
+   house_address        varchar(255) not null comment 'å®¶åº­ä½å€',
+   education            varchar(20) comment 'å­¦å†',
+   academic_degree      varchar(20) comment 'å­¦ä½',
+   major                varchar(20) comment 'ä¸“ä¸š',
+   tie                  varchar(20) comment 'ç³»åˆ«',
+   graduated_school     varchar(20) comment 'æ¯•ä¸šé™¢æ ¡',
+   graduated_time       datetime comment 'æ¯•ä¸šæ—¶é—´',
+   political_status     int not null comment 'æ”¿æ²»é¢è²Œ
             {
-            	0ÈºÖÚ1ÖĞ¹²µ³Ô±2ÖĞ¹²Ô¤±¸µ³Ô±3¹²ÇàÍÅÔ±4Ãñ¸ïµ³Ô±5ÃñÃËÃËÔ±6Ãñ½¨»áÔ±7Ãñ½ø»áÔ±8Å©¹¤µ³µ³Ô±9ÖÂ¹«µ³µ³Ô±10¾ÅÈıÑ§ÉçÉçÔ±11Ì¨ÃËÃËÔ±12ÎŞµ³ÅÉÈËÊ¿
+            	0ç¾¤ä¼—1ä¸­å…±å…šå‘˜2ä¸­å…±é¢„å¤‡å…šå‘˜3å…±é’å›¢å‘˜4æ°‘é©å…šå‘˜5æ°‘ç›Ÿç›Ÿå‘˜6æ°‘å»ºä¼šå‘˜7æ°‘è¿›ä¼šå‘˜8å†œå·¥å…šå…šå‘˜9è‡´å…¬å…šå…šå‘˜10ä¹ä¸‰å­¦ç¤¾ç¤¾å‘˜11å°ç›Ÿç›Ÿå‘˜12æ— å…šæ´¾äººå£«
             }',
-   marital_status       int not null comment '»éÒö×´¿ö 0Î´»é1ÒÑ»é',
-   recruitment_source   int not null comment 'ÕĞÆ¸À´Ô´
+   marital_status       int not null comment 'å©šå§»çŠ¶å†µ 0æœªå©š1å·²å©š',
+   recruitment_source   int not null comment 'æ‹›è˜æ¥æº
             {
-            	1¼òÀúÓ¦Æ¸2ÕĞÆ¸ÍøÕ¾3ÆäËüÍ¾¾¶
+            	1ç®€å†åº”è˜2æ‹›è˜ç½‘ç«™3å…¶å®ƒé€”å¾„
             }',
-   account_bank         varchar(20) not null comment '¿ª»§ÒøĞĞ',
-   account_number       varchar(30) not null comment '¹¤×ÊÕË»§',
-   phone_number         varchar(20) not null comment 'ÊÖ»úºÅÂë',
-   email                varchar(30) not null comment 'ÓÊÏä',
-   qq                   varchar(30) comment 'qqºÅÂë',
-   wechat               varchar(30) comment 'Î¢ĞÅºÅ',
+   account_bank         varchar(20) not null comment 'å¼€æˆ·é“¶è¡Œ',
+   account_number       varchar(30) not null comment 'å·¥èµ„è´¦æˆ·',
+   phone_number         varchar(20) not null comment 'æ‰‹æœºå·ç ',
+   email                varchar(30) not null comment 'é‚®ç®±',
+   qq                   varchar(30) comment 'qqå·ç ',
+   wechat               varchar(30) comment 'å¾®ä¿¡å·',
    msn                  varchar(30) comment 'MSN',
-   emergency_contact_name varchar(10) comment '½ô¼±ÁªÏµÈËĞÕÃû',
-   emergency_contact_relationship varchar(10) comment '½ô¼±ÁªÏµÈËĞÕÃû',
-   emergency_contact_number varchar(20) comment '½ô¼±ÁªÏµÈËµç»°',
-   work_start           datetime comment 'ÈëÖ°Ê±¼ä',
-   work_end             datetime comment 'ÀëÖ°Ê±¼ä',
-   practice_start       datetime comment 'ÊµÏ°¿ªÊ¼Ê±¼ä',
-   practice_end         datetime comment 'ÊµÏ°½áÊøÊ±¼ä',
-   iswork               int not null comment 'ÊÇ·ñÔÚÖ°0ÀëÖ°1ÕıÊ½2ÊµÏ°',
-   state                int not null comment '×´Ì¬
+   emergency_contact_name varchar(10) comment 'ç´§æ€¥è”ç³»äººå§“å',
+   emergency_contact_relationship varchar(10) comment 'ç´§æ€¥è”ç³»äººå§“å',
+   emergency_contact_number varchar(20) comment 'ç´§æ€¥è”ç³»äººç”µè¯',
+   work_start           datetime comment 'å…¥èŒæ—¶é—´',
+   work_end             datetime comment 'ç¦»èŒæ—¶é—´',
+   practice_start       datetime comment 'å®ä¹ å¼€å§‹æ—¶é—´',
+   practice_end         datetime comment 'å®ä¹ ç»“æŸæ—¶é—´',
+   iswork               int not null comment 'æ˜¯å¦åœ¨èŒ0ç¦»èŒ1æ­£å¼2å®ä¹ ',
+   state                int not null comment 'çŠ¶æ€
             {
-            	0Îª¶³½á£¬1ÎªÆäËûÔ±¹¤£¬2ÎªÈËÊÂ²¿ÆÕÍ¨Ô±¹¤£¬3ÎªÈËÊÂ²¿¾­Àí
+            	0ä¸ºå†»ç»“ï¼Œ1ä¸ºå…¶ä»–å‘˜å·¥ï¼Œ2ä¸ºäººäº‹éƒ¨æ™®é€šå‘˜å·¥ï¼Œ3ä¸ºäººäº‹éƒ¨ç»ç†
             }',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
-   check_satus          int not null comment 'ÉóºË 0´ıÉóºË1ÒÑÉóºË',
-   note                 varchar(255) comment '±¸×¢',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
+   check_satus          int not null comment 'å®¡æ ¸ 0å¾…å®¡æ ¸1å·²å®¡æ ¸',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -201,36 +201,36 @@ create table employee
 /*==============================================================*/
 create table employee_assessment
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   employee_id          bigint not null comment 'Ô±¹¤id',
-   assessment_type      int not null comment '¿¼ºË·ÖÀà
+   id                   bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   employee_id          bigint not null comment 'å‘˜å·¥id',
+   assessment_type      int not null comment 'è€ƒæ ¸åˆ†ç±»
             {
-            	1ÈÕ³£¿¼ºË 2¶¨ÆÚ¿¼ºË 3³¤ÆÚ¿¼ºË 4²»¶¨ÆÚ¿¼ºË¡£
+            	1æ—¥å¸¸è€ƒæ ¸ 2å®šæœŸè€ƒæ ¸ 3é•¿æœŸè€ƒæ ¸ 4ä¸å®šæœŸè€ƒæ ¸ã€‚
             }',
-   work_result          int not null comment '¹¤×÷Òµ¼¨
+   work_result          int not null comment 'å·¥ä½œä¸šç»©
             {
-            	1ÓÅĞã 2Á¼ºÃ 3¼°¸ñ 0²»¼°¸ñ
+            	1ä¼˜ç§€ 2è‰¯å¥½ 3åŠæ ¼ 0ä¸åŠæ ¼
             }',
    attitude             int not null comment '{
-            	1ÓÅĞã 2Á¼ºÃ 3¼°¸ñ 0²»¼°¸ñ
+            	1ä¼˜ç§€ 2è‰¯å¥½ 3åŠæ ¼ 0ä¸åŠæ ¼
             }',
    quality              int not null comment '{
-            	1ÓÅĞã 2Á¼ºÃ 3¼°¸ñ 0²»¼°¸ñ
+            	1ä¼˜ç§€ 2è‰¯å¥½ 3åŠæ ¼ 0ä¸åŠæ ¼
             }',
    skill                int not null comment '{
-            	1ÓÅĞã 2Á¼ºÃ 3¼°¸ñ 0²»¼°¸ñ
+            	1ä¼˜ç§€ 2è‰¯å¥½ 3åŠæ ¼ 0ä¸åŠæ ¼
             }',
    assessment_result    int not null comment '{
-            	1ÓÅĞã 2Á¼ºÃ 3¼°¸ñ 0²»¼°¸ñ
+            	1ä¼˜ç§€ 2è‰¯å¥½ 3åŠæ ¼ 0ä¸åŠæ ¼
             }',
-   evaluate             varchar(255) not null comment 'ÆÀ¼Û',
-   state                int not null comment '×´Ì¬
+   evaluate             varchar(255) not null comment 'è¯„ä»·',
+   state                int not null comment 'çŠ¶æ€
             {
-            	0¶³½á 1¼¤»î
+            	0å†»ç»“ 1æ¿€æ´»
             }',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
-   check_status         int not null comment 'ÉóºË 0´ıÉóºË1ÒÑÉóºË',
-   note                 varchar(255) comment '±¸×¢',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
+   check_status         int not null comment 'å®¡æ ¸ 0å¾…å®¡æ ¸1å·²å®¡æ ¸',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -239,18 +239,18 @@ create table employee_assessment
 /*==============================================================*/
 create table employee_position_info
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   employee_id          bigint not null comment 'Ô±¹¤id',
-   position_id          bigint not null comment '¸ÚÎ»id',
-   arrive_post          datetime not null comment 'µ½¸ÚÊ±¼ä',
-   leave_post           datetime comment 'µ÷¸ÚÊ±¼ä',
-   transfer_reason      varchar(255) comment 'µ÷¸ÚÔ­Òò',
-   leave_opinion        varchar(255) comment 'µ÷³ö²¿ÃÅÒâ¼û',
-   arrive_opinion       varchar(255) comment 'µ÷Èë²¿ÃÅÒâ¼û',
-   state                int not null comment '×´Ì¬ 0ÒÔÍù1ÏÖÔÚ',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
-   check_status         int not null comment 'ÉóºË 0´ıÉóºË1ÒÑÉóºË',
-   note                 varchar(255) comment '±¸×¢',
+   id                   bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   employee_id          bigint not null comment 'å‘˜å·¥id',
+   position_id          bigint not null comment 'å²—ä½id',
+   arrive_post          datetime not null comment 'åˆ°å²—æ—¶é—´',
+   leave_post           datetime comment 'è°ƒå²—æ—¶é—´',
+   transfer_reason      varchar(255) comment 'è°ƒå²—åŸå› ',
+   leave_opinion        varchar(255) comment 'è°ƒå‡ºéƒ¨é—¨æ„è§',
+   arrive_opinion       varchar(255) comment 'è°ƒå…¥éƒ¨é—¨æ„è§',
+   state                int not null comment 'çŠ¶æ€ 0ä»¥å¾€1ç°åœ¨',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
+   check_status         int not null comment 'å®¡æ ¸ 0å¾…å®¡æ ¸1å·²å®¡æ ¸',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -259,22 +259,22 @@ create table employee_position_info
 /*==============================================================*/
 create table examination_questions
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   question             varchar(255) not null comment 'ÌâÄ¿',
-   answer               varchar(255) not null comment '´ğ°¸',
-   score                decimal not null comment '·ÖÊı',
-   difficulty_level     int not null comment 'ÄÑ¶ÈµÈ¼¶
+   id                   bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   question             varchar(255) not null comment 'é¢˜ç›®',
+   answer               varchar(255) not null comment 'ç­”æ¡ˆ',
+   score                decimal not null comment 'åˆ†æ•°',
+   difficulty_level     int not null comment 'éš¾åº¦ç­‰çº§
             {
-            	0Ò× 1ÖĞ 2ÄÑ
+            	0æ˜“ 1ä¸­ 2éš¾
             }	',
-   category             int not null comment '·ÖÀà',
-   explanation          varchar(255) not null comment '½²½â',
-   state                int not null comment '×´Ì¬
+   category             int not null comment 'åˆ†ç±»',
+   explanation          varchar(255) not null comment 'è®²è§£',
+   state                int not null comment 'çŠ¶æ€
             {
-            	0¶³½á 1Î´Ê¹ÓÃ 2Ê¹ÓÃ -1ÓĞ´íÎó
+            	0å†»ç»“ 1æœªä½¿ç”¨ 2ä½¿ç”¨ -1æœ‰é”™è¯¯
             }',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
-   note                 varchar(255) comment '±¸×¢',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -283,19 +283,19 @@ create table examination_questions
 /*==============================================================*/
 create table expense_account
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   employee_id          bigint not null comment 'Ô±¹¤id',
-   time                 datetime not null comment '±¨ÏúÈÕÆÚ',
-   content              varchar(255) not null comment '±¨ÏúÄÚÈİ',
-   reason               varchar(255) not null comment '±¨ÏúÔ­Òò',
-   amount               decimal not null comment '±¨Ïú½ğ¶î',
-   state                int not null comment '×´Ì¬
+   id                   bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   employee_id          bigint not null comment 'å‘˜å·¥id',
+   time                 datetime not null comment 'æŠ¥é”€æ—¥æœŸ',
+   content              varchar(255) not null comment 'æŠ¥é”€å†…å®¹',
+   reason               varchar(255) not null comment 'æŠ¥é”€åŸå› ',
+   amount               decimal not null comment 'æŠ¥é”€é‡‘é¢',
+   state                int not null comment 'çŠ¶æ€
             {
-            	0¶³½á 1¼¤»î
+            	0å†»ç»“ 1æ¿€æ´»
             }',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
-   check_status         int not null comment 'ÉóºË 0´ıÉóºË1ÒÑÉóºË',
-   note                 varchar(255) comment '±¸×¢',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
+   check_status         int not null comment 'å®¡æ ¸ 0å¾…å®¡æ ¸1å·²å®¡æ ¸',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -304,17 +304,17 @@ create table expense_account
 /*==============================================================*/
 create table great_team
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   department_id        bigint not null comment '²¿ÃÅid',
-   commend              varchar(255) not null comment '±íÕÃÄÚÈİ',
-   reward               varchar(255) not null comment '½±ÀøÄÚÈİ',
-   state                int not null comment '×´Ì¬
+   id                   bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   department_id        bigint not null comment 'éƒ¨é—¨id',
+   commend              varchar(255) not null comment 'è¡¨å½°å†…å®¹',
+   reward               varchar(255) not null comment 'å¥–åŠ±å†…å®¹',
+   state                int not null comment 'çŠ¶æ€
             {
-            	0¶³½á 1¼¤»î
+            	0å†»ç»“ 1æ¿€æ´»
             }',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
-   check_status         int not null comment 'ÉóºË 0´ıÉóºË1ÒÑÉóºË',
-   note                 varchar(255) comment '±¸×¢',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
+   check_status         int not null comment 'å®¡æ ¸ 0å¾…å®¡æ ¸1å·²å®¡æ ¸',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -323,17 +323,17 @@ create table great_team
 /*==============================================================*/
 create table holiday_statistics
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   employee_id          bigint not null comment 'Ô±¹¤id',
-   total_holidays       int not null comment '¼ÙÆÚ×ÜÌìÊı',
-   total_leave_days     int not null comment 'ÒÑÇë¼ÙÌìÊı',
-   state                int not null comment '×´Ì¬
+   id                   bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   employee_id          bigint not null comment 'å‘˜å·¥id',
+   total_holidays       int not null comment 'å‡æœŸæ€»å¤©æ•°',
+   total_leave_days     int not null comment 'å·²è¯·å‡å¤©æ•°',
+   state                int not null comment 'çŠ¶æ€
             {
-            	0¶³½á 1¼¤»î
+            	0å†»ç»“ 1æ¿€æ´»
             }',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
-   check_status         int not null comment 'ÉóºË 0´ıÉóºË1ÒÑÉóºË',
-   note                 varchar(255) comment '±¸×¢',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
+   check_status         int not null comment 'å®¡æ ¸ 0å¾…å®¡æ ¸1å·²å®¡æ ¸',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -342,22 +342,22 @@ create table holiday_statistics
 /*==============================================================*/
 create table interview
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   resume_id            bigint not null comment '¼òÀúid',
-   one_content          varchar(255) not null comment '³õÃæÄÚÈİ',
-   one_start            datetime not null comment '³õÃæ¿ªÊ¼Ê±¼ä',
-   one_end              datetime not null comment '³õÃæ½áÊøÊ±¼ä',
-   one_feedback         varchar(255) not null comment '³õÃæ·´À¡×Ü½á',
-   two_content          varchar(255) not null comment '¸´ÃæÄÚÈİ',
-   two_start            datetime not null comment '¸´Ãæ¿ªÊ¼Ê±¼ä',
-   two_end              datetime not null comment '¸´Ãæ½áÊøÊ±¼ä',
-   two_feedback         varchar(255) not null comment '¸´Ãæ·´À¡×Ü½á',
-   state                int not null comment '×´Ì¬
+   id                   bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   resume_id            bigint not null comment 'ç®€å†id',
+   one_content          varchar(255) not null comment 'åˆé¢å†…å®¹',
+   one_start            datetime not null comment 'åˆé¢å¼€å§‹æ—¶é—´',
+   one_end              datetime not null comment 'åˆé¢ç»“æŸæ—¶é—´',
+   one_feedback         varchar(255) not null comment 'åˆé¢åé¦ˆæ€»ç»“',
+   two_content          varchar(255) not null comment 'å¤é¢å†…å®¹',
+   two_start            datetime not null comment 'å¤é¢å¼€å§‹æ—¶é—´',
+   two_end              datetime not null comment 'å¤é¢ç»“æŸæ—¶é—´',
+   two_feedback         varchar(255) not null comment 'å¤é¢åé¦ˆæ€»ç»“',
+   state                int not null comment 'çŠ¶æ€
             {
-            	0ÂäÑ¡ 1½øÈë¶şÃæ
+            	0è½é€‰ 1è¿›å…¥äºŒé¢
             }',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
-   note                 varchar(255) comment '±¸×¢',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -366,24 +366,24 @@ create table interview
 /*==============================================================*/
 create table labor_contract
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   employer_name        varchar(10) not null comment '¼×·½Ãû³Æ£¬ÓÃÈËµ¥Î»',
-   employee_id          bigint not null comment 'ÒÒ·½Ãû³Æ Ô±¹¤id',
-   contract_time_limit  int not null comment 'ºÏÍ¬ÆÚÏŞ',
-   contract_start       datetime not null comment '¿ªÊ¼Ê±¼ä',
-   contract_end         datetime not null comment '½áÊøÊ±¼ä',
-   work_content         varchar(255) not null comment '¹¤×÷ÄÚÈİ',
-   work_place           varchar(255) not null comment '¹¤×÷µØµã',
-   labor_protection     varchar(255) not null comment 'ÀÍ¶¯±£»¤',
-   labor_conditions     varchar(255) not null comment 'ÀÍ¶¯Ìõ¼ş',
-   labor_reward         varchar(255) not null comment 'ÀÍ¶¯±¨³ê',
-   default_responsibility varchar(255) not null comment 'Î¥Ô¼ÔğÈÎ',
-   social_insurance     varchar(255) not null comment 'Éç»á±£ÏÕ',
-   contract_change      varchar(255) comment 'ºÏÍ¬±ä¸ü',
-   state                int not null comment '×´Ì¬ 0ÒÔÍù1ÏÖÔÚ',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
-   check_status         int not null comment 'ÉóºË 0´ıÉóºË1ÒÑÉóºË',
-   note                 varchar(255) comment '±¸×¢',
+   id                   bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   employer_name        varchar(10) not null comment 'ç”²æ–¹åç§°ï¼Œç”¨äººå•ä½',
+   employee_id          bigint not null comment 'ä¹™æ–¹åç§° å‘˜å·¥id',
+   contract_time_limit  int not null comment 'åˆåŒæœŸé™',
+   contract_start       datetime not null comment 'å¼€å§‹æ—¶é—´',
+   contract_end         datetime not null comment 'ç»“æŸæ—¶é—´',
+   work_content         varchar(255) not null comment 'å·¥ä½œå†…å®¹',
+   work_place           varchar(255) not null comment 'å·¥ä½œåœ°ç‚¹',
+   labor_protection     varchar(255) not null comment 'åŠ³åŠ¨ä¿æŠ¤',
+   labor_conditions     varchar(255) not null comment 'åŠ³åŠ¨æ¡ä»¶',
+   labor_reward         varchar(255) not null comment 'åŠ³åŠ¨æŠ¥é…¬',
+   default_responsibility varchar(255) not null comment 'è¿çº¦è´£ä»»',
+   social_insurance     varchar(255) not null comment 'ç¤¾ä¼šä¿é™©',
+   contract_change      varchar(255) comment 'åˆåŒå˜æ›´',
+   state                int not null comment 'çŠ¶æ€ 0ä»¥å¾€1ç°åœ¨',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
+   check_status         int not null comment 'å®¡æ ¸ 0å¾…å®¡æ ¸1å·²å®¡æ ¸',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -392,16 +392,16 @@ create table labor_contract
 /*==============================================================*/
 create table late_early
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   employee_id          bigint not null comment 'Ô±¹¤id',
-   late_early_time      datetime not null comment '³Ùµ½ÔçÍËÊ±¼ä',
-   late_early_reason    varchar(255) not null comment '³Ùµ½ÔçÍËÔ­Òò',
-   state                int not null comment '×´Ì¬
+   id                   bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   employee_id          bigint not null comment 'å‘˜å·¥id',
+   late_early_time      datetime not null comment 'è¿Ÿåˆ°æ—©é€€æ—¶é—´',
+   late_early_reason    varchar(255) not null comment 'è¿Ÿåˆ°æ—©é€€åŸå› ',
+   state                int not null comment 'çŠ¶æ€
             {
-            	0¶³½á 1³Ùµ½ 2ÔçÍË
+            	0å†»ç»“ 1è¿Ÿåˆ° 2æ—©é€€
             }',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
-   note                 varchar(255) comment '±¸×¢',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -410,21 +410,21 @@ create table late_early
 /*==============================================================*/
 create table leave_detail
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   employee_id          bigint not null comment 'Ô±¹¤id',
-   leave_start          datetime not null comment 'Çë¼Ù¿ªÊ¼Ê±¼ä',
-   leave_end            datetime not null comment 'Çë¼Ù½áÊøÊ±¼ä',
-   leave_days           int not null comment 'Çë¼ÙÌìÊı',
-   reason               varchar(255) not null comment 'Çë¼ÙÔ­Òò',
-   real_start           datetime comment 'ÉóºËºó¼ÙÆÚ¿ªÊ¼Ê±¼ä',
-   real_end             datetime comment 'ÉóºËºó¼ÙÆÚ½áÊøÊ±¼ä£¨Ïú¼Ù£©',
-   state                int not null comment '×´Ì¬
+   id                   bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   employee_id          bigint not null comment 'å‘˜å·¥id',
+   leave_start          datetime not null comment 'è¯·å‡å¼€å§‹æ—¶é—´',
+   leave_end            datetime not null comment 'è¯·å‡ç»“æŸæ—¶é—´',
+   leave_days           int not null comment 'è¯·å‡å¤©æ•°',
+   reason               varchar(255) not null comment 'è¯·å‡åŸå› ',
+   real_start           datetime comment 'å®¡æ ¸åå‡æœŸå¼€å§‹æ—¶é—´',
+   real_end             datetime comment 'å®¡æ ¸åå‡æœŸç»“æŸæ—¶é—´ï¼ˆé”€å‡ï¼‰',
+   state                int not null comment 'çŠ¶æ€
             {
-            	0¶³½á 1¼¤»î 2Ïú¼Ù³É¹¦
+            	0å†»ç»“ 1æ¿€æ´» 2é”€å‡æˆåŠŸ
             }',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
-   check_status         int not null comment 'ÉóºË 0´ıÉóºË1ÒÑÉóºË',
-   note                 varchar(255) comment '±¸×¢',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
+   check_status         int not null comment 'å®¡æ ¸ 0å¾…å®¡æ ¸1å·²å®¡æ ¸',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -433,17 +433,17 @@ create table leave_detail
 /*==============================================================*/
 create table over_work
 (
-   id           		bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   employee_Id          bigint not null comment 'Ô±¹¤id',
-   time         		datetime not null comment '¼Ó°àÈÕÆÚ',
-   duration     		varchar(20) not null comment '¼Ó°àÊ±³¤',
-   content      		varchar(255) not null comment '¼Ó°àÄÚÈİ',
-   state                int not null comment '×´Ì¬
+   id           		bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   employee_Id          bigint not null comment 'å‘˜å·¥id',
+   time         		datetime not null comment 'åŠ ç­æ—¥æœŸ',
+   duration     		varchar(20) not null comment 'åŠ ç­æ—¶é•¿',
+   content      		varchar(255) not null comment 'åŠ ç­å†…å®¹',
+   state                int not null comment 'çŠ¶æ€
             {
-            	0Òì³£ 1Õı³£
+            	0å¼‚å¸¸ 1æ­£å¸¸
             }',
-   create_time    		datetime not null comment 'Â¼ÈëÊ±¼ä',
-   note                 varchar(255) comment '±¸×¢',
+   create_time    		datetime not null comment 'å½•å…¥æ—¶é—´',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -452,16 +452,16 @@ create table over_work
 /*==============================================================*/
 create table position
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   department_id        bigint comment '²¿ÃÅid',
-   position_number      varchar(25) not null comment '¸ÚÎ»±àºÅ',
-   position_name        varchar(10) not null comment '¸ÚÎ»Ãû³Æ',
-   superior_positionId  bigint comment 'ÉÏ¼¶¸ÚÎ»id',
-   position_introduction varchar(255) not null comment '¸ÚÎ»¼ò½é',
-   state                int not null comment '×´Ì¬ 0¶³½á1¼¤»î',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
-   check_status         int not null comment 'ÉóºË 0´ıÉóºË1ÒÑÉóºË',
-   note                 varchar(255) comment '±¸×¢',
+   id                   bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   department_id        bigint comment 'éƒ¨é—¨id',
+   position_number      varchar(25) not null comment 'å²—ä½ç¼–å·',
+   position_name        varchar(10) not null comment 'å²—ä½åç§°',
+   superior_positionId  bigint comment 'ä¸Šçº§å²—ä½id',
+   position_introduction varchar(255) not null comment 'å²—ä½ç®€ä»‹',
+   state                int not null comment 'çŠ¶æ€ 0å†»ç»“1æ¿€æ´»',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
+   check_status         int not null comment 'å®¡æ ¸ 0å¾…å®¡æ ¸1å·²å®¡æ ¸',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -470,27 +470,27 @@ create table position
 /*==============================================================*/
 create table recruitment_demand
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   position_id          bigint not null comment '¸ÚÎ»id',
-   plan_number          int not null comment '¼Æ»®ÈËÊı',
-   salary               decimal not null comment 'Ğ½×Ê´ıÓö',
-   supplemental_number  int comment 'Ôö²¹ÈËÊı',
-   supplement_reason    varchar(255) comment 'Ôö²¹Ô­Òò',
-   arrival_date         datetime not null comment 'µ½¸ÚÈÕÆÚ',
-   language_requirements varchar(50) not null comment 'ÍâÓïÒªÇó',
-   professional_requirements varchar(50) not null comment '×¨ÒµÒªÇó',
-   educational_requirements varchar(50) not null comment 'Ñ§ÀúÒªÇó',
-   computer_requirements varchar(50) not null comment 'µçÄÔÒªÇó',
-   experience_requirements varchar(50) not null comment '¾­ÑéÒªÇó',
-   age_requirements     varchar(50) not null comment 'ÄêÁäÒªÇó',
-   post_duties          varchar(255) not null comment '¸ÚÎ»Ö°Ôğ',
-   post_requirements    varchar(255) not null comment '¸ÚÎ»ÒªÇó',
-   state                int not null comment '×´Ì¬
+   id                   bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   position_id          bigint not null comment 'å²—ä½id',
+   plan_number          int not null comment 'è®¡åˆ’äººæ•°',
+   salary               decimal not null comment 'è–ªèµ„å¾…é‡',
+   supplemental_number  int comment 'å¢è¡¥äººæ•°',
+   supplement_reason    varchar(255) comment 'å¢è¡¥åŸå› ',
+   arrival_date         datetime not null comment 'åˆ°å²—æ—¥æœŸ',
+   language_requirements varchar(50) not null comment 'å¤–è¯­è¦æ±‚',
+   professional_requirements varchar(50) not null comment 'ä¸“ä¸šè¦æ±‚',
+   educational_requirements varchar(50) not null comment 'å­¦å†è¦æ±‚',
+   computer_requirements varchar(50) not null comment 'ç”µè„‘è¦æ±‚',
+   experience_requirements varchar(50) not null comment 'ç»éªŒè¦æ±‚',
+   age_requirements     varchar(50) not null comment 'å¹´é¾„è¦æ±‚',
+   post_duties          varchar(255) not null comment 'å²—ä½èŒè´£',
+   post_requirements    varchar(255) not null comment 'å²—ä½è¦æ±‚',
+   state                int not null comment 'çŠ¶æ€
             {
-            	0¶³½á1¼¤»î
+            	0å†»ç»“1æ¿€æ´»
             }',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
-   note                 varchar(255) comment '±¸×¢',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -499,42 +499,42 @@ create table recruitment_demand
 /*==============================================================*/
 create table resume
 (
-   id                   bigint not null comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   application_name     varchar(10) not null comment 'Ó¦Æ¸ÈËĞÕÃû',
-   expected_position    varchar(10) not null comment 'ÆÚÍûµÄÖ°Î»',
-   id_card_number       varchar(20) not null comment 'Éí·İÖ¤ºÅ',
-   id_card_picture      varchar(0) not null comment 'Éí·İÖ¤Í¼Æ¬´æ·ÅµØÖ·',
-   birthday             datetime not null comment '³öÉúÄêÔÂ',
-   gender               int not null comment 'ĞÔ±ğ1ÄĞ0Å®',
-   nation               varchar(10) not null comment 'Ãñ×å',
-   native_place         varchar(20) not null comment '¼®¹á',
-   registered_address   varchar(30) not null comment '»§¿ÚµØÖ·',
-   house_address        varchar(255) not null comment '¼ÒÍ¥×¡Ö·',
-   political_status     int not null comment 'ÕşÖÎÃæÃ²
+   id                   bigint not null comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   application_name     varchar(10) not null comment 'åº”è˜äººå§“å',
+   expected_position    varchar(10) not null comment 'æœŸæœ›çš„èŒä½',
+   id_card_number       varchar(20) not null comment 'èº«ä»½è¯å·',
+   id_card_picture      varchar(0) not null comment 'èº«ä»½è¯å›¾ç‰‡å­˜æ”¾åœ°å€',
+   birthday             datetime not null comment 'å‡ºç”Ÿå¹´æœˆ',
+   gender               int not null comment 'æ€§åˆ«1ç”·0å¥³',
+   nation               varchar(10) not null comment 'æ°‘æ—',
+   native_place         varchar(20) not null comment 'ç±è´¯',
+   registered_address   varchar(30) not null comment 'æˆ·å£åœ°å€',
+   house_address        varchar(255) not null comment 'å®¶åº­ä½å€',
+   political_status     int not null comment 'æ”¿æ²»é¢è²Œ
             {
-            	0ÈºÖÚ1ÖĞ¹²µ³Ô±2ÖĞ¹²Ô¤±¸µ³Ô±3¹²ÇàÍÅÔ±4Ãñ¸ïµ³Ô±5ÃñÃËÃËÔ±6Ãñ½¨»áÔ±7Ãñ½ø»áÔ±8Å©¹¤µ³µ³Ô±9ÖÂ¹«µ³µ³Ô±10¾ÅÈıÑ§ÉçÉçÔ±11Ì¨ÃËÃËÔ±12ÎŞµ³ÅÉÈËÊ¿
+            	0ç¾¤ä¼—1ä¸­å…±å…šå‘˜2ä¸­å…±é¢„å¤‡å…šå‘˜3å…±é’å›¢å‘˜4æ°‘é©å…šå‘˜5æ°‘ç›Ÿç›Ÿå‘˜6æ°‘å»ºä¼šå‘˜7æ°‘è¿›ä¼šå‘˜8å†œå·¥å…šå…šå‘˜9è‡´å…¬å…šå…šå‘˜10ä¹ä¸‰å­¦ç¤¾ç¤¾å‘˜11å°ç›Ÿç›Ÿå‘˜12æ— å…šæ´¾äººå£«
             }',
-   marital_status       int not null comment '»éÒö×´¿ö 0Î´»é1ÒÑ»é',
-   phone_number         varchar(20) not null comment 'ÊÖ»úºÅÂë',
-   email                varchar(30) not null comment 'ÓÊÏä',
-   qq                   varchar(20) comment 'qqºÅÂë',
-   education            varchar(20) comment 'Ñ§Àú',
-   academic_degree      varchar(20) comment 'Ñ§Î»',
-   major                varchar(20) comment '×¨Òµ',
-   tie                  varchar(20) comment 'Ïµ±ğ',
-   graduated_school     varchar(20) comment '±ÏÒµÔºĞ£',
-   graduated_time       datetime comment '±ÏÒµÊ±¼ä',
-   awards_received      varchar(255) comment '»ñµÃµÄ½±Ïî',
-   language_level       varchar(10) not null comment 'ÓïÑÔË®Æ½',
-   work_experience      varchar(255) not null comment '¹¤×÷¾­Ñé',
-   hobbies              varchar(100) comment 'ĞËÈ¤°®ºÃ',
-   self_evaluation      varchar(255) not null comment '×ÔÎÒÆÀ¼Û',
-   state                int not null comment '×´Ì¬
+   marital_status       int not null comment 'å©šå§»çŠ¶å†µ 0æœªå©š1å·²å©š',
+   phone_number         varchar(20) not null comment 'æ‰‹æœºå·ç ',
+   email                varchar(30) not null comment 'é‚®ç®±',
+   qq                   varchar(20) comment 'qqå·ç ',
+   education            varchar(20) comment 'å­¦å†',
+   academic_degree      varchar(20) comment 'å­¦ä½',
+   major                varchar(20) comment 'ä¸“ä¸š',
+   tie                  varchar(20) comment 'ç³»åˆ«',
+   graduated_school     varchar(20) comment 'æ¯•ä¸šé™¢æ ¡',
+   graduated_time       datetime comment 'æ¯•ä¸šæ—¶é—´',
+   awards_received      varchar(255) comment 'è·å¾—çš„å¥–é¡¹',
+   language_level       varchar(10) not null comment 'è¯­è¨€æ°´å¹³',
+   work_experience      varchar(255) not null comment 'å·¥ä½œç»éªŒ',
+   hobbies              varchar(100) comment 'å…´è¶£çˆ±å¥½',
+   self_evaluation      varchar(255) not null comment 'è‡ªæˆ‘è¯„ä»·',
+   state                int not null comment 'çŠ¶æ€
             {
-            	0´ı´¦Àí 1½øÈë±ÊÊÔ 2ÂäÑ¡
+            	0å¾…å¤„ç† 1è¿›å…¥ç¬”è¯• 2è½é€‰
             }',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
-   note                 varchar(255) comment '±¸×¢',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -543,17 +543,17 @@ create table resume
 /*==============================================================*/
 create table reward_punishment
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   employee_id          bigint not null comment 'Ô±¹¤id',
-   reward_and_punishment int not null comment '½±³Í1½±0³Í',
-   content              varchar(255) not null comment '½±³ÍÄÚÈİ',
-   state                int not null comment '×´Ì¬
+   id                   bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   employee_id          bigint not null comment 'å‘˜å·¥id',
+   reward_and_punishment int not null comment 'å¥–æƒ©1å¥–0æƒ©',
+   content              varchar(255) not null comment 'å¥–æƒ©å†…å®¹',
+   state                int not null comment 'çŠ¶æ€
             {
-            	0¶³½á 1¼¤»î
+            	0å†»ç»“ 1æ¿€æ´»
             }',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
-   check_status         int not null comment 'ÉóºË 0´ıÉóºË1ÒÑÉóºË',
-   note                 varchar(255) comment '±¸×¢',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
+   check_status         int not null comment 'å®¡æ ¸ 0å¾…å®¡æ ¸1å·²å®¡æ ¸',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -562,22 +562,22 @@ create table reward_punishment
 /*==============================================================*/
 create table salary_detail
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   employee_id          bigint not null comment 'Ô±¹¤id',
-   basic_salary         decimal not null comment '»ù±¾¹¤×Ê',
-   bonus                decimal comment '½±½ğ',
-   subsidy              decimal comment '²¹Ìù',
-   over_work_salary     decimal comment '¼Ó°à¹¤×Ê',
-   attendance_deduction decimal comment '¿¼ÇÚÓ¦¿Û',
-   salary_total         decimal not null comment 'Ğ½×Ê×ÜºÍ',
-   now_year_month       datetime not null comment 'ÄêÔÂ',
-   state                int not null comment '×´Ì¬
+   id                   bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   employee_id          bigint not null comment 'å‘˜å·¥id',
+   basic_salary         decimal not null comment 'åŸºæœ¬å·¥èµ„',
+   bonus                decimal comment 'å¥–é‡‘',
+   subsidy              decimal comment 'è¡¥è´´',
+   over_work_salary     decimal comment 'åŠ ç­å·¥èµ„',
+   attendance_deduction decimal comment 'è€ƒå‹¤åº”æ‰£',
+   salary_total         decimal not null comment 'è–ªèµ„æ€»å’Œ',
+   now_year_month       datetime not null comment 'å¹´æœˆ',
+   state                int not null comment 'çŠ¶æ€
             {
-            	0¶³½á 1¼¤»î
+            	0å†»ç»“ 1æ¿€æ´»
             }',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
-   check_status         int not null comment 'ÉóºË 0´ıÉóºË1ÒÑÉóºË',
-   note                 varchar(255) comment '±¸×¢',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
+   check_status         int not null comment 'å®¡æ ¸ 0å¾…å®¡æ ¸1å·²å®¡æ ¸',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -586,15 +586,16 @@ create table salary_detail
 /*==============================================================*/
 create table training_feedback
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   training_info_id     bigint comment 'ÅàÑµĞÅÏ¢±íID',
-   training_feedback    varchar(255) not null comment '·´À¡ÄÚÈİ',
-   state                int not null comment '×´Ì¬
+   id                   bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   employee_id			bigint comment 'å‘˜å·¥ä¿¡æ¯è¡¨ID',
+   training_info_id     bigint comment 'åŸ¹è®­ä¿¡æ¯è¡¨ID',
+   training_feedback    varchar(255) comment 'åé¦ˆå†…å®¹',
+   state                int not null comment 'çŠ¶æ€
             {
-            	0¶³½á 1¼¤»î
+            	0å†»ç»“ 1æ¿€æ´»
             }',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
-   note                 varchar(255) comment '±¸×¢',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -603,23 +604,23 @@ create table training_feedback
 /*==============================================================*/
 create table training_info
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   department_id        bigint comment '²¿ÃÅid',
-   employee_id          bigint comment 'Ô±¹¤id',
-   lecturer             varchar(10) not null comment '½²Ê¦',
-   time                 datetime not null comment 'ÅàÑµ¿ªÊ¼Ê±¼ä',
-   duration             varchar(20) not null comment 'ÅàÑµ¼Æ»®Ê±³¤',
-   purpose              varchar(255) not null comment 'ÅàÑµÄ¿µÄ',
-   number               int comment '¼Æ»®ÈËÊı',
-   cost                 decimal not null comment '¼Æ»®·ÑÓÃ',
-   place                varchar(255) not null comment 'ÅàÑµµØµã',
-   content              varchar(255) not null comment 'ÅàÑµÄÚÈİ',
-   state                int not null comment '×´Ì¬
+   id                   bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   department_id        bigint comment 'éƒ¨é—¨id',
+   employee_id          bigint comment 'å‘˜å·¥id',
+   lecturer             varchar(10) not null comment 'è®²å¸ˆ',
+   time                 datetime not null comment 'åŸ¹è®­å¼€å§‹æ—¶é—´',
+   duration             varchar(20) not null comment 'åŸ¹è®­è®¡åˆ’æ—¶é•¿',
+   purpose              varchar(255) not null comment 'åŸ¹è®­ç›®çš„',
+   number               int comment 'è®¡åˆ’äººæ•°',
+   cost                 decimal not null comment 'è®¡åˆ’è´¹ç”¨',
+   place                varchar(255) not null comment 'åŸ¹è®­åœ°ç‚¹',
+   content              varchar(255) not null comment 'åŸ¹è®­å†…å®¹',
+   state                int not null comment 'çŠ¶æ€
             {
-            	0¶³½á 1Î´½øĞĞ 2ÔÚ½øĞĞ
+            	0å†»ç»“ 1æœªè¿›è¡Œ 2åœ¨è¿›è¡Œ
             }',
-   createTime           datetime not null comment 'Â¼ÈëÊ±¼ä',
-   note                 varchar(255) comment '±¸×¢',
+   createTime           datetime not null comment 'å½•å…¥æ—¶é—´',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 
@@ -628,17 +629,17 @@ create table training_info
 /*==============================================================*/
 create table written_examination
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   resume_id            bigint not null comment '¼òÀúid',
-   exam_content_id      bigint not null comment '±ÊÊÔÄÚÈİid',
-   exam_start           datetime not null comment '±ÊÊÔÊ±¼ä',
-   note                 varchar(255) comment '±¸×¢',
-   exam_score           decimal not null comment '±ÊÊÔ³É¼¨',
-   exam_result          int not null comment '±ÊÊÔ½á¹û
+   id                   bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   resume_id            bigint not null comment 'ç®€å†id',
+   exam_content_id      bigint not null comment 'ç¬”è¯•å†…å®¹id',
+   exam_start           datetime not null comment 'ç¬”è¯•æ—¶é—´',
+   note                 varchar(255) comment 'å¤‡æ³¨',
+   exam_score           decimal not null comment 'ç¬”è¯•æˆç»©',
+   exam_result          int not null comment 'ç¬”è¯•ç»“æœ
             {
-            	1Ò»Ãæ 0ÂäÑ¡
+            	1ä¸€é¢ 0è½é€‰
             }',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
    exam_end             datetime not null,
    primary key (id)
 );
@@ -648,23 +649,23 @@ create table written_examination
 /*==============================================================*/
 create table written_examination_content
 (
-   id                   bigint not null auto_increment comment 'Î¨Ò»±êÊ¶£¬Ö÷¼ü×ÔÔö',
-   one_id               bigint not null comment 'ÌâÄ¿1id',
-   two_id               bigint not null comment 'ÌâÄ¿2id',
-   three_id             bigint not null comment 'ÌâÄ¿3id',
-   four_id              bigint not null comment 'ÌâÄ¿4id',
-   five_id              bigint not null comment 'ÌâÄ¿5id',
-   six_id               bigint not null comment 'ÌâÄ¿6id',
-   seven_id             bigint not null comment 'ÌâÄ¿7id',
-   eight_id             bigint not null comment 'ÌâÄ¿8id',
-   nine_id              bigint not null comment 'ÌâÄ¿9id',
-   ten_id               bigint not null comment 'ÌâÄ¿10id',
-   state                int not null comment '×´Ì¬
+   id                   bigint not null auto_increment comment 'å”¯ä¸€æ ‡è¯†ï¼Œä¸»é”®è‡ªå¢',
+   one_id               bigint not null comment 'é¢˜ç›®1id',
+   two_id               bigint not null comment 'é¢˜ç›®2id',
+   three_id             bigint not null comment 'é¢˜ç›®3id',
+   four_id              bigint not null comment 'é¢˜ç›®4id',
+   five_id              bigint not null comment 'é¢˜ç›®5id',
+   six_id               bigint not null comment 'é¢˜ç›®6id',
+   seven_id             bigint not null comment 'é¢˜ç›®7id',
+   eight_id             bigint not null comment 'é¢˜ç›®8id',
+   nine_id              bigint not null comment 'é¢˜ç›®9id',
+   ten_id               bigint not null comment 'é¢˜ç›®10id',
+   state                int not null comment 'çŠ¶æ€
             {
-            	0Òì³£ 1Õı³£
+            	0å¼‚å¸¸ 1æ­£å¸¸
             }',
-   create_time          datetime not null comment 'Â¼ÈëÊ±¼ä',
-   note                 varchar(255) comment '±¸×¢',
+   create_time          datetime not null comment 'å½•å…¥æ—¶é—´',
+   note                 varchar(255) comment 'å¤‡æ³¨',
    primary key (id)
 );
 

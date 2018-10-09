@@ -160,12 +160,20 @@ public class ITrainingService implements TrainingService {
 	public TrainingFeedback queryTrainingFeedbackById(Long id) {
 		return tfMapper.selectByPrimaryKey(id);
 	}
-
+	
 	@Override
-	public TrainingFeedback queryTrainingFeedbackByTrainingInfoId(Long id) {
+	public TrainingFeedback queryTrainingFeedbackByEmployeeId(Long employeeId) {
 		Example example = new Example(TrainingFeedback.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("trainingInfoId", id);
+		criteria.andEqualTo("employeeId", employeeId);
+		return tfMapper.selectOneByExample(example);
+	}
+
+	@Override
+	public TrainingFeedback queryTrainingFeedbackByTrainingInfoId(Long trainingInfoId) {
+		Example example = new Example(TrainingFeedback.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("trainingInfoId", trainingInfoId);
 		return tfMapper.selectOneByExample(example);
 	}
 

@@ -6,6 +6,7 @@
       WARNING - @mbg.generated
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="employee_id" jdbcType="BIGINT" property="employeeId" />
     <result column="training_info_id" jdbcType="BIGINT" property="trainingInfoId" />
     <result column="training_feedback" jdbcType="VARCHAR" property="trainingFeedback" />
     <result column="state" jdbcType="INTEGER" property="state" />

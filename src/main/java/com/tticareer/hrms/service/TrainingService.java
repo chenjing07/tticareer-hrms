@@ -151,12 +151,20 @@ public interface TrainingService {
 	public TrainingFeedback queryTrainingFeedbackById(Long id);
 	
 	/**
-	 * <p>Title: queryTrainingFeedbackByTrainingInfoId</p>
-	 * <p>Description: 根据培训信息id查询培训反馈信息</p>
-	 * @param id
+	 * <p>Title: queryTrainingFeedbackByEmployeeId</p>
+	 * <p>Description: 根据员工信息id查询培训反馈信息</p>
+	 * @param employeeId
 	 * @return
 	 */
-	public TrainingFeedback queryTrainingFeedbackByTrainingInfoId(Long id);
+	public TrainingFeedback queryTrainingFeedbackByEmployeeId(Long employeeId);
+	
+	/**
+	 * <p>Title: queryTrainingFeedbackByTrainingInfoId</p>
+	 * <p>Description: 根据培训信息id查询培训反馈信息</p>
+	 * @param trainingInfoId
+	 * @return
+	 */
+	public TrainingFeedback queryTrainingFeedbackByTrainingInfoId(Long trainingInfoId);
 	
 	/**
 	 * <p>Title: queryAllTrainingFeedback</p>

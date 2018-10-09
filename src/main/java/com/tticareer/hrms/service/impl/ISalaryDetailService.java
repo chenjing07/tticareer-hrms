@@ -38,6 +38,7 @@ public class ISalaryDetailService implements SalaryDetailService {
 	public void deleteSalaryDetail(Long id) {
 		SalaryDetail salaryDetail=salaryDetailMapper.selectByPrimaryKey(id);
 		salaryDetail.setState(0);
+		salaryDetail.setCheckStatus(0);
 		salaryDetailMapper.updateByPrimaryKey(salaryDetail);
 		}
 

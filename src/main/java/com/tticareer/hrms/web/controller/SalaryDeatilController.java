@@ -72,6 +72,7 @@ public class SalaryDeatilController {
 	 */
 	@PutMapping("/update")
 	public JSONResult updateSalaryDetail(SalaryDetail salaryDetail) {
+		salaryDetail.setCheckStatus(0);
 		salaryDetailService.updateSalaryDetail(salaryDetail);
 		SalaryDetail data=salaryDetailService.querySalaryDetailById(salaryDetail.getId());
 		return JSONResult.ok(data);		

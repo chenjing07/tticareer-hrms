@@ -66,7 +66,8 @@ public class RewardPunishmentController {
 	 * @param RewardPunishment
 	 */
 	@PutMapping("/update")
-	public JSONResult updateRewardPunishment(@RequestBody RewardPunishment rewardPunishment) {
+	public JSONResult updateRewardPunishment(RewardPunishment rewardPunishment) {
+		rewardPunishment.setCheckStatus(0);
 		rewardPunishmentService.updateRewardPunishment(rewardPunishment);
 		RewardPunishment data=rewardPunishmentService.queryRewardPunishmentById(rewardPunishment.getId());
 		return JSONResult.ok(data);

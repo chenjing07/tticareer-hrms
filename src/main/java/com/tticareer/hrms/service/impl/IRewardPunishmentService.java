@@ -39,6 +39,7 @@ public class IRewardPunishmentService implements RewardPunishmentService {
 	public void deleteRewardPunishment(Long id) {
 		RewardPunishment rewardPunishment=rewardPunishmentMapper.selectByPrimaryKey(id);
 		rewardPunishment.setState(0);
+		rewardPunishment.setCheckStatus(0);
         rewardPunishmentMapper.updateByPrimaryKey(rewardPunishment);
 	}
 

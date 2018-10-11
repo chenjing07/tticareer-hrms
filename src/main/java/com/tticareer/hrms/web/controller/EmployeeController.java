@@ -2,6 +2,7 @@ package com.tticareer.hrms.web.controller;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -93,9 +94,42 @@ public class EmployeeController {
 	 */
 	//@GetMapping("/realall")
 	@GetMapping
-	public JSONResult queryRealAllEmployee() {
+	/*public JSONResult queryRealAllEmployee() {
+		//System.out.println(userName);
 		return JSONResult.ok(employeeService.queryAllEmployee());
+	}*/
+	//public JSONResult getPage(EmployeeQueryDTO employeeQueryDTO /*, ExtjsPageRequest pageRequest*/) 
+	public JSONResult getPage(@Param("userName") String userName,@Param("realName") String realName) 
+	{
+		//System.out.println(userName + "********" +realName);
+		
+		if(userName!=null && realName==null) {
+			//System.out.println(userName);
+			return JSONResult.ok(employeeService.queryEmployeeListByUserName(userName));
+		}else if(userName==null && realName!=null) {
+			return JSONResult.ok(employeeService.queryEmployeeListByRealName(realName));
+		}else if(userName!=null && realName!=null) {
+			//System.out.println(userName + "&&&&&&" +realName);
+			return JSONResult.ok(employeeService.queryEmployeeListByUserNameAndRealName(userName,realName));
+		}
+		else {
+			return JSONResult.ok(employeeService.queryAllEmployee());
+		}
+		
 	}
+	
+	
+	/**
+	 * 快速查询
+	 * @return
+	 */
+	/*@GetMapping("/quickUserName")
+	public JSONResult queryRealAllEmployee(@Param("userName") String userName) {
+		//System.out.println(userName);
+		//System.out.println("--------------------");
+		return JSONResult.ok(employeeService.queryEmployeeListByUserName(userName));
+		//return JSONResult.ok("qweqwe");
+	}*/
 	
 	/**
 	 * 查询已被删除的员工
@@ -170,7 +204,7 @@ public class EmployeeController {
 	 */
 	@DeleteMapping(value="{id}")
 	public  @ResponseBody JSONResult deleteEmployee(@PathVariable("id") Long id) {
-		System.out.println("-----"+id);
+		//System.out.println("-----"+id);
 		employeeService.deleteEmployee(id);
 		if (employeeService.queryEmployeeById(id).getState()==0) {
 			return JSONResult.ok(1);

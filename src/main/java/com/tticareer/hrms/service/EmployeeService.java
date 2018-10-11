@@ -87,6 +87,8 @@ public interface EmployeeService {
 	 * @param employee
 	 * @return
 	 */
-	public List<Employee> queryEmployeeList(Employee employee);
+	public List<Employee> queryEmployeeListByUserName(String userName);
+	public List<Employee> queryEmployeeListByRealName(String realName);
+	public List<Employee> queryEmployeeListByUserNameAndRealName(String userName,String realName);
 	
 }

@@ -1,4 +1,3 @@
-
 Ext.define('Admin.view.employee.EmployeePanel', {
     extend: 'Ext.panel.Panel',
     xtype: 'employeePanel',
@@ -24,10 +23,10 @@ Ext.define('Admin.view.employee.EmployeePanel', {
             scrollable: false,
             columns: [
            {xtype: 'gridcolumn',width: 40,dataIndex: 'id',text: 'id',hidden:true},
-       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'userName',text: 'UserName',flex:1},
-       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'realName',text: 'Real Name',flex:1},
-       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'idCardNumber',text: 'id Card Number',flex:1},
-		   {xtype: 'datecolumn',cls: 'content-column', width: 160,dataIndex: 'createTime',text: 'Create Time',renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s')},
+       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'userName',text: '工号',flex:1},
+       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'realName',text: '真实姓名',flex:1},
+       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'idCardNumber',text: '身份证号',flex:1},
+		   {xtype: 'datecolumn',cls: 'content-column', width: 160,dataIndex: 'createTime',text: '创建时间',renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s')},
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: 'Actions',tooltip: 'edit ',
                     items: [
                         {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'openEditWindow'},
@@ -36,49 +35,42 @@ Ext.define('Admin.view.employee.EmployeePanel', {
                     ]
                 }
             ],
-            tbar: [{ 
+            tbar: [		{ 
 		                    xtype: 'combobox',
 		                    reference:'searchFieldName',
 		                    hideLabel: true, 
 		                    store:Ext.create("Ext.data.Store", {
 						    fields: ["name", "value"],
 						    data: [
-						      	{ name: '工号', value: 'employee_number' },
-								{ name: '创建时间', value: 'create_time' }
-						    ]
-						}),     
+						      	{ name: '工号', value: 'userName' },
+								{ name: '真实姓名', value: 'realName' }]
+							}),     
 		                    displayField: 'name',
 		                    valueField:'value',
-	           			 value:'employee_number',
-	           			 editable: false,
+							value:'userName',
+							editable: false,
 		                    queryMode: 'local',
 		                    triggerAction: 'all',
 		                    emptyText: 'Select a state...',
 		                    width: 135,
 		                    listeners:{
-						select: 'searchComboboxSelectChuang'
-				}
+								select: 'searchComboboxSelectChuang'
+							}
 		                },'-', {
 		                     xtype:'textfield',
 		                     reference:'searchFieldValue',
-            			 name:'employeePanelSearchField'
+							 name:'employeePanelSearchField'
 		                } ,'-', {
-		                     xtype:'datefield',            
-            			  reference:'searchDateFieldValue1',
-            		 	  hidden :true,
-            			  name:'employeePanelSearchDateField1',
-            			 format: 'Y/m/d H:i:s'
-		                },'-', {
-		                     xtype:'datefield',            
-            			  reference:'searchDateFieldValue2',
-            		 	  hidden :true,
-            			  name:'employeePanelSearchDateField2',
-            			  format: 'Y/m/d H:i:s'
+		                     xtype:'textfield',            
+							 reference:'searchFieldValue1',
+							 hidden :true,
+							 name:'employeePanelSearchField1',
+							 
 		                },'-',{
-				        text: 'Search',
-				        iconCls: 'fa fa-search',
-				        handler: 'quickSearch'
-				    },'-',{
+							text: 'Search',
+							iconCls: 'fa fa-search',
+							handler: 'quickSearch'
+						},'-',{
 				        text: 'Search More',
 				        iconCls: 'fa fa-search-plus',
 				        handler: 'openSearchWindow'	

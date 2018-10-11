@@ -24,17 +24,40 @@ Ext.define('Admin.view.employee.EmployeeViewController', {
 	quickSearch:function(button){
 		var searchField = this.lookupReference('searchFieldName').getValue();
 		var searchFieldValue = this.lookupReference('searchFieldValue').getValue();
-		var searchDateFieldValue1 = this.lookupReference('searchDateFieldValue1').getValue();
-		var searchDateFieldValue2 = this.lookupReference('searchDateFieldValue2').getValue();
+		var searchFieldValue1 = this.lookupReference('searchFieldValue1').getValue();
 		var store =	button.up('gridpanel').getStore();
 		//var store = Ext.getCmp('userGridPanel').getStore();// Ext.getCmp(）需要在OrderPanel设置id属性
-		Ext.apply(store.proxy.extraParams, {employee_number:"",createTimeStart:"",createTimeEnd:""});
+		Ext.apply(store.proxy.extraParams, {userName:"",realName:""});
 		
-		if(searchField==='employee_number'){
-			Ext.apply(store.proxy.extraParams, {employee_number:searchFieldValue});
+		if(searchField==='userName'){
+			Ext.apply(store.proxy.extraParams, {userName:searchFieldValue});
+			/*Ext.Ajax.request(
+			{
+				url:'/employee/quickUserName', 
+				method:'get', 
+				params:{userName:searchFieldValue}, 
+				success: function(response) {
+					//var data =response.responseText;
+					var jsonResult = Ext.util.JSON.decode(response.responseText);
+					//Ext.getCmp('data').setValue(jsonResult);
+					
+					var grid = button.up('gridpanel');
+					var store = grid.getStore();
+					//store.removeAll();
+					
+					//store.add(jsonResult);
+					
+						
+						//var json = Ext.util.JSON.decode(response.responseText);
+						//Ext.Msg.alert('操作成功', json.msg, function() {
+						//	grid.getStore().reload();
+						//});
+					
+				}
+			});*/
 		}
-		if(searchField==='create_time'){
-			Ext.apply(store.proxy.extraParams, {createTimeStart:Ext.util.Format.date(searchDateFieldValue1, 'Y/m/d H:i:s'),createTimeEnd:Ext.util.Format.date(searchDateFieldValue2, 'Y/m/d H:i:s')});
+		if(searchField==='realName'){
+			Ext.apply(store.proxy.extraParams, {realName:searchFieldValue1});
 		}
 		store.load({params:{start:0, limit:20, page:1}});
 	},
@@ -59,7 +82,7 @@ Ext.define('Admin.view.employee.EmployeeViewController', {
          				 	} else {
             					Ext.Msg.alert('操作失败', json.msg);
           					}
-       				 }});
+						}});
       			}
     		});
   	} else {
@@ -85,14 +108,12 @@ Ext.define('Admin.view.employee.EmployeeViewController', {
 	searchComboboxSelectChuang:function(combo,record,index){
 		//alert(record.data.name);
 		var searchField = this.lookupReference('searchFieldName').getValue();
-		if(searchField==='create_time'){
+		if(searchField==='realName'){
 			this.lookupReference('searchFieldValue').hide();
-			this.lookupReference('searchDateFieldValue1').show();
-			this.lookupReference('searchDateFieldValue2').show();
+			this.lookupReference('searchFieldValue1').show();
 		}else{
 			this.lookupReference('searchFieldValue').show();
-			this.lookupReference('searchDateFieldValue1').hide();
-			this.lookupReference('searchDateFieldValue2').hide();
+			this.lookupReference('searchFieldValue1').hide();
 		}	
 	},
 /*******************************提交按钮***********************************/
@@ -125,9 +146,12 @@ Ext.define('Admin.view.employee.EmployeeViewController', {
 		var win=button.up('window');
 		var form=win.down('form');
 		var values = form.getValues();
-		Ext.apply(store.proxy.extraParams, {employee_number:'',real_name:'',id_card_number:'', createTimeStart:'', createTimeEnd:''});
-		Ext.apply(store.proxy.extraParams, {employee_number:values.employee_number,real_name:values.real_name, id_card_number:values.id_card_number,createTimeStart:Ext.util.Format.date(values.createTimeStart, 'Y/m/d H:i:s'), createTimeEnd:Ext.util.Format.date(values.createTimeEnd, 'Y/m/d H:i:s')});
+		Ext.apply(store.proxy.extraParams, 
+			{userName:'',realName:''});
+		Ext.apply(store.proxy.extraParams, 
+			{userName:values.userName,realName:values.realName});
 		store.load({params:{start:0, limit:20, page:1}});
 		win.close();
 	}
 });
+

@@ -1,5 +1,6 @@
 package com.tticareer.hrms.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,5 +97,53 @@ public class IArchivesService implements ArchivesService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	
+	@Override
+	public List<Archives> queryArchivesListByEmployeeId(Long employeeId){
+		Example example = new Example(Archives.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andLike("employeeId", "%"+ employeeId+"%");
+		criteria.andNotEqualTo("state", 0);
+		//System.out.println(departmentMapper.selectByExample(example));
+		return archivesMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<Archives> queryArchivesListByCreateTime(Date createTimeStart, Date createTimeEnd){
+		Example example = new Example(Archives.class);
+		Example.Criteria criteria = example.createCriteria();
+
+		if(createTimeStart!=null) {
+			criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
+		}
+		if(createTimeEnd!=null) {
+			criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
+		}
+		criteria.andNotEqualTo("state", 0);
+		//System.out.println(departmentMapper.selectByExample(example));
+		return archivesMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<Archives> queryArchivesListByMore(Long employeeId,
+				Date createTimeStart, Date createTimeEnd){
+		
+		Example example = new Example(Archives.class);
+		Example.Criteria criteria = example.createCriteria();
+
+		if(employeeId!=null)
+			criteria.andLike("employeeId", "%"+ employeeId+"%");
+		if(createTimeStart!=null) {
+			criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
+		}
+		if(createTimeEnd!=null) {
+			criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
+		}
+		criteria.andNotEqualTo("state", 0);
+		return archivesMapper.selectByExample(example);
+	}
+	
 
 }

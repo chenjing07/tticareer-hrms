@@ -107,4 +107,36 @@ public class IPositionService implements PositionService {
 		return positionMapper.selectByExample(example);
 	}
 
+	
+	@Override
+	public List<Position> queryPositionListByPositionNumber(String positionNumber) {
+		Example example = new Example(Position.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andLike("positionNumber", "%"+ positionNumber+"%");
+		criteria.andNotEqualTo("state", 0);
+		//System.out.println(positionMapper.selectByExample(example));
+		return positionMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<Position> queryPositionListByPositionName(String positionName) {
+		Example example = new Example(Position.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andLike("positionName", "%"+ positionName+"%");
+		criteria.andNotEqualTo("state", 0);
+		//System.out.println(positionMapper.selectByExample(example));
+		return positionMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<Position> queryPositionListByPositionNumberAndPositionName(String positionNumber,String positionName){
+		Example example = new Example(Position.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andLike("positionNumber", "%"+ positionNumber+"%");
+		criteria.andLike("positionName", "%"+ positionName+"%");
+		criteria.andNotEqualTo("state", 0);
+		//System.out.println(positionMapper.selectByExample(example));
+		return positionMapper.selectByExample(example);
+	}
+	
 }

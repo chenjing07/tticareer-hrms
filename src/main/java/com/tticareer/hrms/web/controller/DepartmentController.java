@@ -56,8 +56,26 @@ public class DepartmentController {
 	 * @return
 	 */
 	@GetMapping
-	public JSONResult queryRealAllDepartment() {
+	/*public JSONResult queryRealAllDepartment() {
 		return JSONResult.ok(departmentService.queryAllDepartment());
+	}*/
+	public JSONResult getPage(@Param("departmentNumber") String departmentNumber,@Param("departmentName") String departmentName) 
+	{
+		//System.out.println(userName + "********" +realName);
+		
+		if(departmentNumber!=null && departmentName==null) {
+			//System.out.println(userName);
+			return JSONResult.ok(departmentService.queryDepartmentListByDepartmentNumber(departmentNumber));
+		}else if(departmentNumber==null && departmentName!=null) {
+			return JSONResult.ok(departmentService.queryDepartmentListByDepartmentName(departmentName));
+		}else if(departmentNumber!=null && departmentName!=null) {
+			//System.out.println(userName + "&&&&&&" +realName);
+			return JSONResult.ok(departmentService.queryDepartmentListByDepartmentNumberAndDepartmentName(departmentNumber,departmentName));
+		}
+		else {
+			return JSONResult.ok(departmentService.queryAllDepartment());
+		}
+		
 	}
 	
 	/**

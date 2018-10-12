@@ -99,15 +99,36 @@ public class IDepartmentService implements DepartmentService {
 		return departmentMapper.selectByExample(example);
 	}
 
-	/**
-	 * @author dong
-	 */
+	
+	
 	@Override
-	public Department queryDepartmentByDepartmentNumber(String departmentNumber) {
+	public List<Department> queryDepartmentListByDepartmentNumber(String departmentNumber) {
 		Example example = new Example(Department.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("departmentNumber", departmentNumber);
-		return departmentMapper.selectOneByExample(example);
+		criteria.andLike("departmentNumber", "%"+ departmentNumber+"%");
+		criteria.andNotEqualTo("state", 0);
+		//System.out.println(departmentMapper.selectByExample(example));
+		return departmentMapper.selectByExample(example);
 	}
 
+	@Override
+	public List<Department> queryDepartmentListByDepartmentName(String departmentName) {
+		Example example = new Example(Department.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andLike("departmentName", "%"+ departmentName+"%");
+		criteria.andNotEqualTo("state", 0);
+		//System.out.println(departmentMapper.selectByExample(example));
+		return departmentMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<Department> queryDepartmentListByDepartmentNumberAndDepartmentName(String departmentNumber,String departmentName){
+		Example example = new Example(Department.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andLike("departmentNumber", "%"+ departmentNumber+"%");
+		criteria.andLike("departmentName", "%"+ departmentName+"%");
+		criteria.andNotEqualTo("state", 0);
+		//System.out.println(departmentMapper.selectByExample(example));
+		return departmentMapper.selectByExample(example);
+	}
 }

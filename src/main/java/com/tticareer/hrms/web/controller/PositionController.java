@@ -56,9 +56,28 @@ public class PositionController {
 	 * @return
 	 */
 	@GetMapping
-	public JSONResult queryRealAllPosition() {
+	/*public JSONResult queryRealAllPosition() {
 		return JSONResult.ok(positionService.queryAllPosition());
+	}*/
+	public JSONResult getPage(@Param("positionNumber") String positionNumber,@Param("positionName") String positionName) 
+	{
+		//System.out.println(userName + "********" +realName);
+		
+		if(positionNumber!=null && positionName==null) {
+			//System.out.println(userName);
+			return JSONResult.ok(positionService.queryPositionListByPositionNumber(positionNumber));
+		}else if(positionNumber==null && positionName!=null) {
+			return JSONResult.ok(positionService.queryPositionListByPositionName(positionName));
+		}else if(positionNumber!=null && positionName!=null) {
+			//System.out.println(userName + "&&&&&&" +realName);
+			return JSONResult.ok(positionService.queryPositionListByPositionNumberAndPositionName(positionNumber,positionName));
+		}
+		else {
+			return JSONResult.ok(positionService.queryAllPosition());
+		}
+		
 	}
+	
 	
 	/**
 	 * 查询已被删除的岗位

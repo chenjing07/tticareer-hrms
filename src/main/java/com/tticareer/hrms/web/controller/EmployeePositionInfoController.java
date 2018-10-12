@@ -1,5 +1,10 @@
 package com.tticareer.hrms.web.controller;
 
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,8 +62,32 @@ public class EmployeePositionInfoController {
 	 * @return
 	 */
 	@GetMapping
-	public JSONResult queryRealAllEmployeePositionInfo() {
+	/*public JSONResult queryRealAllEmployeePositionInfo() {
 		return JSONResult.ok(employeePositionInfoService.queryAllEmployeePositionInfo());
+	}*/
+	public JSONResult getPage(@Param("employeeId") Long employeeId,
+			@Param("createTimeStart") String createTimeStart,@Param("createTimeEnd") String createTimeEnd) 
+	{
+		if (createTimeStart==null && createTimeEnd == null) {
+				return JSONResult.ok(employeePositionInfoService.queryAllEmployeePositionInfo());
+		}else{
+			 SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			 ParsePosition pos1 = new ParsePosition(0);
+			 ParsePosition pos2 = new ParsePosition(0);
+			 Date datecreateTimeStart = formatter.parse(createTimeStart, pos1);
+			 Date datecreateTimeEnd = formatter.parse(createTimeEnd, pos2);		
+			
+			if(employeeId!=null && datecreateTimeStart==null && datecreateTimeEnd==null) {
+				return JSONResult.ok(employeePositionInfoService.queryEmployeePositionInfoListByEmployeeId(employeeId));
+			}
+			else if( employeeId==null && (datecreateTimeStart!=null || datecreateTimeEnd!=null)) {	
+				return  JSONResult.ok(employeePositionInfoService.
+						queryEmployeePositionInfoListByCreateTime(datecreateTimeStart,datecreateTimeEnd));
+			}else {
+				return JSONResult.ok(employeePositionInfoService.
+						queryEmployeePositionInfoListByMore(employeeId,datecreateTimeStart,datecreateTimeEnd));
+			}
+		}
 	}
 	
 	/**

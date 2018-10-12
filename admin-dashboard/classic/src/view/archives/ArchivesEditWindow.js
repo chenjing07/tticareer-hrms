@@ -1,24 +1,23 @@
-Ext.define('Admin.view.employee.EmployeeEditWindow', {
+Ext.define('Admin.view.archives.ArchivesEditWindow', {
     extend: 'Ext.window.Window',
-    alias: 'widget.employeeEditWindow',
+    alias: 'widget.archivesEditWindow',
 
-    height: 300,
-    minHeight: 10,
+    height: 200,
+    minHeight: 100,
     minWidth: 300,
     width: 500,
     scrollable: true,
-    title: 'Employee Edit Window',
+    title: 'Archives Edit Window',
     closable: true,
     modal:true, //打开窗口后 不能操作其他模块
     
     layout: 'fit',
     
     items: [{
-		scrollable: true,
         xtype: 'form',
         layout: 'form',
         padding: '10px',
-        ariaLabel: 'Add Employee Information',
+        ariaLabel: 'Add Archives Information',
         items: [{
             xtype: 'textfield',
             fieldLabel: 'id',
@@ -27,8 +26,8 @@ Ext.define('Admin.view.employee.EmployeeEditWindow', {
             readOnly: true
         }, {
             xtype: 'textfield',
-            fieldLabel: 'UserName',
-            name:'userName'
+            fieldLabel: 'Archives Number',
+            name:'archives_number'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Password',
@@ -37,15 +36,15 @@ Ext.define('Admin.view.employee.EmployeeEditWindow', {
         {
             xtype: 'textfield',
             fieldLabel: 'Real Name',
-            name:'realName'
+            name:'real_name'
         }, {
             xtype: 'textfield',
             fieldLabel: 'id Card Number',
-            name:'idCardNumber'
+            name:'id_card_number'
         }, {
             xtype: 'textfield',
             fieldLabel: 'id Card Picture',
-            name:'idCardPicture'
+            name:'id_card_picture'
         },
         {
             xtype: 'datefield',
@@ -64,15 +63,15 @@ Ext.define('Admin.view.employee.EmployeeEditWindow', {
         {
             xtype: 'textfield',
             fieldLabel: 'Native Place',
-            name:'nativePlace'
+            name:'native_place'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Registered Address',
-            name:'registeredAddress'
+            name:'registered_address'
         }, {
             xtype: 'textfield',
             fieldLabel: 'House Address',
-            name:'houseAddress'
+            name:'house_address'
         },
         {
             xtype: 'textfield',
@@ -81,7 +80,7 @@ Ext.define('Admin.view.employee.EmployeeEditWindow', {
         }, {
             xtype: 'textfield',
             fieldLabel: 'Academic Degree',
-            name:'academicDegree'
+            name:'academic_degree'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Major',
@@ -94,39 +93,39 @@ Ext.define('Admin.view.employee.EmployeeEditWindow', {
         }, {
             xtype: 'textfield',
             fieldLabel: 'Graduated School',
-            name:'graduatedSchool'
+            name:'graduated_school'
         },
         {
             xtype: 'datefield',
             fieldLabel: 'Graduated Time',
-            name:'graduatedTime',
+            name:'graduated_time',
             format: 'Y/m/d H:i:s'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Political Status',
-            name:'politicalStatus'
+            name:'political_status'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Marital Status',
-            name:'maritalStatus'
+            name:'marital_status'
         },
         {
             xtype: 'textfield',
             fieldLabel: 'Recruitment Source',
-            name:'recruitmentSource'
+            name:'recruitment_source'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Account Bank',
-            name:'accountBank'
+            name:'account_bank'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Account Number',
-            name:'accountNumber'
+            name:'account_number'
         },
         {
             xtype: 'textfield',
             fieldLabel: 'Phone Number',
-            name:'phoneNumber'
+            name:'phone_number'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Email',
@@ -147,16 +146,20 @@ Ext.define('Admin.view.employee.EmployeeEditWindow', {
         }, {
             xtype: 'textfield',
             fieldLabel: 'Emergency Contact Name',
-            name:'emergencyContactName'
+            name:'emergency_contact_name'
         },
         {
             xtype: 'textfield',
             fieldLabel: 'Emergency Contact Relationship',
-            name:'emergencyContactRelationship'
+            name:'emergency_contact_relationship'
         }, {
             xtype: 'textfield',
-            fieldLabel: 'Emergency Contact NumbeR',
-            name:'emergencyContactNumber'
+            fieldLabel: 'Emergency Contact Numbe',
+            name:'emergency_contact_numbe'
+        }, {
+            xtype: 'textfield',
+            fieldLabel: 'Emergency Contact Name',
+            name:'emergency_contact_name'
         },
         {
             xtype: 'textfield',
@@ -165,22 +168,22 @@ Ext.define('Admin.view.employee.EmployeeEditWindow', {
         }, {
             xtype: 'datefield',
             fieldLabel: 'Work Start',
-            name:'workStart',
+            name:'work_start',
             format: 'Y/m/d H:i:s'
         }, {
             xtype: 'datefield',
             fieldLabel: 'Work End',
-            name:'workEnd',
+            name:'work_end',
             format: 'Y/m/d H:i:s'
         }, {
             xtype: 'datefield',
             fieldLabel: 'Practice Start',
-            name:'practiceStart',
+            name:'practice_start',
             format: 'Y/m/d H:i:s'
         }, {
             xtype: 'datefield',
             fieldLabel: 'Practice End',
-            name:'practiceEnd',
+            name:'practice_end',
             format: 'Y/m/d H:i:s'
         }, {
             xtype: 'textfield',
@@ -189,17 +192,18 @@ Ext.define('Admin.view.employee.EmployeeEditWindow', {
         }, {
             xtype: 'datefield',
             fieldLabel: 'Create Time',
-            name:'createTime',
+            name:'create_time',
             format: 'Y/m/d H:i:s'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Check Satus',
-            name:'checkSatus'
+            name:'check_satus'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Note',
             name:'note'
-        }]
+        }
+	]
     }],
     buttons:  ['->',{
         xtype: 'button',

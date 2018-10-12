@@ -6,6 +6,7 @@ import com.tticareer.hrms.pojo.Department;
 
 
 
+
 /**
 * @author cfy
 * @version 创建时间：2018年9月26日 上午9:00:00
@@ -69,9 +70,7 @@ public interface DepartmentService {
 	 */
 	public List<Department> queryDepartmentList(Department department);
 	
-	
-	/**
-	 * @author dong
-	 */
-	public Department queryDepartmentByDepartmentNumber(String departmentNumber);
+	public List<Department> queryDepartmentListByDepartmentNumber(String departmentNumber);
+	public List<Department> queryDepartmentListByDepartmentName(String departmentName);
+	public List<Department> queryDepartmentListByDepartmentNumberAndDepartmentName(String departmentNumber,String departmentName);
 }

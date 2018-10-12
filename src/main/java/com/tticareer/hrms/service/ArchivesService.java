@@ -1,5 +1,6 @@
 package com.tticareer.hrms.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.tticareer.hrms.pojo.Archives;
@@ -68,4 +69,16 @@ public interface ArchivesService {
 	 * @return
 	 */
 	public List<Archives> queryArchivesList(Archives archives);
+	
+	
+	
+	
+
+
+	public List<Archives> queryArchivesListByEmployeeId(Long employeeId);
+	public List<Archives> queryArchivesListByCreateTime(Date createTimeStart, Date createTimeEnd);
+	public List<Archives> queryArchivesListByMore(Long employeeId,Date createTimeStart, Date createTimeEnd);
+	
+	
+	
 }

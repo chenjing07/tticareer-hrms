@@ -1,7 +1,13 @@
 package com.tticareer.hrms.web.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import java.text.ParsePosition;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +36,8 @@ public class LaborContractController {
 	LaborContractService laborContractService;
 	
 	
+	
+	
 	/**
 	 * 返回id 录入成功
 	 * msg 未知错误，数据未录入
@@ -55,9 +63,48 @@ public class LaborContractController {
 	 * @return
 	 */
 	@GetMapping
-	public JSONResult queryRealAllLaborContract() {
+	/*public JSONResult queryRealAllLaborContract() {
 		return JSONResult.ok(laborContractService.queryAllLaborContract());
+	}*/
+	public JSONResult getPage(@Param("employerName") String employerName,@Param("employeeId") Long employeeId,
+			@Param("createTimeStart") String createTimeStart,@Param("createTimeEnd") String createTimeEnd) 
+	{
+		//System.out.println("---------------------------------------------------");
+		//System.out.println(employerName + "******" +employeeId);
+		//System.out.println(createTimeStart + "******" +createTimeEnd);
+		
+		if (createTimeStart==null && createTimeEnd == null) {
+				return JSONResult.ok(laborContractService.queryAllLaborContract());
+		}else{
+			 SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			 ParsePosition pos1 = new ParsePosition(0);
+			 ParsePosition pos2 = new ParsePosition(0);
+			 Date datecreateTimeStart = formatter.parse(createTimeStart, pos1);
+			 Date datecreateTimeEnd = formatter.parse(createTimeEnd, pos2);		
+	
+			//System.out.println(datecreateTimeStart + "******" +datecreateTimeEnd);
+			//System.out.println("---------------------------------------------------");
+		 
+			if(employerName!=null && employeeId==null && datecreateTimeStart==null && datecreateTimeEnd==null) {
+				return JSONResult.ok(laborContractService.queryLaborContractListByEmployerName(employerName));
+			}
+			else if(employerName==null && employeeId!=null && datecreateTimeStart==null && datecreateTimeEnd==null) {
+				return JSONResult.ok(laborContractService.queryLaborContractListByEmployeeId(employeeId));
+			}
+			else if(employerName==null && employeeId==null && (datecreateTimeStart!=null || datecreateTimeEnd!=null)) {	
+				return  JSONResult.ok(laborContractService.
+						queryLaborContractListByCreateTime(datecreateTimeStart,datecreateTimeEnd));
+			}else {
+				return JSONResult.ok(laborContractService.
+						queryLaborContractListByMore(employerName,employeeId,datecreateTimeStart,datecreateTimeEnd));
+			}
+	
+		 
+		}
+	
+	
 	}
+	
 	
 	/**
 	 * 查询已被删除的合同

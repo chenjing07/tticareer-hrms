@@ -60,6 +60,8 @@ public class ITrainingService implements TrainingService {
 	public TrainingInfo queryTrainingInfo(TrainingInfo ti) {
 		Example example = new Example(TrainingInfo.class);
 		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("employeeId", ti.getEmployeeId());
+		criteria.andEqualTo("departmentId", ti.getDepartmentId());
 		criteria.andEqualTo("lecturer", ti.getLecturer());
 		criteria.andEqualTo("time", ti.getTime());
 		criteria.andEqualTo("duration", ti.getDuration());
@@ -68,6 +70,7 @@ public class ITrainingService implements TrainingService {
 		criteria.andEqualTo("cost", ti.getCost());
 		criteria.andLike("place", "%" + ti.getPlace() + "%");
 		criteria.andLike("content", "%" + ti.getContent() + "%");
+		criteria.andLike("note", "%" + ti.getNote() + "%");
 		return tiMapper.selectOneByExample(example);
 	}
 
@@ -162,19 +165,28 @@ public class ITrainingService implements TrainingService {
 	}
 	
 	@Override
-	public TrainingFeedback queryTrainingFeedbackByEmployeeId(Long employeeId) {
+	public TrainingFeedback queryTrainingFeedbackByEmployeeIdAndTrainingInfoId(Long employeeId, Long trainingInfoId) {
 		Example example = new Example(TrainingFeedback.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("employeeId", employeeId);
+		criteria.andEqualTo("trainingInfoId", trainingInfoId);
 		return tfMapper.selectOneByExample(example);
+	}
+	
+	@Override
+	public List<TrainingFeedback> queryTrainingFeedbackByEmployeeId(Long employeeId) {
+		Example example = new Example(TrainingFeedback.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("employeeId", employeeId);
+		return tfMapper.selectByExample(example);
 	}
 
 	@Override
-	public TrainingFeedback queryTrainingFeedbackByTrainingInfoId(Long trainingInfoId) {
+	public List<TrainingFeedback> queryTrainingFeedbackByTrainingInfoId(Long trainingInfoId) {
 		Example example = new Example(TrainingFeedback.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("trainingInfoId", trainingInfoId);
-		return tfMapper.selectOneByExample(example);
+		return tfMapper.selectByExample(example);
 	}
 
 	@Override

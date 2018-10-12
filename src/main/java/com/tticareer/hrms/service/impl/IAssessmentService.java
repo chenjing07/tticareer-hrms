@@ -60,7 +60,7 @@ public class IAssessmentService implements AssessmentService {
 			asMapper.updateByPrimaryKey(as);
 		}
 	}
-
+	
 	@Override
 	public AssessmentStandard queryAssessmentStandardById(Long id) {
 		return asMapper.selectByPrimaryKey(id);
@@ -80,10 +80,10 @@ public class IAssessmentService implements AssessmentService {
 	}
 
 	@Override
-	public List<AssessmentStandard> queryAssessmentStandardState(AssessmentStandard as) {
+	public List<AssessmentStandard> queryAssessmentStandardDelete() {
 		Example example = new Example(AssessmentStandard.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("state", as.getState());
+		criteria.andEqualTo("state", 0);
 		return asMapper.selectByExample(example);
 	}
 	
@@ -96,10 +96,10 @@ public class IAssessmentService implements AssessmentService {
 	}
 
 	@Override
-	public List<AssessmentStandard> queryAssessmentStandardCheckStatus(AssessmentStandard as) {
+	public List<AssessmentStandard> queryAssessmentStandardCheckStatus() {
 		Example example = new Example(AssessmentStandard.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("checkStatus", as.getCheckStatus());
+		criteria.andEqualTo("checkStatus", 1);
 		return asMapper.selectByExample(example);
 	}
 	
@@ -107,14 +107,55 @@ public class IAssessmentService implements AssessmentService {
 	public List<AssessmentStandard> queryAssessmentStandardAudited() {
 		Example example = new Example(AssessmentStandard.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andNotEqualTo("checkStatus", 0);
+		criteria.andEqualTo("checkStatus", 0);
+		return asMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<AssessmentStandard> queryAssessmentStandardWhoIsNotDeleteAndCheckStatus() {
+		Example example = new Example(AssessmentStandard.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("checkStatus", 1);
+		criteria.andNotEqualTo("state", 0);
+		return asMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<AssessmentStandard> queryAssessmentStandardWhoIsNotDeleteAndAudited() {
+		Example example = new Example(AssessmentStandard.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("checkStatus", 0);
+		criteria.andNotEqualTo("state", 0);
 		return asMapper.selectByExample(example);
 	}
 
 	@Override
-	public List<AssessmentStandard> queryAssessmentStandardList(AssessmentStandard as) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<AssessmentStandard> queryAssessmentStandardListA(String positionName) {
+		Example example = new Example(AssessmentStandard.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andLike("positionName", "%" + positionName + "%");
+		criteria.andEqualTo("state", 1);
+		criteria.andEqualTo("checkStatus", 1);
+		return asMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<AssessmentStandard> queryAssessmentStandardListB(String positionName) {
+		Example example = new Example(AssessmentStandard.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andLike("positionName", "%" + positionName + "%");
+		criteria.andEqualTo("checkStatus", 1);
+		return asMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<AssessmentStandard> queryAssessmentStandardListC(String positionName) {
+		Example example = new Example(AssessmentStandard.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andLike("positionName", "%" + positionName + "%");
+		criteria.andEqualTo("state", 1);
+		criteria.andEqualTo("checkStatus", 0);
+		return asMapper.selectByExample(example);
 	}
 
 	@Override
@@ -162,10 +203,10 @@ public class IAssessmentService implements AssessmentService {
 	}
 
 	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentState(EmployeeAssessment ea) {
+	public List<EmployeeAssessment> queryEmployeeAssessmentDelete() {
 		Example example = new Example(EmployeeAssessment.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("state", ea.getState());
+		criteria.andEqualTo("state", 0);
 		return eaMapper.selectByExample(example);
 	}
 	
@@ -266,10 +307,10 @@ public class IAssessmentService implements AssessmentService {
 	}
 
 	@Override
-	public List<EmployeeAssessment> queryEmployeeAssessmentCheckStatus(EmployeeAssessment ea) {
+	public List<EmployeeAssessment> queryEmployeeAssessmentCheckStatus() {
 		Example example = new Example(EmployeeAssessment.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("checkStatus", ea.getCheckStatus());
+		criteria.andEqualTo("checkStatus", 1);
 		return eaMapper.selectByExample(example);
 	}
 	
@@ -277,7 +318,25 @@ public class IAssessmentService implements AssessmentService {
 	public List<EmployeeAssessment> queryEmployeeAssessmentAudited() {
 		Example example = new Example(EmployeeAssessment.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andNotEqualTo("checkStatus", 0);
+		criteria.andEqualTo("checkStatus", 0);
+		return eaMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<EmployeeAssessment> queryEmployeeAssessmentWhoIsNotDeleteAndCheckStatus() {
+		Example example = new Example(EmployeeAssessment.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("state", 1);
+		criteria.andEqualTo("checkStatus", 1);
+		return eaMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<EmployeeAssessment> queryEmployeeAssessmentWhoIsNotDeleteAndAudited() {
+		Example example = new Example(EmployeeAssessment.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("state", 1);
+		criteria.andEqualTo("checkStatus", 0);
 		return eaMapper.selectByExample(example);
 	}
 
@@ -315,7 +374,17 @@ public class IAssessmentService implements AssessmentService {
 			gtMapper.updateByPrimaryKey(gt);
 		}
 	}
-
+	
+	@Override
+	public GreatTeam queryGreatTeam(GreatTeam gt) {
+		Example example = new Example(GreatTeam.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("departmentId", gt.getDepartmentId());
+		criteria.andEqualTo("commend", gt.getCommend());
+		criteria.andEqualTo("reward", gt.getReward());
+		return gtMapper.selectOneByExample(example);
+	}
+	
 	@Override
 	public GreatTeam queryGreatTeamById(Long id) {
 		return gtMapper.selectByPrimaryKey(id);
@@ -335,10 +404,10 @@ public class IAssessmentService implements AssessmentService {
 	}
 
 	@Override
-	public List<GreatTeam> queryGreatTeamState(GreatTeam gt) {
+	public List<GreatTeam> queryGreatTeamDelete() {
 		Example example = new Example(GreatTeam.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("state", gt.getState());
+		criteria.andEqualTo("state", 0);
 		return gtMapper.selectByExample(example);
 	}
 	
@@ -351,10 +420,10 @@ public class IAssessmentService implements AssessmentService {
 	}
 
 	@Override
-	public List<GreatTeam> queryGreatTeamCheckStatus(GreatTeam gt) {
+	public List<GreatTeam> queryGreatTeamCheckStatus() {
 		Example example = new Example(GreatTeam.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("checkStatus", gt.getCheckStatus());
+		criteria.andEqualTo("checkStatus", 1);
 		return gtMapper.selectByExample(example);
 	}
 	
@@ -362,7 +431,25 @@ public class IAssessmentService implements AssessmentService {
 	public List<GreatTeam> queryGreatTeamAudited() {
 		Example example = new Example(GreatTeam.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andNotEqualTo("checkStatus", 0);
+		criteria.andEqualTo("checkStatus", 0);
+		return gtMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<GreatTeam> queryGreatTeamWhoIsNotDeleteAndCheckStatus() {
+		Example example = new Example(GreatTeam.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("checkStatus", 1);
+		criteria.andEqualTo("state", 1);
+		return gtMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<GreatTeam> queryGreatTeamWhoIsNotDeleteAndAudited() {
+		Example example = new Example(GreatTeam.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("checkStatus", 0);
+		criteria.andEqualTo("state", 1);
 		return gtMapper.selectByExample(example);
 	}
 

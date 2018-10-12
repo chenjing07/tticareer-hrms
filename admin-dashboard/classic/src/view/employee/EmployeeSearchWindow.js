@@ -26,24 +26,12 @@ Ext.define('Admin.view.employee.EmployeeSearchWindow', {
             readOnly: true
         },{
             xtype: 'textfield',
-            fieldLabel: 'Employee Number',
-            name:'employee_number',
-            hidden: true,
-            readOnly: true
+            fieldLabel: 'UserName',
+            name:'userName'
         }, {
             xtype: 'textfield',
             fieldLabel: 'Real Name',
-            name:'real_name'
-        }, {
-            xtype: 'datefield',
-            fieldLabel: 'From',
-            name:'createTimeStart',
-            format: 'Y/m/d H:i:s'
-        }, {
-            xtype: 'datefield',
-            fieldLabel: 'To',
-            name:'createTimeEnd',
-            format: 'Y/m/d H:i:s'
+            name:'realName'
         }
 	]
     }],
@@ -59,3 +47,4 @@ Ext.define('Admin.view.employee.EmployeeSearchWindow', {
         }
     },'-\x3e']
 });
+

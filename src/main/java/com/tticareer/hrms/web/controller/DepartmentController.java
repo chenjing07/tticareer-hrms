@@ -4,14 +4,17 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tticareer.hrms.pojo.Department;
 import com.tticareer.hrms.service.DepartmentService;
+import com.tticareer.hrms.util.BeanUtils;
 import com.tticareer.hrms.util.JSONResult;
 
 /**
@@ -37,21 +40,22 @@ public class DepartmentController {
 	@PostMapping("/save")
 	public JSONResult saveDepartment(@RequestBody Department department) {
 		departmentService.saveDepartment(department);
-		Department emp = departmentService.queryDepartmentById(department.getId());
+		/*Department emp = departmentService.queryDepartmentById(department.getId());
 		if (emp!=null) {
 			String data = emp.getId()+"";
 			return JSONResult.ok(data);
 		} else {
 			String msg = "未知错误，数据未录入";
 			return JSONResult.errorMsg(msg);
-		}
+		}*/
+		return JSONResult.ok();
 	}
 	
 	/**
 	 * 查询所有部门信息
 	 * @return
 	 */
-	@GetMapping("/realall")
+	@GetMapping
 	public JSONResult queryRealAllDepartment() {
 		return JSONResult.ok(departmentService.queryAllDepartment());
 	}
@@ -81,10 +85,16 @@ public class DepartmentController {
 	 * @param department
 	 * @return
 	 */
-	@PutMapping
-	public JSONResult updateDepartment(Department department) {
-		departmentService.updateDepartment(department);
-		Department data = departmentService.queryDepartmentById(department.getId());
+	@PutMapping(value="{id}")
+	public @ResponseBody JSONResult updateDepartment(@PathVariable("id") Long id,@RequestBody Department department) {
+		Department entity = departmentService.queryDepartmentById(id);
+		if(entity!=null) {
+			BeanUtils.copyProperties(department, entity);//使用自定义的BeanUtils
+			//leaveService.save(entity);
+			departmentService.updateDepartment(entity);
+		}
+		
+		Department data = departmentService.queryDepartmentById(id);
 		return JSONResult.ok(data);
 	}
 	
@@ -95,8 +105,8 @@ public class DepartmentController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping
-	public JSONResult deleteDepartment(@Param("id") Long id) {
+	@DeleteMapping(value="{id}")
+	public @ResponseBody JSONResult deleteDepartment(@PathVariable("id") Long id) {
 		departmentService.deleteDepartment(id);
 		if (departmentService.queryDepartmentById(id).getState()==0) {
 			return JSONResult.ok(1);

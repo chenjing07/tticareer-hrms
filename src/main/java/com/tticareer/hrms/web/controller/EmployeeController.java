@@ -2,16 +2,20 @@ package com.tticareer.hrms.web.controller;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import com.tticareer.hrms.pojo.Employee;
 import com.tticareer.hrms.service.EmployeeService;
+import com.tticareer.hrms.util.BeanUtils;
 import com.tticareer.hrms.util.JSONResult;
 
 /**
@@ -87,10 +91,44 @@ public class EmployeeController {
 	 * 查询所有员工信息
 	 * @return
 	 */
-	@GetMapping("/realall")
-	public JSONResult queryRealAllEmployee() {
+	//@GetMapping("/realall")
+	@GetMapping
+	/*public JSONResult queryRealAllEmployee() {
+		//System.out.println(userName);
 		return JSONResult.ok(employeeService.queryAllEmployee());
+	}*/
+	//public JSONResult getPage(EmployeeQueryDTO employeeQueryDTO /*, ExtjsPageRequest pageRequest*/) 
+	public JSONResult getPage(@Param("userName") String userName,@Param("realName") String realName) 
+	{
+		//System.out.println(userName + "********" +realName);
+		
+		if(userName!=null && realName==null) {
+			//System.out.println(userName);
+			return JSONResult.ok(employeeService.queryEmployeeListByUserName(userName));
+		}else if(userName==null && realName!=null) {
+			return JSONResult.ok(employeeService.queryEmployeeListByRealName(realName));
+		}else if(userName!=null && realName!=null) {
+			//System.out.println(userName + "&&&&&&" +realName);
+			return JSONResult.ok(employeeService.queryEmployeeListByUserNameAndRealName(userName,realName));
+		}
+		else {
+			return JSONResult.ok(employeeService.queryAllEmployee());
+		}
+		
 	}
+	
+	
+	/**
+	 * 快速查询
+	 * @return
+	 */
+	/*@GetMapping("/quickUserName")
+	public JSONResult queryRealAllEmployee(@Param("userName") String userName) {
+		//System.out.println(userName);
+		//System.out.println("--------------------");
+		return JSONResult.ok(employeeService.queryEmployeeListByUserName(userName));
+		//return JSONResult.ok("qweqwe");
+	}*/
 	
 	/**
 	 * 查询已被删除的员工
@@ -142,10 +180,17 @@ public class EmployeeController {
 	 * @param employee
 	 * @return
 	 */
-	@PutMapping
-	public JSONResult updateEmployee(Employee employee) {
-		employeeService.updateEmployee(employee);
-		Employee data = employeeService.queryEmployeeById(employee.getId());
+	@PutMapping(value="{id}")
+	public @ResponseBody JSONResult updateEmployee(@PathVariable("id") Long id,@RequestBody Employee employee) {
+		Employee entity = employeeService.queryEmployeeById(id);
+		//System.out.println(entity.getRealName());
+		if(entity!=null) {
+			BeanUtils.copyProperties(employee, entity);//使用自定义的BeanUtils
+			//employeeService.save(entity);
+			employeeService.updateEmployee(entity);
+		}
+		
+		Employee data = employeeService.queryEmployeeById(id);
 		return JSONResult.ok(data);
 	}
 	
@@ -156,8 +201,9 @@ public class EmployeeController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping
-	public JSONResult deleteEmployee(@Param("id") Long id) {
+	@DeleteMapping(value="{id}")
+	public  @ResponseBody JSONResult deleteEmployee(@PathVariable("id") Long id) {
+		//System.out.println("-----"+id);
 		employeeService.deleteEmployee(id);
 		if (employeeService.queryEmployeeById(id).getState()==0) {
 			return JSONResult.ok(1);

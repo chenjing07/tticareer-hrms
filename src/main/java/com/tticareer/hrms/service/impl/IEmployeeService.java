@@ -1,5 +1,7 @@
 package com.tticareer.hrms.service.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +46,9 @@ public class IEmployeeService implements EmployeeService {
 	@Override
 	public void deleteEmployee(Long id) {
 		Employee emp = employeeMapper.selectByPrimaryKey(id);
-		System.out.println(emp.getState());
+		//System.out.println(emp.getState());
 		emp.setState(0);
-		System.out.println(emp.getState());
+		//System.out.println(emp.getState());
 		employeeMapper.updateByPrimaryKey(emp);
 	}
 
@@ -144,4 +146,21 @@ public class IEmployeeService implements EmployeeService {
 		//System.out.println(employeeMapper.selectByExample(example));
 		return employeeMapper.selectByExample(example);
 	}
+	
+	@Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED)
+	@Override
+	public void deleteAll(Long[] ids) {
+		
+		for(int i=0;i<ids.length;i++) {
+			Employee emp = employeeMapper.selectByPrimaryKey(ids[i]);
+			System.out.println(ids[i]);
+			emp.setState(0);
+			//System.out.println(emp.getState());
+			employeeMapper.updateByPrimaryKey(emp);
+			
+		}
+		
+		
+	}
+	
 }

@@ -166,4 +166,20 @@ public class IEmployeePositionInfoService implements EmployeePositionInfoService
 	}
 	
 
+	@Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED)
+	@Override
+	public void deleteAll(Long[] ids) {
+		
+		for(int i=0;i<ids.length;i++) {
+			EmployeePositionInfo emp = employeePositionInfoMapper.selectByPrimaryKey(ids[i]);
+			System.out.println(ids[i]);
+			emp.setState(0);
+			//System.out.println(emp.getState());
+			employeePositionInfoMapper.updateByPrimaryKey(emp);
+			
+		}
+		
+		
+	}
+	
 }

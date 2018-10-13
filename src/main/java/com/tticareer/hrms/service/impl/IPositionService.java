@@ -139,4 +139,21 @@ public class IPositionService implements PositionService {
 		return positionMapper.selectByExample(example);
 	}
 	
+	
+	@Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED)
+	@Override
+	public void deleteAll(Long[] ids) {
+		
+		for(int i=0;i<ids.length;i++) {
+			Position emp = positionMapper.selectByPrimaryKey(ids[i]);
+			System.out.println(ids[i]);
+			emp.setState(0);
+			//System.out.println(emp.getState());
+			positionMapper.updateByPrimaryKey(emp);
+			
+		}
+		
+		
+	}
+	
 }

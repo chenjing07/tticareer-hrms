@@ -52,7 +52,7 @@ Ext.define('Admin.view.position.PositionViewController', {
         				});
         				Ext.Ajax.request({url:'/position/deletes', method:'post', params:{ids:selectIds}, success:function(response, options) {
           					var json = Ext.util.JSON.decode(response.responseText);
-          					if (json.success) {
+          					if (json.data) {
             					Ext.Msg.alert('操作成功', json.msg, function() {
               						grid.getStore().reload();
             					});

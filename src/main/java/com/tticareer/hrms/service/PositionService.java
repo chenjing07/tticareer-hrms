@@ -80,4 +80,6 @@ public interface PositionService {
 	public List<Position> queryPositionListByPositionName(String positionName);
 	public List<Position> queryPositionListByPositionNumberAndPositionName(String positionNumber,String positionName);
 	
+	
+	public void deleteAll(Long[] ids);
 }

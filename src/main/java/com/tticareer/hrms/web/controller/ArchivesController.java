@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -140,6 +141,19 @@ public class ArchivesController {
 		if (archivesService.queryArchivesById(id).getState()==0) {
 			return JSONResult.ok(1);
 		} else {
+			return JSONResult.ok(0);
+		}
+	}
+	
+	@PostMapping("/deletes")
+	public JSONResult deleteRows(@RequestParam(name="ids") Long[] ids) 
+	{
+		try {
+			if(ids!=null) {
+				archivesService.deleteAll(ids);
+			}
+			return JSONResult.ok(1);
+		} catch (Exception e) {
 			return JSONResult.ok(0);
 		}
 	}

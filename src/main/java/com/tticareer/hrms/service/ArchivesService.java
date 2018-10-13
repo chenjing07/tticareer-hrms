@@ -80,5 +80,6 @@ public interface ArchivesService {
 	public List<Archives> queryArchivesListByMore(Long employeeId,Date createTimeStart, Date createTimeEnd);
 	
 	
-	
+
+	public void deleteAll(Long[] ids);
 }

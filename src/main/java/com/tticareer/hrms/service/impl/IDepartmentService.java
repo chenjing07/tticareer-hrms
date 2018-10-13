@@ -131,4 +131,22 @@ public class IDepartmentService implements DepartmentService {
 		//System.out.println(departmentMapper.selectByExample(example));
 		return departmentMapper.selectByExample(example);
 	}
+	
+	
+	
+	@Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED)
+	@Override
+	public void deleteAll(Long[] ids) {
+		
+		for(int i=0;i<ids.length;i++) {
+			Department emp = departmentMapper.selectByPrimaryKey(ids[i]);
+			System.out.println(ids[i]);
+			emp.setState(0);
+			//System.out.println(emp.getState());
+			departmentMapper.updateByPrimaryKey(emp);
+			
+		}
+		
+		
+	}
 }

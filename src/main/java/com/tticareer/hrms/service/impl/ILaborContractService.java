@@ -162,5 +162,20 @@ public class ILaborContractService implements LaborContractService {
 	}
 	
 
+	@Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED)
+	@Override
+	public void deleteAll(Long[] ids) {
+		
+		for(int i=0;i<ids.length;i++) {
+			LaborContract emp = laborContractMapper.selectByPrimaryKey(ids[i]);
+			System.out.println(ids[i]);
+			emp.setState(0);
+			//System.out.println(emp.getState());
+			laborContractMapper.updateByPrimaryKey(emp);
+			
+		}
+		
+		
+	}
 
 }

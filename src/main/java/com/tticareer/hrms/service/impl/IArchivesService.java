@@ -145,5 +145,19 @@ public class IArchivesService implements ArchivesService {
 		return archivesMapper.selectByExample(example);
 	}
 	
-
+	@Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED)
+	@Override
+	public void deleteAll(Long[] ids) {
+		
+		for(int i=0;i<ids.length;i++) {
+			Archives emp = archivesMapper.selectByPrimaryKey(ids[i]);
+			System.out.println(ids[i]);
+			emp.setState(0);
+			//System.out.println(emp.getState());
+			archivesMapper.updateByPrimaryKey(emp);
+			
+		}
+		
+		
+	}
 }

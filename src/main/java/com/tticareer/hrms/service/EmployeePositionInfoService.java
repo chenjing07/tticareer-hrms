@@ -94,4 +94,6 @@ public interface EmployeePositionInfoService {
 	public List<EmployeePositionInfo> queryEmployeePositionInfoListByMore(Long employeeId,Date createTimeStart, Date createTimeEnd);
 	
 	
+	public void deleteAll(Long[] ids);
+	
 }

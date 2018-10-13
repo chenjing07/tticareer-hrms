@@ -73,4 +73,6 @@ public interface DepartmentService {
 	public List<Department> queryDepartmentListByDepartmentNumber(String departmentNumber);
 	public List<Department> queryDepartmentListByDepartmentName(String departmentName);
 	public List<Department> queryDepartmentListByDepartmentNumberAndDepartmentName(String departmentNumber,String departmentName);
+
+	public void deleteAll(Long[] ids);
 }

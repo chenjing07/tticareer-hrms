@@ -91,4 +91,6 @@ public interface EmployeeService {
 	public List<Employee> queryEmployeeListByRealName(String realName);
 	public List<Employee> queryEmployeeListByUserNameAndRealName(String userName,String realName);
 	
+	
+	public void deleteAll(Long[] ids);
 }

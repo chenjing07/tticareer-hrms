@@ -95,4 +95,6 @@ public interface LaborContractService {
 	public List<LaborContract> queryLaborContractListByCreateTime(Date createTimeStart, Date createTimeEnd);
 	public List<LaborContract> queryLaborContractListByMore(String employerName,Long employeeId,Date createTimeStart, Date createTimeEnd);
 	
+	
+	public void deleteAll(Long[] ids);
 }

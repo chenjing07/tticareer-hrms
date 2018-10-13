@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -125,4 +126,18 @@ public class EmployeePositionInfoController {
 		}
 	}
 	
+	
+	@PostMapping("/deletes")
+	public JSONResult deleteRows(@RequestParam(name="ids") Long[] ids) 
+	{
+		try {
+			if(ids!=null) {
+				employeePositionInfoService.deleteAll(ids);
+			}
+			return JSONResult.ok(1);
+		} catch (Exception e) {
+			return JSONResult.ok(0);
+		}
+	}
+
 }

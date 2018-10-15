@@ -149,4 +149,32 @@ public class PositionController {
 		}
 	}
 
+	
+	@GetMapping("/approve")
+	public JSONResult queryApprove() {
+		//return JSONResult.ok(positionService.queryAllPosition());
+		return JSONResult.ok(positionService.queryWaitApprove());
+	}
+	
+	@PostMapping("/approvePass")
+	public  JSONResult approvePass(@Param("pass") String pass,@Param("id") Long id) {
+		//System.out.println(id+"-----"+pass);
+		Position entity = positionService.queryPositionById(id);
+		//System.out.println(entity.getRealName());
+		if(entity!=null) {
+			if(pass.equals("pass")) {
+				//System.out.println("pass");
+				entity.setCheckStatus(1);
+				positionService.updatePosition(entity);
+			}else if(pass.equals("nopass"))  {
+				//System.out.println("nopass");
+				entity.setCheckStatus(2);
+				positionService.updatePosition(entity);
+			}
+		}
+		
+		return JSONResult.ok(1);
+	}
+
+	
 }

@@ -147,6 +147,15 @@ public class IDepartmentService implements DepartmentService {
 			
 		}
 		
-		
+	}
+	
+	
+
+	@Override
+	public List<Department> queryWaitApprove() {
+		Example example = new Example(Department.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("checkStatus", 0);
+		return departmentMapper.selectByExample(example);
 	}
 }

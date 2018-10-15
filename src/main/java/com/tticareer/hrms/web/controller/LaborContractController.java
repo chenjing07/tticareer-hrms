@@ -174,6 +174,33 @@ public class LaborContractController {
 			return JSONResult.ok(0);
 		}
 	}
+	
+	
+	@GetMapping("/approve")
+	public JSONResult queryApprove() {
+		//return JSONResult.ok(laborContractService.queryAllLaborContract());
+		return JSONResult.ok(laborContractService.queryWaitApprove());
+	}
+	
+	@PostMapping("/approvePass")
+	public  JSONResult approvePass(@Param("pass") String pass,@Param("id") Long id) {
+		//System.out.println(id+"-----"+pass);
+		LaborContract entity = laborContractService.queryLaborContractById(id);
+		//System.out.println(entity.getRealName());
+		if(entity!=null) {
+			if(pass.equals("pass")) {
+				//System.out.println("pass");
+				entity.setCheckStatus(1);
+				laborContractService.updateLaborContract(entity);
+			}else if(pass.equals("nopass"))  {
+				//System.out.println("nopass");
+				entity.setCheckStatus(2);
+				laborContractService.updateLaborContract(entity);
+			}
+		}
+		
+		return JSONResult.ok(1);
+	}
 
 	
 }

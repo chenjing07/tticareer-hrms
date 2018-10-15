@@ -29,6 +29,11 @@
                         iconCls: 'x-fa fa-address-book-o',
                         viewType: 'employee',
                         leaf: true
+                },{
+                        text: '员工信息审批管理',
+                        iconCls: 'x-fa fa-address-book-o',
+                        viewType: 'employeeApproveCenterPanel',
+                        leaf: true
                 },
                 {
                         text: '人员调动管理',
@@ -41,11 +46,21 @@
                         iconCls: 'x-fa  fa-address-card-o',
                         viewType: 'laborContract',
                         leaf: true
+                },{
+                        text: '劳动合同审批管理',
+                        iconCls: 'x-fa  fa-address-card-o',
+                        viewType: 'laborContractApproveCenterPanel',
+                        leaf: true
                 },
                 {
                         text: '档案管理',
                         iconCls: 'x-fa fa-address-card',
                         viewType: 'archives',
+                        leaf: true
+                },{
+                        text: '档案审批管理',
+                        iconCls: 'x-fa fa-address-card',
+                        viewType: 'archivesApproveCenterPanel',
                         leaf: true
                 }]
         },
@@ -61,11 +76,21 @@
                         iconCls: 'x-fa fa-list-ul',
                         viewType: 'department',
                         leaf: true
+                },{
+                        text: '部门信息审批管理',
+                        iconCls: 'x-fa fa-list-ul',
+                        viewType: 'departmentApproveCenterPanel',
+                        leaf: true
                 },
                 {
                         text: '岗位信息管理',
                         iconCls: 'x-fa fa-list-alt',
                         viewType: 'position',
+                        leaf: true
+                },{
+                        text: '岗位信息审批管理',
+                        iconCls: 'x-fa fa-list-alt',
+                        viewType: 'positionApproveCenterPanel',
                         leaf: true
                 }]
         },
@@ -149,7 +174,7 @@
                 {
                         text: '请假管理',
                         iconCls: 'x-fa  fa-calendar-minus-o',
-                        viewType: 'leave',
+                        viewType: 'employee',
                         leaf: true
                 },
                 {
@@ -198,12 +223,12 @@
 						}]},/*{
                 text: '请假管理模块',
                 iconCls: 'x-fa fa-address-card',
-                viewType: 'leaveCenterPanel',
+                viewType: 'employeeCenterPanel',
                 leaf: true
             },{
                 text: '请假审批模块',
                 iconCls: 'x-fa fa-address-card',
-                viewType: 'leaveApproveCenterPanel',
+                viewType: 'employeeApproveCenterPanel',
                 leaf: true
             },*/{
                 text: 'Login',

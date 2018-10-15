@@ -75,4 +75,6 @@ public interface DepartmentService {
 	public List<Department> queryDepartmentListByDepartmentNumberAndDepartmentName(String departmentNumber,String departmentName);
 
 	public void deleteAll(Long[] ids);
+	public List<Department> queryWaitApprove();
+
 }

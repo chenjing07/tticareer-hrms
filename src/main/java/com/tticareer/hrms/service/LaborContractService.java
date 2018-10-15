@@ -97,4 +97,7 @@ public interface LaborContractService {
 	
 	
 	public void deleteAll(Long[] ids);
+	
+	
+	public List<LaborContract> queryWaitApprove();
 }

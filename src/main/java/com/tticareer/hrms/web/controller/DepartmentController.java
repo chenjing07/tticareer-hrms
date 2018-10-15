@@ -146,4 +146,30 @@ public class DepartmentController {
 			return JSONResult.ok(0);
 		}
 	}
+	
+	@GetMapping("/approve")
+	public JSONResult queryApprove() {
+		//return JSONResult.ok(departmentService.queryAllDepartment());
+		return JSONResult.ok(departmentService.queryWaitApprove());
+	}
+	
+	@PostMapping("/approvePass")
+	public  JSONResult approvePass(@Param("pass") String pass,@Param("id") Long id) {
+		//System.out.println(id+"-----"+pass);
+		Department entity = departmentService.queryDepartmentById(id);
+		//System.out.println(entity.getRealName());
+		if(entity!=null) {
+			if(pass.equals("pass")) {
+				//System.out.println("pass");
+				entity.setCheckStatus(1);
+				departmentService.updateDepartment(entity);
+			}else if(pass.equals("nopass"))  {
+				//System.out.println("nopass");
+				entity.setCheckStatus(2);
+				departmentService.updateDepartment(entity);
+			}
+		}
+		
+		return JSONResult.ok(1);
+	}
 }

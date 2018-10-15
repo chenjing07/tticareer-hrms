@@ -225,4 +225,31 @@ public class EmployeeController {
 			return JSONResult.ok(0);
 		}
 	}
+	
+	
+	@GetMapping("/approve")
+	public JSONResult queryApprove() {
+		//return JSONResult.ok(employeeService.queryAllEmployee());
+		return JSONResult.ok(employeeService.queryWaitApprove());
+	}
+	
+	@PostMapping("/approvePass")
+	public  JSONResult approvePass(@Param("pass") String pass,@Param("id") Long id) {
+		//System.out.println(id+"-----"+pass);
+		Employee entity = employeeService.queryEmployeeById(id);
+		//System.out.println(entity.getRealName());
+		if(entity!=null) {
+			if(pass.equals("pass")) {
+				//System.out.println("pass");
+				entity.setCheckSatus(1);
+				employeeService.updateEmployee(entity);
+			}else if(pass.equals("nopass"))  {
+				//System.out.println("nopass");
+				entity.setCheckSatus(2);
+				employeeService.updateEmployee(entity);
+			}
+		}
+		
+		return JSONResult.ok(1);
+	}
 }

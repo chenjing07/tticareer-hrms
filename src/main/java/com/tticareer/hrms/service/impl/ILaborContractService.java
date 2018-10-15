@@ -174,8 +174,16 @@ public class ILaborContractService implements LaborContractService {
 			laborContractMapper.updateByPrimaryKey(emp);
 			
 		}
-		
-		
+	
+	}
+	
+
+	@Override
+	public List<LaborContract> queryWaitApprove() {
+		Example example = new Example(LaborContract.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("checkStatus", 0);
+		return laborContractMapper.selectByExample(example);
 	}
 
 }

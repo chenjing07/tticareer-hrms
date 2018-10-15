@@ -82,4 +82,8 @@ public interface PositionService {
 	
 	
 	public void deleteAll(Long[] ids);
+	
+	
+	public List<Position> queryWaitApprove();
+	
 }

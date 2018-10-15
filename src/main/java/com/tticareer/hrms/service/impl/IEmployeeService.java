@@ -159,8 +159,13 @@ public class IEmployeeService implements EmployeeService {
 			employeeMapper.updateByPrimaryKey(emp);
 			
 		}
-		
-		
 	}
 	
+	@Override
+	public List<Employee> queryWaitApprove() {
+		Example example = new Example(Employee.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("checkSatus", 0);
+		return employeeMapper.selectByExample(example);
+	}
 }

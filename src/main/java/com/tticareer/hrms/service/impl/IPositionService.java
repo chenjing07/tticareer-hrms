@@ -152,8 +152,18 @@ public class IPositionService implements PositionService {
 			positionMapper.updateByPrimaryKey(emp);
 			
 		}
-		
-		
 	}
+	
+	
+
+	@Override
+	public List<Position> queryWaitApprove() {
+		Example example = new Example(Position.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("checkStatus", 0);
+		return positionMapper.selectByExample(example);
+	}
+
+
 	
 }

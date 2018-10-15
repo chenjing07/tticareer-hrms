@@ -156,8 +156,17 @@ public class IArchivesService implements ArchivesService {
 			//System.out.println(emp.getState());
 			archivesMapper.updateByPrimaryKey(emp);
 			
-		}
-		
-		
+		}		
 	}
+	
+	
+
+	@Override
+	public List<Archives> queryWaitApprove() {
+		Example example = new Example(Archives.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("checkStatus", 0);
+		return archivesMapper.selectByExample(example);
+	}
+	
 }

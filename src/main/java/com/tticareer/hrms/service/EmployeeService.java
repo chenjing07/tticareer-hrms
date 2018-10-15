@@ -93,4 +93,6 @@ public interface EmployeeService {
 	
 	
 	public void deleteAll(Long[] ids);
+	
+	public List<Employee> queryWaitApprove();
 }

@@ -157,4 +157,33 @@ public class ArchivesController {
 			return JSONResult.ok(0);
 		}
 	}
+	
+	
+	@GetMapping("/approve")
+	public JSONResult queryApprove() {
+		//return JSONResult.ok(archivesService.queryAllArchives());
+		return JSONResult.ok(archivesService.queryWaitApprove());
+	}
+	
+	@PostMapping("/approvePass")
+	public  JSONResult approvePass(@Param("pass") String pass,@Param("id") Long id) {
+		//System.out.println(id+"-----"+pass);
+		Archives entity = archivesService.queryArchivesById(id);
+		//System.out.println(entity.getRealName());
+		if(entity!=null) {
+			if(pass.equals("pass")) {
+				//System.out.println("pass");
+				entity.setCheckStatus(1);
+				archivesService.updateArchives(entity);
+			}else if(pass.equals("nopass"))  {
+				//System.out.println("nopass");
+				entity.setCheckStatus(2);
+				archivesService.updateArchives(entity);
+			}
+		}
+		
+		return JSONResult.ok(1);
+	}
+	
+	
 }

@@ -82,4 +82,7 @@ public interface ArchivesService {
 	
 
 	public void deleteAll(Long[] ids);
+	
+	
+	public List<Archives> queryWaitApprove();
 }

@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.tticareer.hrms.pojo.ExaminationQuestions;
 import com.tticareer.hrms.pojo.WrittenExaminationContent;
+import com.tticareer.hrms.pojo.dto.ExaminationQuestionsDto;
+import com.tticareer.hrms.pojo.dto.WrittenExaminationContentDto;
 
 public interface ExaminationService {
 
@@ -21,7 +23,7 @@ public interface ExaminationService {
 	/*
 	 * 模糊查询
 	*/
-	public List<WrittenExaminationContent> queryWrittenExaminationContentList(WrittenExaminationContent wec);
+	public List<WrittenExaminationContent> queryWrittenExaminationContentList(WrittenExaminationContentDto wecDto);
 	
 	/*
 	 * 笔试试题详情
@@ -40,6 +42,7 @@ public interface ExaminationService {
 	/*
 	 * 模糊查询
 	*/
+	public List<ExaminationQuestions> queryExaminationQuestionsList(ExaminationQuestionsDto examinationQuestionsDto);
 	public List<ExaminationQuestions> queryExaminationQuestionsListA(ExaminationQuestions examinationQuestions);
 	public List<ExaminationQuestions> queryExaminationQuestionsListB(ExaminationQuestions examinationQuestions);
 }

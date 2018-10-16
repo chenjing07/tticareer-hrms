@@ -3,6 +3,7 @@ package com.tticareer.hrms.service;
 import java.util.List;
 
 import com.tticareer.hrms.pojo.WrittenExamination;
+import com.tticareer.hrms.pojo.dto.WrittenExaminationDto;
 
 public interface WrittenExaminationService {
 
@@ -18,5 +19,6 @@ public interface WrittenExaminationService {
 	/*
 	 * 模糊查询
 	*/
-	public List<WrittenExamination> queryWrittenExaminationList(WrittenExamination writtenExamination);
+	public List<WrittenExamination> queryWrittenExaminationList(WrittenExaminationDto writtenExaminationDto);
+	
 }

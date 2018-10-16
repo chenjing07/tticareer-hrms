@@ -4,6 +4,7 @@ import java.util.List;
 
 
 import com.tticareer.hrms.pojo.Resume;
+import com.tticareer.hrms.pojo.dto.ResumeDto;
 
 public interface ResumeService {
 
@@ -22,6 +23,8 @@ public interface ResumeService {
 	/*
 	* 模糊查询
 	*/
+	public List<Resume> queryResumeList(ResumeDto resumeDto);
 	public List<Resume> queryResumeListA(String expectedPosition);
 	public List<Resume> queryResumeListB(String expectedPosition);
+	
 }

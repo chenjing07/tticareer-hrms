@@ -3,6 +3,7 @@ package com.tticareer.hrms.service;
 import java.util.List;
 
 import com.tticareer.hrms.pojo.Interview;
+import com.tticareer.hrms.pojo.dto.InterviewDto;
 
 public interface InterviewService {
 
@@ -18,6 +19,7 @@ public interface InterviewService {
 	/*
 	 * 模糊查询
 	*/
+	public List<Interview> queryInterviewList(InterviewDto interviewDto);
 	public List<Interview> queryInterviewListA(Interview interview);
 	public List<Interview> queryInterviewListB(Interview interview);
 }

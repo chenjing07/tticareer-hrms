@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tticareer.hrms.mapper.WrittenExaminationMapper;
 import com.tticareer.hrms.pojo.WrittenExamination;
+import com.tticareer.hrms.pojo.dto.WrittenExaminationDto;
 import com.tticareer.hrms.service.WrittenExaminationService;
 
 import tk.mybatis.mapper.entity.Example;
@@ -87,10 +88,15 @@ public class IWrittenExaminationService implements WrittenExaminationService {
 	}
 
 	@Override
-	public List<WrittenExamination> queryWrittenExaminationList(WrittenExamination writtenExamination) {
+	public List<WrittenExamination> queryWrittenExaminationList(WrittenExaminationDto writtenExaminationDto) {
 		Example example = new Example(WrittenExamination.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andLike("examContentId", "%" + writtenExamination.getExamContentId() + "%");
+		if(null!=writtenExaminationDto.getExamResult())
+			criteria.andLike("examResult", "%" + writtenExaminationDto.getExamResult() + "%");
+		if(null!=writtenExaminationDto.getCreateTimeStart())
+			criteria.andGreaterThanOrEqualTo("createTime", writtenExaminationDto.getCreateTimeStart());
+		if(null!=writtenExaminationDto.getCreateTimeEnd())
+			criteria.andLessThanOrEqualTo("createTime", writtenExaminationDto.getCreateTimeEnd());
 		criteria.andNotEqualTo("examResult", 0);
 		return writtenExaminationMapper.selectByExample(example);
 	}

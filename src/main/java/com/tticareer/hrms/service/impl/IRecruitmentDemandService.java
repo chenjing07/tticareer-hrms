@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tticareer.hrms.mapper.RecruitmentDemandMapper;
 import com.tticareer.hrms.pojo.RecruitmentDemand;
+import com.tticareer.hrms.pojo.dto.RecruitmentDemandDto;
 import com.tticareer.hrms.service.RecruitmentDemandService;
 
 import tk.mybatis.mapper.entity.Example;
@@ -88,10 +89,15 @@ public class IRecruitmentDemandService implements RecruitmentDemandService {
 	}
 
 	@Override
-	public List<RecruitmentDemand> queryRecruitmentDemandList(RecruitmentDemand rd) {
+	public List<RecruitmentDemand> queryRecruitmentDemandList(RecruitmentDemandDto rdDto) {
 		Example example = new Example(RecruitmentDemand.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andLike("supplementReason", "%" + rd.getSupplementReason() + "%");
+		if(null!=rdDto.getPositionId())
+			criteria.andLike("positionId", "%" + rdDto.getPositionId() + "%");
+		if(null!=rdDto.getCreateTimeStart())
+			criteria.andGreaterThanOrEqualTo("createTime", rdDto.getCreateTimeStart());
+		if(null!=rdDto.getCreateTimeEnd())
+			criteria.andLessThanOrEqualTo("createTime", rdDto.getCreateTimeEnd());
 		criteria.andNotEqualTo("state", 0);
 		return rdMapper.selectByExample(example);
 	}

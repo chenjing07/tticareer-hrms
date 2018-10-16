@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tticareer.hrms.mapper.InterviewMapper;
 import com.tticareer.hrms.pojo.Interview;
+import com.tticareer.hrms.pojo.dto.InterviewDto;
 import com.tticareer.hrms.service.InterviewService;
 
 import tk.mybatis.mapper.entity.Example;
@@ -86,6 +87,20 @@ public class IInterviewService implements InterviewService {
 		return interviewMapper.selectByExample(example);
 	}
 
+	@Override
+	public List<Interview> queryInterviewList(InterviewDto interviewDto){
+		Example example = new Example(Interview.class);
+		Example.Criteria criteria = example.createCriteria();
+		if(null!=interviewDto.getState())
+			criteria.andLike("state", "%" + interviewDto.getState() + "%");
+		if(null!=interviewDto.getCreateTimeStart())
+			criteria.andGreaterThanOrEqualTo("createTime", interviewDto.getCreateTimeStart());
+		if(null!=interviewDto.getCreateTimeEnd())
+			criteria.andLessThanOrEqualTo("createTime", interviewDto.getCreateTimeEnd());
+		criteria.andNotEqualTo("state", 0);
+		return interviewMapper.selectByExample(example);
+	}
+	
 	@Override
 	public List<Interview> queryInterviewListA(Interview interview) {
 		Example example = new Example(Interview.class);

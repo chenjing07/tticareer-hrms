@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tticareer.hrms.mapper.ResumeMapper;
 import com.tticareer.hrms.pojo.Resume;
+import com.tticareer.hrms.pojo.dto.ResumeDto;
 import com.tticareer.hrms.service.ResumeService;
 
 import tk.mybatis.mapper.entity.Example;
@@ -84,6 +85,20 @@ public class IResumeService implements ResumeService {
 		Example example = new Example(Resume.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("state", 2);
+		return resumeMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<Resume> queryResumeList(ResumeDto resumeDto){
+		Example example = new Example(Resume.class);
+		Example.Criteria criteria = example.createCriteria();
+		if(null!=resumeDto.getApplicationName())
+			criteria.andLike("applicationName", "%" + resumeDto.getApplicationName() + "%");
+		if(null!=resumeDto.getCreateTimeStart())
+			criteria.andGreaterThanOrEqualTo("createTime", resumeDto.getCreateTimeStart());
+		if(null!=resumeDto.getCreateTimeEnd())
+			criteria.andLessThanOrEqualTo("createTime", resumeDto.getCreateTimeEnd());
+		criteria.andNotEqualTo("state", 2);
 		return resumeMapper.selectByExample(example);
 	}
 	

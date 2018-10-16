@@ -3,6 +3,7 @@ package com.tticareer.hrms.service;
 import java.util.List;
 
 import com.tticareer.hrms.pojo.RecruitmentDemand;
+import com.tticareer.hrms.pojo.dto.RecruitmentDemandDto;
 
 public interface RecruitmentDemandService {
 	
@@ -18,5 +19,5 @@ public interface RecruitmentDemandService {
 	/*
 	 * 模糊查询
 	*/
-	public List<RecruitmentDemand> queryRecruitmentDemandList(RecruitmentDemand rd);
+	public List<RecruitmentDemand> queryRecruitmentDemandList(RecruitmentDemandDto rdDto);
 }

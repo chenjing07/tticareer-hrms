@@ -2,11 +2,14 @@ package com.tticareer.hrms.pojo.dto;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class WrittenExaminationDto {
 
 	private Long id;
 	private Long resumeId;
 	private Long examContentId;
+	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
 	private Date examStart;
 	private String note;
 	private Long examScore;
@@ -17,7 +20,14 @@ public class WrittenExaminationDto {
             }
      */
 	private Integer examResult;
+	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
 	private Date createTime;
+	
+	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")  
+	private Date createTimeStart;
+	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")  
+	private Date createTimeEnd;
+	
 	private Date examEnd;
 	public Long getId() {
 		return id;
@@ -42,6 +52,13 @@ public class WrittenExaminationDto {
 	}
 	public Date getCreateTime() {
 		return createTime;
+	}
+	
+	public Date getCreateTimeStart() {
+		return createTimeStart;
+	}
+	public Date getCreateTimeEnd() {
+		return createTimeEnd;
 	}
 	public Date getExamEnd() {
 		return examEnd;
@@ -69,6 +86,13 @@ public class WrittenExaminationDto {
 	}
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+	
+	public void setCreateTimeStart(Date createTimeStart) {
+		this.createTimeStart = createTimeStart;
+	}
+	public void setCreateTimeEnd(Date createTimeEnd) {
+		this.createTimeEnd = createTimeEnd;
 	}
 	public void setExamEnd(Date examEnd) {
 		this.examEnd = examEnd;

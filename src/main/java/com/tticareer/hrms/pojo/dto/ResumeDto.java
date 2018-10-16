@@ -2,6 +2,8 @@ package com.tticareer.hrms.pojo.dto;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class ResumeDto {
 
 	private Long id;
@@ -9,6 +11,7 @@ public class ResumeDto {
 	private String expectedPosition;
 	private String idCardNumber;
 	private String idCardPicture;
+	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
 	private Date birthday;
 	/**
       * 性别1男0女
@@ -37,6 +40,7 @@ public class ResumeDto {
 	private String major;
 	private String tie;
 	private String graduatedSchool;
+	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
 	private Date graduatedTime;
 	private String awardsReceived;
 	private String languageLevel;
@@ -50,7 +54,14 @@ public class ResumeDto {
             }
      */
 	private Integer state;
+	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
 	private Date createTime;
+	
+	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")  
+	private Date createTimeStart;
+	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")  
+	private Date createTimeEnd;
+	
 	private String note;
 	public Long getId() {
 		return id;
@@ -138,6 +149,13 @@ public class ResumeDto {
 	}
 	public Date getCreateTime() {
 		return createTime;
+	}
+	
+	public Date getCreateTimeStart() {
+		return createTimeStart;
+	}
+	public Date getCreateTimeEnd() {
+		return createTimeEnd;
 	}
 	public String getNote() {
 		return note;
@@ -228,6 +246,13 @@ public class ResumeDto {
 	}
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+	
+	public void setCreateTimeStart(Date createTimeStart) {
+		this.createTimeStart = createTimeStart;
+	}
+	public void setCreateTimeEnd(Date createTimeEnd) {
+		this.createTimeEnd = createTimeEnd;
 	}
 	public void setNote(String note) {
 		this.note = note;

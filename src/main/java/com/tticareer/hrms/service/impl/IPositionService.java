@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tticareer.hrms.mapper.PositionMapper;
-import com.tticareer.hrms.pojo.LaborContract;
 import com.tticareer.hrms.pojo.Position;
 import com.tticareer.hrms.service.PositionService;
 
@@ -58,7 +57,7 @@ public class IPositionService implements PositionService {
 	@Override
 	public Position queryPositionByPositionNumber(String positionNumber) {
 		// TODO Auto-generated method stub
-		Example example = new Example(LaborContract.class);
+		Example example = new Example(Position.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("positionNumber", positionNumber);
 		return positionMapper.selectOneByExample(example);
@@ -67,7 +66,7 @@ public class IPositionService implements PositionService {
 	@Override
 	public Position queryPositionByPositionName(String positionName) {
 		// TODO Auto-generated method stub
-		Example example = new Example(LaborContract.class);
+		Example example = new Example(Position.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("positionName", positionName);
 		return positionMapper.selectOneByExample(example);
@@ -82,7 +81,7 @@ public class IPositionService implements PositionService {
 	@Override
 	public List<Position> queryPositionWhoIsDelete() {
 		// TODO Auto-generated method stub
-		Example example = new Example(LaborContract.class);
+		Example example = new Example(Position.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("state", 0);
 		return positionMapper.selectByExample(example);
@@ -91,7 +90,7 @@ public class IPositionService implements PositionService {
 	@Override
 	public List<Position> queryPositionWhoIsNotDelete() {
 		// TODO Auto-generated method stub
-		Example example = new Example(LaborContract.class);
+		Example example = new Example(Position.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andNotEqualTo("state", 0);
 		return positionMapper.selectByExample(example);

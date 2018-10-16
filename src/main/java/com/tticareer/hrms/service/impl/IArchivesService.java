@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tticareer.hrms.mapper.ArchivesMapper;
 import com.tticareer.hrms.pojo.Archives;
-import com.tticareer.hrms.pojo.LaborContract;
 import com.tticareer.hrms.service.ArchivesService;
 
 import tk.mybatis.mapper.entity.Example;
@@ -62,7 +61,7 @@ public class IArchivesService implements ArchivesService {
 	@Override
 	public Archives queryArchivesByEmployerId(Long employerId) {
 		// TODO Auto-generated method stub
-		Example example = new Example(LaborContract.class);
+		Example example = new Example(Archives.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("employerId", employerId);
 		return archivesMapper.selectOneByExample(example);
@@ -77,7 +76,7 @@ public class IArchivesService implements ArchivesService {
 	@Override
 	public List<Archives> queryArchivesWhoIsDelete() {
 		// TODO Auto-generated method stub
-		Example example = new Example(LaborContract.class);
+		Example example = new Example(Archives.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("state", 0);
 		return archivesMapper.selectByExample(example);
@@ -86,7 +85,7 @@ public class IArchivesService implements ArchivesService {
 	@Override
 	public List<Archives> queryArchivesWhoIsNotDelete() {
 		// TODO Auto-generated method stub
-		Example example = new Example(LaborContract.class);
+		Example example = new Example(Archives.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andNotEqualTo("state", 0);
 		return archivesMapper.selectByExample(example);

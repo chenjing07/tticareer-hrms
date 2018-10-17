@@ -96,9 +96,8 @@ public class AssessmentController {
 	/**
 	 * <p>Title: updateAssessmentStandard</p>
 	 * <p>Description: 
-	 * 		-5输入错误
 	 * 		-4不存在该岗位或被删除
-	 * 		-3 该岗位未审核
+	 * 		-3 该岗位已审核
 	 *  	-2 存在该岗位对应的其他考核信息
 	 * 		-1 不存在该考核标准或被删除
 	 * 		0 该考核标准未审核
@@ -112,7 +111,7 @@ public class AssessmentController {
 	public JSONResult updateAssessmentStandard(AssessmentStandard a, @Param("positionNumber")String positionNumber) {
 		Position p = ps.queryPositionByPositionNumber(positionNumber);
 		if (p!=null && p.getState()!=0) {
-			if (p.getCheckStatus()!=0) {
+			if (p.getCheckStatus()==0) {
 				if (as.queryAssessmentStandardByPositionId(p.getId()).get(0).getId()!=a.getId()) {
 					return JSONResult.ok(-2);
 				}
@@ -286,13 +285,13 @@ public class AssessmentController {
 			if (p.getCheckStatus()!=0) {
 				if (es.queryEmployeeByUserName(userName)!=null) {
 					if (es.queryEmployeeByUserName(userName).getState()!=3) {
-						return JSONResult.ok(as.queryAssessmentStandardListA(positionName));
+						return JSONResult.ok(as.queryAssessmentStandardListA(p.getId()));
 					} else {
-						return JSONResult.ok(as.queryAssessmentStandardListB(positionName));
+						return JSONResult.ok(as.queryAssessmentStandardListB(p.getId()));
 					}
 				} else {
 					if (userName.equals("admin")) {
-						return JSONResult.ok(as.queryAssessmentStandardListB(positionName));
+						return JSONResult.ok(as.queryAssessmentStandardListB(p.getId()));
 					} else {
 						return JSONResult.ok("这辈子都不会进入这里");
 					}
@@ -320,7 +319,7 @@ public class AssessmentController {
 		Position p = ps.queryPositionByPositionName(positionName);
 		if (p!=null && p.getState()!=0) {
 			if (p.getCheckStatus()!=0) {
-				return JSONResult.ok(as.queryAssessmentStandardListC(positionName));
+				return JSONResult.ok(as.queryAssessmentStandardListC(p.getId()));
 			} else {
 				return JSONResult.ok(-1);
 			}
@@ -385,7 +384,7 @@ public class AssessmentController {
 				eaa.setAssessmentResult(ea.getAssessmentResult());
 				eaa.setEvaluate(ea.getEvaluate());
 				eaa.setNote(ea.getNote());
-				as.updateEmployeeAssessment(ea);
+				as.updateEmployeeAssessment(eaa);
 				return JSONResult.ok(1);
 			} else {
 				return JSONResult.ok(-1);
@@ -570,7 +569,7 @@ public class AssessmentController {
 				gtt.setCommend(gt.getCommend());
 				gtt.setReward(gt.getReward());
 				gtt.setNote(gt.getNote());
-				as.updateGreatTeam(gt);
+				as.updateGreatTeam(gtt);
 				return JSONResult.ok(1);
 			} else {
 				return JSONResult.ok(-1);

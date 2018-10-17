@@ -104,14 +104,8 @@ create table clock_detail
 (
    id                   bigint not null auto_increment comment '唯一标识，主键自增',
    employee_id          bigint not null comment '员工id',
-   morning_in           datetime comment '上午上班打卡时间',
-   mi_coordinate        geometry comment '上午上班打卡当前坐标',
-   morning_out          datetime comment '上午下班打卡时间',
-   mo_coordinate        geometry comment '上午下班打卡当前坐标',
-   afternoon_in         datetime comment '下午上班打卡时间',
-   ai_coordinate        geometry comment '下午上班打卡当前坐标',
-   afternoon_out        datetime comment '下午下班打卡时间',
-   ao_coordinate        geometry comment '下午下班打卡当前坐标',
+   clock_in           	datetime comment '上班打卡时间',
+   clock_out        	datetime comment '下班打卡时间',
    state                int not null comment '状态
             {
             	0异常 1按例

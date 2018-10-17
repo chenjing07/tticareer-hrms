@@ -3,6 +3,7 @@ package com.tticareer.hrms.service;
 import java.util.List;
 
 import com.tticareer.hrms.pojo.ClockDetail;
+import com.tticareer.hrms.pojo.HolidayStatistics;
 import com.tticareer.hrms.pojo.LateEarly;
 import com.tticareer.hrms.pojo.LeaveDetail;
 import com.tticareer.hrms.pojo.OverWork;
@@ -21,21 +22,21 @@ public interface AttendanceService {
 	public void updateOverWork(OverWork ow);
 	public void deleteOverWork(Long id);
 	public void deleteOverWorkList(Long[] ids);
+	public OverWork queryOverWork(OverWork ow);
 	public OverWork queryOverWorkById(Long id);
 	public List<OverWork> queryOverWorkByEmployeeId(Long employeeId);
 	public List<OverWork> queryAllOverWork();
-	public List<OverWork> queryOverWorkState(OverWork ow);
 	public List<OverWork> queryOverWorkWhoIsNotDelete();
 	public List<OverWork> queryOverWorkList(OverWork ow);
 	
 	public void saveLateEarly(LateEarly le);
 	public void updateLateEarly(LateEarly le);
 	public void deleteLateEarly(Long id);
+	public LateEarly queryLateEarly(LateEarly le);
 	public void deleteLateEarlykList(Long[] ids);
 	public LateEarly queryLateEarlyById(Long id);
 	public List<LateEarly> queryLateEarlyByEmployeeId(Long employeeId);
 	public List<LateEarly> queryAllLateEarly();
-	public List<LateEarly> queryLateEarlyState(LateEarly le);
 	public List<LateEarly> queryLateEarlyWhoIsNotDelete();
 	public List<LateEarly> queryLateEarlyList(LateEarly le);
 	
@@ -43,10 +44,10 @@ public interface AttendanceService {
 	public void updateClockDetail(ClockDetail cd);
 	public void deleteClockDetail(Long id);
 	public void deleteClockDetailList(Long[] ids);
+	public ClockDetail queryClockDetail(ClockDetail cd);
 	public ClockDetail queryClockDetailById(Long id);
 	public List<ClockDetail> queryClockDetailByEmployeeId(Long employeeId);
 	public List<ClockDetail> queryAllClockDetail();
-	public List<ClockDetail> queryClockDetailState(ClockDetail cd);
 	public List<ClockDetail> queryClockDetailWhoIsNotDelete();
 	public List<ClockDetail> queryClockDetailList(ClockDetail cd);
 	
@@ -54,12 +55,24 @@ public interface AttendanceService {
 	public void updateLeaveDetail(LeaveDetail ld);
 	public void deleteLeaveDetail(Long id);
 	public void deleteLeaveDetailList(Long[] ids);
+	public LeaveDetail queryLeaveDetail(LeaveDetail ld);
 	public LeaveDetail queryLeaveDetailById(Long id);
 	public List<LeaveDetail> queryLeaveDetailByEmployeeId(Long employeeId);
 	public List<LeaveDetail> queryAllLeaveDetail();
-	public List<LeaveDetail> queryLeaveDetailState(LeaveDetail ld);
-	public List<LeaveDetail> queryLeaveDetailWhoIsNotDelete();
-	public List<LeaveDetail> queryLeaveDetailCheckStatus(LeaveDetail ld);
-	public List<LeaveDetail> queryLeaveDetailAudited();
+	public List<LeaveDetail> queryLeaveDetailCheckStatus();
+	public List<LeaveDetail> queryLeaveDetailWhoIsNotDeleteAndCheckStatus();
+	public List<LeaveDetail> queryLeaveDetailWhoIsNotDeleteAndAudited();
 	public List<LeaveDetail> queryLeaveDetailList(LeaveDetail ld);
+	
+	public void saveHolidayStatistics(HolidayStatistics hs);
+	public void updateHolidayStatistics(HolidayStatistics hs);
+	public void deleteHolidayStatistics(Long id);
+	public void deleteHolidayStatisticsList(Long[] ids);
+	public HolidayStatistics queryHolidayStatisticsById(Long id);
+	public HolidayStatistics queryHolidayStatisticsByEmployeeId(Long employeeId);
+	public List<HolidayStatistics> queryAllHolidayStatistics();
+	public List<HolidayStatistics> queryHolidayStatisticsCheckStatus();
+	public List<HolidayStatistics> queryHolidayStatisticsWhoIsNotDeleteAndCheckStatus();
+	public List<HolidayStatistics> queryHolidayStatisticsWhoIsNotDeleteAndAudited();
+	
 }

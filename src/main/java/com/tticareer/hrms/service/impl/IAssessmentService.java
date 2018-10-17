@@ -130,29 +130,29 @@ public class IAssessmentService implements AssessmentService {
 	}
 
 	@Override
-	public List<AssessmentStandard> queryAssessmentStandardListA(String positionName) {
+	public List<AssessmentStandard> queryAssessmentStandardListA(Long positionId) {
 		Example example = new Example(AssessmentStandard.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andLike("positionName", "%" + positionName + "%");
+		criteria.andEqualTo("positionId", positionId);
 		criteria.andEqualTo("state", 1);
 		criteria.andEqualTo("checkStatus", 1);
 		return asMapper.selectByExample(example);
 	}
 	
 	@Override
-	public List<AssessmentStandard> queryAssessmentStandardListB(String positionName) {
+	public List<AssessmentStandard> queryAssessmentStandardListB(Long positionId) {
 		Example example = new Example(AssessmentStandard.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andLike("positionName", "%" + positionName + "%");
+		criteria.andEqualTo("positionId", positionId);
 		criteria.andEqualTo("checkStatus", 1);
 		return asMapper.selectByExample(example);
 	}
 	
 	@Override
-	public List<AssessmentStandard> queryAssessmentStandardListC(String positionName) {
+	public List<AssessmentStandard> queryAssessmentStandardListC(Long positionId) {
 		Example example = new Example(AssessmentStandard.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andLike("positionName", "%" + positionName + "%");
+		criteria.andEqualTo("positionId", positionId);
 		criteria.andEqualTo("state", 1);
 		criteria.andEqualTo("checkStatus", 0);
 		return asMapper.selectByExample(example);

@@ -37,6 +37,8 @@ public interface DepartmentService {
 	 */
 	public Department queryDepartmentById(Long id);
 	
+	public Department queryDepartmentByDepartmentNumber(String departmentNumber);
+	
 	/**
 	 * 根据  departmentName 搜索部门
 	 * @param departmentName

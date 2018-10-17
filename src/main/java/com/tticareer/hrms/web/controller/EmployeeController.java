@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 
 import com.tticareer.hrms.pojo.Employee;
 import com.tticareer.hrms.service.EmployeeService;
@@ -211,5 +211,45 @@ public class EmployeeController {
 		} else {
 			return JSONResult.ok(0);
 		}
+	}
+	
+	@PostMapping("/deletes")
+	public JSONResult deleteRows(@RequestParam(name="ids") Long[] ids) 
+	{
+		try {
+			if(ids!=null) {
+				employeeService.deleteAll(ids);
+			}
+			return JSONResult.ok(1);
+		} catch (Exception e) {
+			return JSONResult.ok(0);
+		}
+	}
+	
+	
+	@GetMapping("/approve")
+	public JSONResult queryApprove() {
+		//return JSONResult.ok(employeeService.queryAllEmployee());
+		return JSONResult.ok(employeeService.queryWaitApprove());
+	}
+	
+	@PostMapping("/approvePass")
+	public  JSONResult approvePass(@Param("pass") String pass,@Param("id") Long id) {
+		//System.out.println(id+"-----"+pass);
+		Employee entity = employeeService.queryEmployeeById(id);
+		//System.out.println(entity.getRealName());
+		if(entity!=null) {
+			if(pass.equals("pass")) {
+				//System.out.println("pass");
+				entity.setCheckSatus(1);
+				employeeService.updateEmployee(entity);
+			}else if(pass.equals("nopass"))  {
+				//System.out.println("nopass");
+				entity.setCheckSatus(2);
+				employeeService.updateEmployee(entity);
+			}
+		}
+		
+		return JSONResult.ok(1);
 	}
 }

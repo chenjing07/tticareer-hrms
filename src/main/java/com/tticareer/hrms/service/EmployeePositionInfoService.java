@@ -1,5 +1,6 @@
 package com.tticareer.hrms.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.tticareer.hrms.pojo.EmployeePositionInfo;
@@ -87,5 +88,12 @@ public interface EmployeePositionInfoService {
 	//public List<EmployeePositionInfo> queryEmployeePositionInfoList(EmployeePositionInfo employeePositionInfo);
 	
 	
+
+	public List<EmployeePositionInfo> queryEmployeePositionInfoListByEmployeeId(Long employeeId);
+	public List<EmployeePositionInfo> queryEmployeePositionInfoListByCreateTime(Date createTimeStart, Date createTimeEnd);
+	public List<EmployeePositionInfo> queryEmployeePositionInfoListByMore(Long employeeId,Date createTimeStart, Date createTimeEnd);
+	
+	
+	public void deleteAll(Long[] ids);
 	
 }

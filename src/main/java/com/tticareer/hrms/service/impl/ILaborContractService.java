@@ -1,5 +1,6 @@
 package com.tticareer.hrms.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +97,93 @@ public class ILaborContractService implements LaborContractService {
 	public List<LaborContract> queryLaborContractList(LaborContract laborContract) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	
+	@Override
+	public List<LaborContract> queryLaborContractListByEmployerName(String employerName){
+		Example example = new Example(LaborContract.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andLike("employerName", "%"+ employerName+"%");
+		criteria.andNotEqualTo("state", 0);
+		//System.out.println(departmentMapper.selectByExample(example));
+		return laborContractMapper.selectByExample(example);
+	}
+	
+	
+	@Override
+	public List<LaborContract> queryLaborContractListByEmployeeId(Long employeeId){
+		Example example = new Example(LaborContract.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andLike("employeeId", "%"+ employeeId+"%");
+		criteria.andNotEqualTo("state", 0);
+		//System.out.println(departmentMapper.selectByExample(example));
+		return laborContractMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<LaborContract> queryLaborContractListByCreateTime(Date createTimeStart, Date createTimeEnd){
+		Example example = new Example(LaborContract.class);
+		Example.Criteria criteria = example.createCriteria();
+		//System.out.println(createTimeStart + "!!!!!!!!!!!"+createTimeEnd);
+		if(createTimeStart!=null) {
+			criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
+		}
+		if(createTimeEnd!=null) {
+			//System.out.println("?????????");
+			criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
+		}
+		criteria.andNotEqualTo("state", 0);
+		//System.out.println(departmentMapper.selectByExample(example));
+		return laborContractMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<LaborContract> queryLaborContractListByMore(String employerName,Long employeeId,
+				Date createTimeStart, Date createTimeEnd){
+		
+		//System.out.println(employerName + "******" +employeeId);
+		//System.out.println(createTimeStart + "******" +createTimeEnd);
+		
+		Example example = new Example(LaborContract.class);
+		Example.Criteria criteria = example.createCriteria();
+		if(employerName!=null)
+			criteria.andLike("employeeId", "%"+ employeeId+"%");
+		if(employeeId!=null)
+			criteria.andLike("employeeId", "%"+ employeeId+"%");
+		if(createTimeStart!=null) {
+			criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
+		}
+		if(createTimeEnd!=null) {
+			criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
+		}
+		criteria.andNotEqualTo("state", 0);
+		return laborContractMapper.selectByExample(example);
+	}
+	
+
+	@Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED)
+	@Override
+	public void deleteAll(Long[] ids) {
+		
+		for(int i=0;i<ids.length;i++) {
+			LaborContract emp = laborContractMapper.selectByPrimaryKey(ids[i]);
+			System.out.println(ids[i]);
+			emp.setState(0);
+			//System.out.println(emp.getState());
+			laborContractMapper.updateByPrimaryKey(emp);
+			
+		}
+	
+	}
+	
+
+	@Override
+	public List<LaborContract> queryWaitApprove() {
+		Example example = new Example(LaborContract.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("checkStatus", 0);
+		return laborContractMapper.selectByExample(example);
 	}
 
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -56,9 +57,28 @@ public class PositionController {
 	 * @return
 	 */
 	@GetMapping
-	public JSONResult queryRealAllPosition() {
+	/*public JSONResult queryRealAllPosition() {
 		return JSONResult.ok(positionService.queryAllPosition());
+	}*/
+	public JSONResult getPage(@Param("positionNumber") String positionNumber,@Param("positionName") String positionName) 
+	{
+		//System.out.println(userName + "********" +realName);
+		
+		if(positionNumber!=null && positionName==null) {
+			//System.out.println(userName);
+			return JSONResult.ok(positionService.queryPositionListByPositionNumber(positionNumber));
+		}else if(positionNumber==null && positionName!=null) {
+			return JSONResult.ok(positionService.queryPositionListByPositionName(positionName));
+		}else if(positionNumber!=null && positionName!=null) {
+			//System.out.println(userName + "&&&&&&" +realName);
+			return JSONResult.ok(positionService.queryPositionListByPositionNumberAndPositionName(positionNumber,positionName));
+		}
+		else {
+			return JSONResult.ok(positionService.queryAllPosition());
+		}
+		
 	}
+	
 	
 	/**
 	 * 查询已被删除的岗位
@@ -114,4 +134,47 @@ public class PositionController {
 			return JSONResult.ok(0);
 		}
 	}
+	
+	
+	@PostMapping("/deletes")
+	public JSONResult deleteRows(@RequestParam(name="ids") Long[] ids) 
+	{
+		try {
+			if(ids!=null) {
+				positionService.deleteAll(ids);
+			}
+			return JSONResult.ok(1);
+		} catch (Exception e) {
+			return JSONResult.ok(0);
+		}
+	}
+
+	
+	@GetMapping("/approve")
+	public JSONResult queryApprove() {
+		//return JSONResult.ok(positionService.queryAllPosition());
+		return JSONResult.ok(positionService.queryWaitApprove());
+	}
+	
+	@PostMapping("/approvePass")
+	public  JSONResult approvePass(@Param("pass") String pass,@Param("id") Long id) {
+		//System.out.println(id+"-----"+pass);
+		Position entity = positionService.queryPositionById(id);
+		//System.out.println(entity.getRealName());
+		if(entity!=null) {
+			if(pass.equals("pass")) {
+				//System.out.println("pass");
+				entity.setCheckStatus(1);
+				positionService.updatePosition(entity);
+			}else if(pass.equals("nopass"))  {
+				//System.out.println("nopass");
+				entity.setCheckStatus(2);
+				positionService.updatePosition(entity);
+			}
+		}
+		
+		return JSONResult.ok(1);
+	}
+
+	
 }

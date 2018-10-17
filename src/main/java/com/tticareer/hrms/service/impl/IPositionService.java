@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tticareer.hrms.mapper.PositionMapper;
-import com.tticareer.hrms.pojo.LaborContract;
 import com.tticareer.hrms.pojo.Position;
 import com.tticareer.hrms.service.PositionService;
 
@@ -107,4 +106,63 @@ public class IPositionService implements PositionService {
 		return positionMapper.selectByExample(example);
 	}
 
+	
+	@Override
+	public List<Position> queryPositionListByPositionNumber(String positionNumber) {
+		Example example = new Example(Position.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andLike("positionNumber", "%"+ positionNumber+"%");
+		criteria.andNotEqualTo("state", 0);
+		//System.out.println(positionMapper.selectByExample(example));
+		return positionMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<Position> queryPositionListByPositionName(String positionName) {
+		Example example = new Example(Position.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andLike("positionName", "%"+ positionName+"%");
+		criteria.andNotEqualTo("state", 0);
+		//System.out.println(positionMapper.selectByExample(example));
+		return positionMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<Position> queryPositionListByPositionNumberAndPositionName(String positionNumber,String positionName){
+		Example example = new Example(Position.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andLike("positionNumber", "%"+ positionNumber+"%");
+		criteria.andLike("positionName", "%"+ positionName+"%");
+		criteria.andNotEqualTo("state", 0);
+		//System.out.println(positionMapper.selectByExample(example));
+		return positionMapper.selectByExample(example);
+	}
+	
+	
+	@Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED)
+	@Override
+	public void deleteAll(Long[] ids) {
+		
+		for(int i=0;i<ids.length;i++) {
+			Position emp = positionMapper.selectByPrimaryKey(ids[i]);
+			System.out.println(ids[i]);
+			emp.setState(0);
+			//System.out.println(emp.getState());
+			positionMapper.updateByPrimaryKey(emp);
+			
+		}
+	}
+	
+	
+
+	@Override
+	public List<Position> queryWaitApprove() {
+		Example example = new Example(Position.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("checkStatus", 0);
+		return positionMapper.selectByExample(example);
+	}
+
+
+	
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -56,8 +57,26 @@ public class DepartmentController {
 	 * @return
 	 */
 	@GetMapping
-	public JSONResult queryRealAllDepartment() {
+	/*public JSONResult queryRealAllDepartment() {
 		return JSONResult.ok(departmentService.queryAllDepartment());
+	}*/
+	public JSONResult getPage(@Param("departmentNumber") String departmentNumber,@Param("departmentName") String departmentName) 
+	{
+		//System.out.println(userName + "********" +realName);
+		
+		if(departmentNumber!=null && departmentName==null) {
+			//System.out.println(userName);
+			return JSONResult.ok(departmentService.queryDepartmentListByDepartmentNumber(departmentNumber));
+		}else if(departmentNumber==null && departmentName!=null) {
+			return JSONResult.ok(departmentService.queryDepartmentListByDepartmentName(departmentName));
+		}else if(departmentNumber!=null && departmentName!=null) {
+			//System.out.println(userName + "&&&&&&" +realName);
+			return JSONResult.ok(departmentService.queryDepartmentListByDepartmentNumberAndDepartmentName(departmentNumber,departmentName));
+		}
+		else {
+			return JSONResult.ok(departmentService.queryAllDepartment());
+		}
+		
 	}
 	
 	/**
@@ -113,5 +132,44 @@ public class DepartmentController {
 		} else {
 			return JSONResult.ok(0);
 		}
+	}
+	
+	@PostMapping("/deletes")
+	public JSONResult deleteRows(@RequestParam(name="ids") Long[] ids) 
+	{
+		try {
+			if(ids!=null) {
+				departmentService.deleteAll(ids);
+			}
+			return JSONResult.ok(1);
+		} catch (Exception e) {
+			return JSONResult.ok(0);
+		}
+	}
+	
+	@GetMapping("/approve")
+	public JSONResult queryApprove() {
+		//return JSONResult.ok(departmentService.queryAllDepartment());
+		return JSONResult.ok(departmentService.queryWaitApprove());
+	}
+	
+	@PostMapping("/approvePass")
+	public  JSONResult approvePass(@Param("pass") String pass,@Param("id") Long id) {
+		//System.out.println(id+"-----"+pass);
+		Department entity = departmentService.queryDepartmentById(id);
+		//System.out.println(entity.getRealName());
+		if(entity!=null) {
+			if(pass.equals("pass")) {
+				//System.out.println("pass");
+				entity.setCheckStatus(1);
+				departmentService.updateDepartment(entity);
+			}else if(pass.equals("nopass"))  {
+				//System.out.println("nopass");
+				entity.setCheckStatus(2);
+				departmentService.updateDepartment(entity);
+			}
+		}
+		
+		return JSONResult.ok(1);
 	}
 }

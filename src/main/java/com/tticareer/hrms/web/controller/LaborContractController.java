@@ -1,7 +1,13 @@
 package com.tticareer.hrms.web.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import java.text.ParsePosition;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +35,8 @@ public class LaborContractController {
 
 	@Autowired
 	LaborContractService laborContractService;
+	
+	
 	
 	
 	/**
@@ -55,9 +64,48 @@ public class LaborContractController {
 	 * @return
 	 */
 	@GetMapping
-	public JSONResult queryRealAllLaborContract() {
+	/*public JSONResult queryRealAllLaborContract() {
 		return JSONResult.ok(laborContractService.queryAllLaborContract());
+	}*/
+	public JSONResult getPage(@Param("employerName") String employerName,@Param("employeeId") Long employeeId,
+			@Param("createTimeStart") String createTimeStart,@Param("createTimeEnd") String createTimeEnd) 
+	{
+		//System.out.println("---------------------------------------------------");
+		//System.out.println(employerName + "******" +employeeId);
+		//System.out.println(createTimeStart + "******" +createTimeEnd);
+		
+		if (createTimeStart==null && createTimeEnd == null) {
+				return JSONResult.ok(laborContractService.queryAllLaborContract());
+		}else{
+			 SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			 ParsePosition pos1 = new ParsePosition(0);
+			 ParsePosition pos2 = new ParsePosition(0);
+			 Date datecreateTimeStart = formatter.parse(createTimeStart, pos1);
+			 Date datecreateTimeEnd = formatter.parse(createTimeEnd, pos2);		
+	
+			//System.out.println(datecreateTimeStart + "******" +datecreateTimeEnd);
+			//System.out.println("---------------------------------------------------");
+		 
+			if(employerName!=null && employeeId==null && datecreateTimeStart==null && datecreateTimeEnd==null) {
+				return JSONResult.ok(laborContractService.queryLaborContractListByEmployerName(employerName));
+			}
+			else if(employerName==null && employeeId!=null && datecreateTimeStart==null && datecreateTimeEnd==null) {
+				return JSONResult.ok(laborContractService.queryLaborContractListByEmployeeId(employeeId));
+			}
+			else if(employerName==null && employeeId==null && (datecreateTimeStart!=null || datecreateTimeEnd!=null)) {	
+				return  JSONResult.ok(laborContractService.
+						queryLaborContractListByCreateTime(datecreateTimeStart,datecreateTimeEnd));
+			}else {
+				return JSONResult.ok(laborContractService.
+						queryLaborContractListByMore(employerName,employeeId,datecreateTimeStart,datecreateTimeEnd));
+			}
+	
+		 
+		}
+	
+	
 	}
+	
 	
 	/**
 	 * 查询已被删除的合同
@@ -113,4 +161,46 @@ public class LaborContractController {
 			return JSONResult.ok(0);
 		}
 	}
+	
+	@PostMapping("/deletes")
+	public JSONResult deleteRows(@RequestParam(name="ids") Long[] ids) 
+	{
+		try {
+			if(ids!=null) {
+				laborContractService.deleteAll(ids);
+			}
+			return JSONResult.ok(1);
+		} catch (Exception e) {
+			return JSONResult.ok(0);
+		}
+	}
+	
+	
+	@GetMapping("/approve")
+	public JSONResult queryApprove() {
+		//return JSONResult.ok(laborContractService.queryAllLaborContract());
+		return JSONResult.ok(laborContractService.queryWaitApprove());
+	}
+	
+	@PostMapping("/approvePass")
+	public  JSONResult approvePass(@Param("pass") String pass,@Param("id") Long id) {
+		//System.out.println(id+"-----"+pass);
+		LaborContract entity = laborContractService.queryLaborContractById(id);
+		//System.out.println(entity.getRealName());
+		if(entity!=null) {
+			if(pass.equals("pass")) {
+				//System.out.println("pass");
+				entity.setCheckStatus(1);
+				laborContractService.updateLaborContract(entity);
+			}else if(pass.equals("nopass"))  {
+				//System.out.println("nopass");
+				entity.setCheckStatus(2);
+				laborContractService.updateLaborContract(entity);
+			}
+		}
+		
+		return JSONResult.ok(1);
+	}
+
+	
 }

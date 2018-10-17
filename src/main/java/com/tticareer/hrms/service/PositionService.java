@@ -75,4 +75,15 @@ public interface PositionService {
 	 * @return
 	 */
 	public List<Position> queryPositionList(Position position);
+	
+	public List<Position> queryPositionListByPositionNumber(String positionNumber);
+	public List<Position> queryPositionListByPositionName(String positionName);
+	public List<Position> queryPositionListByPositionNumberAndPositionName(String positionNumber,String positionName);
+	
+	
+	public void deleteAll(Long[] ids);
+	
+	
+	public List<Position> queryWaitApprove();
+	
 }

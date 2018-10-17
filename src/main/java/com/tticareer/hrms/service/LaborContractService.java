@@ -1,6 +1,8 @@
 package com.tticareer.hrms.service;
 
+import java.util.Date;
 import java.util.List;
+
 
 import com.tticareer.hrms.pojo.LaborContract;
 
@@ -85,4 +87,17 @@ public interface LaborContractService {
 	 * @return
 	 */
 	public List<LaborContract> queryLaborContractList(LaborContract laborContract);
+	
+	
+	
+	public List<LaborContract> queryLaborContractListByEmployerName(String employerName);
+	public List<LaborContract> queryLaborContractListByEmployeeId(Long employeeId);
+	public List<LaborContract> queryLaborContractListByCreateTime(Date createTimeStart, Date createTimeEnd);
+	public List<LaborContract> queryLaborContractListByMore(String employerName,Long employeeId,Date createTimeStart, Date createTimeEnd);
+	
+	
+	public void deleteAll(Long[] ids);
+	
+	
+	public List<LaborContract> queryWaitApprove();
 }

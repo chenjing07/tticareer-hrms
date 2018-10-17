@@ -44,9 +44,7 @@ public class IEmployeeService implements EmployeeService {
 	@Override
 	public void deleteEmployee(Long id) {
 		Employee emp = employeeMapper.selectByPrimaryKey(id);
-		System.out.println(emp.getState());
 		emp.setState(0);
-		System.out.println(emp.getState());
 		employeeMapper.updateByPrimaryKey(emp);
 	}
 
@@ -57,20 +55,15 @@ public class IEmployeeService implements EmployeeService {
 	
 	@Override
 	public Employee queryEmployeeByUserName(String userName) {
-		//System.out.println(userName);
 		Example example = new Example(Employee.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("userName", userName);
-		//System.out.println(employeeMapper.selectOneByExample(example));
 		return employeeMapper.selectOneByExample(example);
 	}
+	
 
 	@Override
 	public List<Employee> queryAllEmployee() {
-		/*Employee e =  employeeMapper.selectByPrimaryKey(1L);
-		System.out.println(e.getBirthday());
-		Tue Sep 25 16:29:06 CST 2018*/
-		
 		return employeeMapper.selectAll();
 	}
 	
@@ -120,17 +113,15 @@ public class IEmployeeService implements EmployeeService {
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andLike("userName", "%"+ userName+"%");
 		criteria.andNotEqualTo("state", 0);
-		//System.out.println(employeeMapper.selectByExample(example));
 		return employeeMapper.selectByExample(example);
 	}
-
+	
 	@Override
 	public List<Employee> queryEmployeeListByRealName(String realName) {
 		Example example = new Example(Employee.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andLike("realName", "%"+ realName+"%");
 		criteria.andNotEqualTo("state", 0);
-		//System.out.println(employeeMapper.selectByExample(example));
 		return employeeMapper.selectByExample(example);
 	}
 	
@@ -144,4 +135,27 @@ public class IEmployeeService implements EmployeeService {
 		//System.out.println(employeeMapper.selectByExample(example));
 		return employeeMapper.selectByExample(example);
 	}
+	
+	@Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED)
+	@Override
+	public void deleteAll(Long[] ids) {
+		
+		for(int i=0;i<ids.length;i++) {
+			Employee emp = employeeMapper.selectByPrimaryKey(ids[i]);
+			System.out.println(ids[i]);
+			emp.setState(0);
+			//System.out.println(emp.getState());
+			employeeMapper.updateByPrimaryKey(emp);
+			
+		}
+	}
+	
+	@Override
+	public List<Employee> queryWaitApprove() {
+		Example example = new Example(Employee.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("checkSatus", 0);
+		return employeeMapper.selectByExample(example);
+	}
+
 }

@@ -1,5 +1,6 @@
 package com.tticareer.hrms.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,5 +118,68 @@ public class IEmployeePositionInfoService implements EmployeePositionInfoService
 		criteria.andEqualTo("checkStatus", 2);
 		return employeePositionInfoMapper.selectByExample(example);
 	}
+	
+	
+	@Override
+	public List<EmployeePositionInfo> queryEmployeePositionInfoListByEmployeeId(Long employeeId){
+		Example example = new Example(EmployeePositionInfo.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andLike("employeeId", "%"+ employeeId+"%");
+		criteria.andNotEqualTo("state", 0);
+		//System.out.println(departmentMapper.selectByExample(example));
+		return employeePositionInfoMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<EmployeePositionInfo> queryEmployeePositionInfoListByCreateTime(Date createTimeStart, Date createTimeEnd){
+		Example example = new Example(EmployeePositionInfo.class);
+		Example.Criteria criteria = example.createCriteria();
 
+		if(createTimeStart!=null) {
+			criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
+		}
+		if(createTimeEnd!=null) {
+			criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
+		}
+		criteria.andNotEqualTo("state", 0);
+		//System.out.println(departmentMapper.selectByExample(example));
+		return employeePositionInfoMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<EmployeePositionInfo> queryEmployeePositionInfoListByMore(Long employeeId,
+				Date createTimeStart, Date createTimeEnd){
+		
+		Example example = new Example(EmployeePositionInfo.class);
+		Example.Criteria criteria = example.createCriteria();
+
+		if(employeeId!=null)
+			criteria.andLike("employeeId", "%"+ employeeId+"%");
+		if(createTimeStart!=null) {
+			criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
+		}
+		if(createTimeEnd!=null) {
+			criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
+		}
+		criteria.andNotEqualTo("state", 0);
+		return employeePositionInfoMapper.selectByExample(example);
+	}
+	
+
+	@Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED)
+	@Override
+	public void deleteAll(Long[] ids) {
+		
+		for(int i=0;i<ids.length;i++) {
+			EmployeePositionInfo emp = employeePositionInfoMapper.selectByPrimaryKey(ids[i]);
+			System.out.println(ids[i]);
+			emp.setState(0);
+			//System.out.println(emp.getState());
+			employeePositionInfoMapper.updateByPrimaryKey(emp);
+			
+		}
+		
+		
+	}
+	
 }

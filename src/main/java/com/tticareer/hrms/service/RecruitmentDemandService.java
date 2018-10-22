@@ -1,9 +1,10 @@
 package com.tticareer.hrms.service;
 
+
+import java.util.Date;
 import java.util.List;
 
 import com.tticareer.hrms.pojo.RecruitmentDemand;
-import com.tticareer.hrms.pojo.dto.RecruitmentDemandDto;
 
 public interface RecruitmentDemandService {
 	
@@ -12,12 +13,11 @@ public interface RecruitmentDemandService {
 	public void deleteRecruitmentDemand(Long id);
 	public void deleteRecruitmentDemand(Long[] ids);
 	public RecruitmentDemand queryRecruitmentDemandById(Long id);
-	public RecruitmentDemand queryRecruitmentDemandByPositionId(Long positionId);
-	public List<RecruitmentDemand> queryAllRecruitmentDemand();
-	public List<RecruitmentDemand> queryRecruitmentDemandWhoIsDelete();
-	public List<RecruitmentDemand> queryRecruitmentDemandWhoIsNotDelete();
-	/*
-	 * 模糊查询
-	*/
-	public List<RecruitmentDemand> queryRecruitmentDemandList(RecruitmentDemandDto rdDto);
+	public List<RecruitmentDemand> queryRecruitmentDemandByPositionId(Long positionId,Integer pageNum,Integer pageSize,String orderBy);
+	public List<RecruitmentDemand> queryRecruitmentDemandByCreateTime(Date createTimeStart,Date createTimeEnd,Integer pageNum,Integer pageSize,String orderBy);
+	public List<RecruitmentDemand> queryAllRecruitmentDemand(Integer pageNum,Integer pageSize,String orderBy);
+	public List<RecruitmentDemand> queryRecruitmentDemandWhoIsDelete(Integer pageNum,Integer pageSize,String orderBy);
+	public List<RecruitmentDemand> queryRecruitmentDemandWhoIsNotDelete(Integer pageNum,Integer pageSize,String orderBy);
+
+	public List<RecruitmentDemand> queryRecruitmentDemandList(Long positionId,Date createTimeStart,Date createTimeEnd,Integer pageNum,Integer pageSize,String orderBy);
 }

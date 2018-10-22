@@ -21,26 +21,14 @@ public class ClockDetail implements Serializable {
     /**
      * 上午上班打卡时间
      */
-    @Column(name = "morning_in")
-    private Date morningIn;
+    @Column(name = "clock_in")
+    private Date clockIn;
 
     /**
      * 上午下班打卡时间
      */
-    @Column(name = "morning_out")
-    private Date morningOut;
-
-    /**
-     * 下午上班打卡时间
-     */
-    @Column(name = "afternoon_in")
-    private Date afternoonIn;
-
-    /**
-     * 下午下班打卡时间
-     */
-    @Column(name = "afternoon_out")
-    private Date afternoonOut;
+    @Column(name = "clock_out")
+    private Date clockOut;
 
     /**
      * 状态
@@ -60,30 +48,6 @@ public class ClockDetail implements Serializable {
      * 备注
      */
     private String note;
-
-    /**
-     * 上午上班打卡当前坐标
-     */
-    @Column(name = "mi_coordinate")
-    private byte[] miCoordinate;
-
-    /**
-     * 上午下班打卡当前坐标
-     */
-    @Column(name = "mo_coordinate")
-    private byte[] moCoordinate;
-
-    /**
-     * 下午上班打卡当前坐标
-     */
-    @Column(name = "ai_coordinate")
-    private byte[] aiCoordinate;
-
-    /**
-     * 下午下班打卡当前坐标
-     */
-    @Column(name = "ao_coordinate")
-    private byte[] aoCoordinate;
 
     private static final long serialVersionUID = 1L;
 
@@ -126,73 +90,37 @@ public class ClockDetail implements Serializable {
     /**
      * 获取上午上班打卡时间
      *
-     * @return morning_in - 上午上班打卡时间
+     * @return clock_in - 上午上班打卡时间
      */
-    public Date getMorningIn() {
-        return morningIn;
+    public Date getClockIn() {
+        return clockIn;
     }
 
     /**
      * 设置上午上班打卡时间
      *
-     * @param morningIn 上午上班打卡时间
+     * @param clockIn 上午上班打卡时间
      */
-    public void setMorningIn(Date morningIn) {
-        this.morningIn = morningIn;
+    public void setClockIn(Date clockIn) {
+        this.clockIn = clockIn;
     }
 
     /**
      * 获取上午下班打卡时间
      *
-     * @return morning_out - 上午下班打卡时间
+     * @return clock_out - 上午下班打卡时间
      */
-    public Date getMorningOut() {
-        return morningOut;
+    public Date getClockOut() {
+        return clockOut;
     }
 
     /**
      * 设置上午下班打卡时间
      *
-     * @param morningOut 上午下班打卡时间
+     * @param clockOut 上午下班打卡时间
      */
-    public void setMorningOut(Date morningOut) {
-        this.morningOut = morningOut;
-    }
-
-    /**
-     * 获取下午上班打卡时间
-     *
-     * @return afternoon_in - 下午上班打卡时间
-     */
-    public Date getAfternoonIn() {
-        return afternoonIn;
-    }
-
-    /**
-     * 设置下午上班打卡时间
-     *
-     * @param afternoonIn 下午上班打卡时间
-     */
-    public void setAfternoonIn(Date afternoonIn) {
-        this.afternoonIn = afternoonIn;
-    }
-
-    /**
-     * 获取下午下班打卡时间
-     *
-     * @return afternoon_out - 下午下班打卡时间
-     */
-    public Date getAfternoonOut() {
-        return afternoonOut;
-    }
-
-    /**
-     * 设置下午下班打卡时间
-     *
-     * @param afternoonOut 下午下班打卡时间
-     */
-    public void setAfternoonOut(Date afternoonOut) {
-        this.afternoonOut = afternoonOut;
+    public void setClockOut(Date clockOut) {
+        this.clockOut = clockOut;
     }
 
     /**
@@ -259,77 +187,5 @@ public class ClockDetail implements Serializable {
      */
     public void setNote(String note) {
         this.note = note;
-    }
-
-    /**
-     * 获取上午上班打卡当前坐标
-     *
-     * @return mi_coordinate - 上午上班打卡当前坐标
-     */
-    public byte[] getMiCoordinate() {
-        return miCoordinate;
-    }
-
-    /**
-     * 设置上午上班打卡当前坐标
-     *
-     * @param miCoordinate 上午上班打卡当前坐标
-     */
-    public void setMiCoordinate(byte[] miCoordinate) {
-        this.miCoordinate = miCoordinate;
-    }
-
-    /**
-     * 获取上午下班打卡当前坐标
-     *
-     * @return mo_coordinate - 上午下班打卡当前坐标
-     */
-    public byte[] getMoCoordinate() {
-        return moCoordinate;
-    }
-
-    /**
-     * 设置上午下班打卡当前坐标
-     *
-     * @param moCoordinate 上午下班打卡当前坐标
-     */
-    public void setMoCoordinate(byte[] moCoordinate) {
-        this.moCoordinate = moCoordinate;
-    }
-
-    /**
-     * 获取下午上班打卡当前坐标
-     *
-     * @return ai_coordinate - 下午上班打卡当前坐标
-     */
-    public byte[] getAiCoordinate() {
-        return aiCoordinate;
-    }
-
-    /**
-     * 设置下午上班打卡当前坐标
-     *
-     * @param aiCoordinate 下午上班打卡当前坐标
-     */
-    public void setAiCoordinate(byte[] aiCoordinate) {
-        this.aiCoordinate = aiCoordinate;
-    }
-
-    /**
-     * 获取下午下班打卡当前坐标
-     *
-     * @return ao_coordinate - 下午下班打卡当前坐标
-     */
-    public byte[] getAoCoordinate() {
-        return aoCoordinate;
-    }
-
-    /**
-     * 设置下午下班打卡当前坐标
-     *
-     * @param aoCoordinate 下午下班打卡当前坐标
-     */
-    public void setAoCoordinate(byte[] aoCoordinate) {
-        this.aoCoordinate = aoCoordinate;
     }
 }

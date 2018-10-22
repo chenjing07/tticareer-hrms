@@ -29,9 +29,9 @@ public interface AssessmentService {
 	public List<AssessmentStandard> queryAssessmentStandardAudited();
 	public List<AssessmentStandard> queryAssessmentStandardWhoIsNotDeleteAndCheckStatus();
 	public List<AssessmentStandard> queryAssessmentStandardWhoIsNotDeleteAndAudited();
- 	public List<AssessmentStandard> queryAssessmentStandardListA(String positionName);
- 	public List<AssessmentStandard> queryAssessmentStandardListB(String positionName);
- 	public List<AssessmentStandard> queryAssessmentStandardListC(String positionName);
+ 	public List<AssessmentStandard> queryAssessmentStandardListA(Long positionId);
+ 	public List<AssessmentStandard> queryAssessmentStandardListB(Long positionId);
+ 	public List<AssessmentStandard> queryAssessmentStandardListC(Long positionId);
 	
 	public void saveEmployeeAssessment(EmployeeAssessment ea);
 	public void updateEmployeeAssessment(EmployeeAssessment ea);

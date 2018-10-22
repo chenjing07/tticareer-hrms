@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tticareer.hrms.mapper.ClockDetailMapper;
+import com.tticareer.hrms.mapper.HolidayStatisticsMapper;
 import com.tticareer.hrms.mapper.LateEarlyMapper;
 import com.tticareer.hrms.mapper.LeaveDetailMapper;
 import com.tticareer.hrms.mapper.OverWorkMapper;
 import com.tticareer.hrms.pojo.ClockDetail;
+import com.tticareer.hrms.pojo.HolidayStatistics;
 import com.tticareer.hrms.pojo.LateEarly;
 import com.tticareer.hrms.pojo.LeaveDetail;
 import com.tticareer.hrms.pojo.OverWork;
@@ -40,6 +42,9 @@ public class IAttendenceService implements AttendanceService {
 	@Autowired
 	LeaveDetailMapper ldMapper;
 	
+	@Autowired
+	HolidayStatisticsMapper hsMapper;
+	
 	@Override
 	public void saveOverWork(OverWork ow) {
 		owMapper.insert(ow);
@@ -52,7 +57,9 @@ public class IAttendenceService implements AttendanceService {
 
 	@Override
 	public void deleteOverWork(Long id) {
-		owMapper.deleteByPrimaryKey(id);
+		OverWork ow = owMapper.selectByPrimaryKey(id);
+		ow.setState(0);
+		owMapper.updateByPrimaryKey(ow);
 	}
 
 	@Override
@@ -60,13 +67,24 @@ public class IAttendenceService implements AttendanceService {
 		for (Long id : ids) {
 			OverWork ow = owMapper.selectByPrimaryKey(id);
 			ow.setState(0);
-			owMapper.deleteByPrimaryKey(id);
+			owMapper.updateByPrimaryKey(ow);
 		}
 	}
 
 	@Override
 	public OverWork queryOverWorkById(Long id) {
 		return owMapper.selectByPrimaryKey(id);
+	}
+	
+	@Override
+	public OverWork queryOverWork(OverWork ow) {
+		Example example = new Example(OverWork.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("employeeId", ow.getEmployeeId());
+		criteria.andEqualTo("time", ow.getTime());
+		criteria.andEqualTo("duration", ow.getDuration());
+		criteria.andEqualTo("content", ow.getContent());
+		return owMapper.selectOneByExample(example);
 	}
 
 	@Override
@@ -81,14 +99,6 @@ public class IAttendenceService implements AttendanceService {
 	public List<OverWork> queryAllOverWork() {
 		return owMapper.selectAll();
 	}
-
-	@Override
-	public List<OverWork> queryOverWorkState(OverWork ow) {
-		Example example = new Example(OverWork.class);
-		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("state", ow.getState());
-		return owMapper.selectByExample(example);
-	}
 	
 	@Override
 	public List<OverWork> queryOverWorkWhoIsNotDelete() {
@@ -102,7 +112,7 @@ public class IAttendenceService implements AttendanceService {
 	public List<OverWork> queryOverWorkList(OverWork ow) {
 		Example example = new Example(OverWork.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andLike("content", "%" + ow.getContent() + "%");
+		criteria.andEqualTo("employeeId", ow.getEmployeeId());
 		criteria.andNotEqualTo("state", 0);
 		return owMapper.selectByExample(example);
 	}
@@ -132,6 +142,17 @@ public class IAttendenceService implements AttendanceService {
 			leMapper.updateByPrimaryKey(le);
 		}
 	}
+	
+	@Override
+	public LateEarly queryLateEarly(LateEarly le) {
+		Example example = new Example(LateEarly.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("employeeId", le.getEmployeeId());
+		criteria.andEqualTo("lateEarlyTime", le.getLateEarlyTime());
+		criteria.andEqualTo("lateEarlyReason", le.getLateEarlyReason());
+		criteria.andEqualTo("state", le.getState());
+		return leMapper.selectOneByExample(example);
+	}
 
 	@Override
 	public LateEarly queryLateEarlyById(Long id) {
@@ -149,14 +170,6 @@ public class IAttendenceService implements AttendanceService {
 	@Override
 	public List<LateEarly> queryAllLateEarly() {
 		return leMapper.selectAll();
-	}
-
-	@Override
-	public List<LateEarly> queryLateEarlyState(LateEarly le) {
-		Example example = new Example(LateEarly.class);
-		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("state", le.getState());
-		return leMapper.selectByExample(example);
 	}
 
 	@Override
@@ -201,6 +214,15 @@ public class IAttendenceService implements AttendanceService {
 			cdMapper.updateByPrimaryKey(cd);
 		}
 	}
+	
+	@Override
+	public ClockDetail queryClockDetail(ClockDetail cd) {
+		Example example = new Example(ClockDetail.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("employeeId", cd.getEmployeeId());
+		criteria.andEqualTo("state", 1);
+		return cdMapper.selectOneByExample(example);
+	}
 
 	@Override
 	public ClockDetail queryClockDetailById(Long id) {
@@ -218,14 +240,6 @@ public class IAttendenceService implements AttendanceService {
 	@Override
 	public List<ClockDetail> queryAllClockDetail() {
 		return cdMapper.selectAll();
-	}
-
-	@Override
-	public List<ClockDetail> queryClockDetailState(ClockDetail cd) {
-		Example example = new Example(ClockDetail.class);
-		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("state", cd.getState());
-		return cdMapper.selectByExample(example);
 	}
 
 	@Override
@@ -267,7 +281,19 @@ public class IAttendenceService implements AttendanceService {
 			ldMapper.updateByPrimaryKey(ld);
 		}
 	}
-
+	
+	@Override
+	public LeaveDetail queryLeaveDetail(LeaveDetail ld) {
+		Example example = new Example(LeaveDetail.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("employeeId", ld.getEmployeeId());
+		criteria.andEqualTo("leaveStart", ld.getLeaveStart());
+		criteria.andEqualTo("leaveEnd", ld.getLeaveEnd());
+		criteria.andEqualTo("leaveDays", ld.getLeaveDays());
+		criteria.andLike("reason", "%" + ld.getReason() + "%");
+		return ldMapper.selectOneByExample(example);
+	}
+	
 	@Override
 	public LeaveDetail queryLeaveDetailById(Long id) {
 		return ldMapper.selectByPrimaryKey(id);
@@ -285,36 +311,30 @@ public class IAttendenceService implements AttendanceService {
 	public List<LeaveDetail> queryAllLeaveDetail() {
 		return ldMapper.selectAll();
 	}
-
+	
 	@Override
-	public List<LeaveDetail> queryLeaveDetailState(LeaveDetail ld) {
+	public List<LeaveDetail> queryLeaveDetailCheckStatus() {
 		Example example = new Example(LeaveDetail.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("state", ld.getState());
+		criteria.andEqualTo("checkStatus", 1);
 		return ldMapper.selectByExample(example);
 	}
 
 	@Override
-	public List<LeaveDetail> queryLeaveDetailWhoIsNotDelete() {
+	public List<LeaveDetail> queryLeaveDetailWhoIsNotDeleteAndCheckStatus() {
 		Example example = new Example(LeaveDetail.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andNotEqualTo("state", 0);
-		return ldMapper.selectByExample(example);
-	}
-
-	@Override
-	public List<LeaveDetail> queryLeaveDetailCheckStatus(LeaveDetail ld) {
-		Example example = new Example(LeaveDetail.class);
-		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("checkStatus", ld.getCheckStatus());
+		criteria.andEqualTo("checkStatus", 1);
 		return ldMapper.selectByExample(example);
 	}
 	
 	@Override
-	public List<LeaveDetail> queryLeaveDetailAudited() {
+	public List<LeaveDetail> queryLeaveDetailWhoIsNotDeleteAndAudited() {
 		Example example = new Example(LeaveDetail.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andNotEqualTo("checkStatus", 0);
+		criteria.andNotEqualTo("state", 0);
+		criteria.andEqualTo("checkStatus", 0);
 		return ldMapper.selectByExample(example);
 	}
 
@@ -325,6 +345,76 @@ public class IAttendenceService implements AttendanceService {
 		criteria.andLike("reason", "%" + ld.getReason() + "%");
 		criteria.andNotEqualTo("state", 0);
 		return ldMapper.selectByExample(example);
+	}
+
+	@Override
+	public void saveHolidayStatistics(HolidayStatistics hs) {
+		hsMapper.insert(hs);
+	}
+
+	@Override
+	public void updateHolidayStatistics(HolidayStatistics hs) {
+		hsMapper.updateByPrimaryKey(hs);
+	}
+
+	@Override
+	public void deleteHolidayStatistics(Long id) {
+		HolidayStatistics hs = hsMapper.selectByPrimaryKey(id);
+		hs.setState(0);
+		hsMapper.updateByPrimaryKey(hs);
+	}
+
+	@Override
+	public void deleteHolidayStatisticsList(Long[] ids) {
+		for (Long id : ids) {
+			HolidayStatistics hs = hsMapper.selectByPrimaryKey(id);
+			hs.setState(0);
+			hsMapper.updateByPrimaryKey(hs);
+		}
+	}
+
+	@Override
+	public HolidayStatistics queryHolidayStatisticsById(Long id) {
+		return hsMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public HolidayStatistics queryHolidayStatisticsByEmployeeId(Long employeeId) {
+		Example example = new Example(HolidayStatistics.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("employeeId", employeeId);
+		return hsMapper.selectOneByExample(example);
+	}
+
+	@Override
+	public List<HolidayStatistics> queryAllHolidayStatistics() {
+		return hsMapper.selectAll();
+	}
+	
+	@Override
+	public List<HolidayStatistics> queryHolidayStatisticsCheckStatus() {
+		Example example = new Example(HolidayStatistics.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("checkStatus", 1);
+		return hsMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<HolidayStatistics> queryHolidayStatisticsWhoIsNotDeleteAndCheckStatus() {
+		Example example = new Example(HolidayStatistics.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andNotEqualTo("state", 0);
+		criteria.andEqualTo("checkStatus", 1);
+		return hsMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<HolidayStatistics> queryHolidayStatisticsWhoIsNotDeleteAndAudited() {
+		Example example = new Example(HolidayStatistics.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andNotEqualTo("state", 0);
+		criteria.andEqualTo("checkStatus", 0);
+		return hsMapper.selectByExample(example);
 	}
 
 }

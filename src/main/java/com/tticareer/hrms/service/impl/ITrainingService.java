@@ -109,10 +109,10 @@ public class ITrainingService implements TrainingService {
 	}
 
 	@Override
-	public List<TrainingInfo> queryTrainingInfoState(String state) {
+	public List<TrainingInfo> queryTrainingInfoDelete() {
 		Example example = new Example(TrainingInfo.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("state", state);
+		criteria.andEqualTo("state", 0);
 		return tiMapper.selectByExample(example);
 	}
 

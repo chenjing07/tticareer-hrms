@@ -68,7 +68,7 @@ public class IPositionService implements PositionService {
 		// TODO Auto-generated method stub
 		Example example = new Example(Position.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("positionName", positionName);
+		criteria.andLike("positionName", "%" + positionName + "%");
 		return positionMapper.selectOneByExample(example);
 	}
 

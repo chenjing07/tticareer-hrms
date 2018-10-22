@@ -97,7 +97,7 @@ public interface TrainingService {
 	 * @param state
 	 * @return
 	 */
-	public List<TrainingInfo> queryTrainingInfoState(String state);
+	public List<TrainingInfo> queryTrainingInfoDelete();
 	
 	/**
 	 * <p>Title: queryTrainingInfoWhoIsNotDelete</p>

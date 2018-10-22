@@ -104,14 +104,8 @@ create table clock_detail
 (
    id                   bigint not null auto_increment comment '唯一标识，主键自增',
    employee_id          bigint not null comment '员工id',
-   morning_in           datetime comment '上午上班打卡时间',
-   mi_coordinate        geometry comment '上午上班打卡当前坐标',
-   morning_out          datetime comment '上午下班打卡时间',
-   mo_coordinate        geometry comment '上午下班打卡当前坐标',
-   afternoon_in         datetime comment '下午上班打卡时间',
-   ai_coordinate        geometry comment '下午上班打卡当前坐标',
-   afternoon_out        datetime comment '下午下班打卡时间',
-   ao_coordinate        geometry comment '下午下班打卡当前坐标',
+   clock_in           	datetime comment '上班打卡时间',
+   clock_out        	datetime comment '下班打卡时间',
    state                int not null comment '状态
             {
             	0异常 1按例
@@ -128,8 +122,8 @@ create table department
 (
    id                   bigint not null auto_increment comment '唯一id，主键自增',
    superior_department_id bigint comment '上级部门id',
-   department_number    varchar(20) not null comment '部门编号',
-   department_name      varchar(10) not null comment '部门名称',
+   department_number    varchar(30) not null comment '部门编号',
+   department_name      varchar(30) not null comment '部门名称',
    department_introduction varchar(255) not null comment '部门简介',
    state                int not null comment '状态 0冻结1激活',
    create_time          datetime not null comment '录入时间',
@@ -147,20 +141,20 @@ create table employee
    user_name            varchar(30) comment '工号  部门编号+岗位编号+员工id   录账号
             ',
    password             varchar(36),
-   real_name            varchar(10) not null comment '员工真实姓名',
-   id_card_number       varchar(20) comment '员工身份证号',
+   real_name            varchar(30) not null comment '员工真实姓名',
+   id_card_number       varchar(30) comment '员工身份证号',
    id_card_picture      varchar(255) comment '身份证图片存放地址',
    birthday             datetime not null comment '出生年月',
    gender               int not null comment '性别1男0女',
-   nation               varchar(10) not null comment '民族',
-   native_place         varchar(20) not null comment '籍贯',
-   registered_address   varchar(30) not null comment '户口地址',
+   nation               varchar(50) not null comment '民族',
+   native_place         varchar(50) not null comment '籍贯',
+   registered_address   varchar(255) not null comment '户口地址',
    house_address        varchar(255) not null comment '家庭住址',
-   education            varchar(20) comment '学历',
-   academic_degree      varchar(20) comment '学位',
-   major                varchar(20) comment '专业',
-   tie                  varchar(20) comment '系别',
-   graduated_school     varchar(20) comment '毕业院校',
+   education            varchar(50) comment '学历',
+   academic_degree      varchar(50) comment '学位',
+   major                varchar(50) comment '专业',
+   tie                  varchar(50) comment '系别',
+   graduated_school     varchar(50) comment '毕业院校',
    graduated_time       datetime comment '毕业时间',
    political_status     int not null comment '政治面貌
             {
@@ -171,16 +165,16 @@ create table employee
             {
             	1简历应聘2招聘网站3其它途径
             }',
-   account_bank         varchar(20) not null comment '开户银行',
+   account_bank         varchar(30) not null comment '开户银行',
    account_number       varchar(30) not null comment '工资账户',
    phone_number         varchar(20) not null comment '手机号码',
-   email                varchar(30) not null comment '邮箱',
+   email                varchar(50) not null comment '邮箱',
    qq                   varchar(30) comment 'qq号码',
    wechat               varchar(30) comment '微信号',
    msn                  varchar(30) comment 'MSN',
-   emergency_contact_name varchar(10) comment '紧急联系人姓名',
-   emergency_contact_relationship varchar(10) comment '紧急联系人姓名',
-   emergency_contact_number varchar(20) comment '紧急联系人电话',
+   emergency_contact_name varchar(30) comment '紧急联系人姓名',
+   emergency_contact_relationship varchar(50) comment '紧急联系人关系',
+   emergency_contact_number varchar(30) comment '紧急联系人电话',
    work_start           datetime comment '入职时间',
    work_end             datetime comment '离职时间',
    practice_start       datetime comment '实习开始时间',
@@ -267,7 +261,10 @@ create table examination_questions
             {
             	0易 1中 2难
             }	',
-   category             int not null comment '分类',
+   category             int not null comment '分类
+   		{
+   			1选择题 2填空题 3问答题 4计算题
+   		}'，
    explanation          varchar(255) not null comment '讲解',
    state                int not null comment '状态
             {
@@ -354,7 +351,7 @@ create table interview
    two_feedback         varchar(255) not null comment '复面反馈总结',
    state                int not null comment '状态
             {
-            	0落选 1进入二面
+            	0落选 1进入二面2录用
             }',
    create_time          datetime not null comment '录入时间',
    note                 varchar(255) comment '备注',
@@ -434,9 +431,9 @@ create table leave_detail
 create table over_work
 (
    id           		bigint not null auto_increment comment '唯一标识，主键自增',
-   employee_Id          bigint not null comment '员工id',
+   employee_id          bigint not null comment '员工id',
    time         		datetime not null comment '加班日期',
-   duration     		varchar(20) not null comment '加班时长',
+   duration     		varchar(50) not null comment '加班时长',
    content      		varchar(255) not null comment '加班内容',
    state                int not null comment '状态
             {
@@ -454,8 +451,8 @@ create table position
 (
    id                   bigint not null auto_increment comment '唯一标识，主键自增',
    department_id        bigint comment '部门id',
-   position_number      varchar(25) not null comment '岗位编号',
-   position_name        varchar(10) not null comment '岗位名称',
+   position_number      varchar(50) not null comment '岗位编号',
+   position_name        varchar(50) not null comment '岗位名称',
    superior_positionId  bigint comment '上级岗位id',
    position_introduction varchar(255) not null comment '岗位简介',
    state                int not null comment '状态 0冻结1激活',
@@ -477,12 +474,12 @@ create table recruitment_demand
    supplemental_number  int comment '增补人数',
    supplement_reason    varchar(255) comment '增补原因',
    arrival_date         datetime not null comment '到岗日期',
-   language_requirements varchar(50) not null comment '外语要求',
-   professional_requirements varchar(50) not null comment '专业要求',
-   educational_requirements varchar(50) not null comment '学历要求',
-   computer_requirements varchar(50) not null comment '电脑要求',
-   experience_requirements varchar(50) not null comment '经验要求',
-   age_requirements     varchar(50) not null comment '年龄要求',
+   language_requirements varchar(255) not null comment '外语要求',
+   professional_requirements varchar(255) not null comment '专业要求',
+   educational_requirements varchar(255) not null comment '学历要求',
+   computer_requirements varchar(255) not null comment '电脑要求',
+   experience_requirements varchar(255) not null comment '经验要求',
+   age_requirements     varchar(255) not null comment '年龄要求',
    post_duties          varchar(255) not null comment '岗位职责',
    post_requirements    varchar(255) not null comment '岗位要求',
    state                int not null comment '状态
@@ -499,16 +496,16 @@ create table recruitment_demand
 /*==============================================================*/
 create table resume
 (
-   id                   bigint not null comment '唯一标识，主键自增',
-   application_name     varchar(10) not null comment '应聘人姓名',
-   expected_position    varchar(10) not null comment '期望的职位',
-   id_card_number       varchar(20) not null comment '身份证号',
-   id_card_picture      varchar(0) not null comment '身份证图片存放地址',
+   id                   bigint not null auto_increment comment '唯一标识，主键自增',
+   application_name     varchar(50) not null comment '应聘人姓名',
+   expected_position    varchar(50) not null comment '期望的职位',
+   id_card_number       varchar(30) not null comment '身份证号',
+   id_card_picture      varchar(100) not null comment '身份证图片存放地址',
    birthday             datetime not null comment '出生年月',
    gender               int not null comment '性别1男0女',
-   nation               varchar(10) not null comment '民族',
-   native_place         varchar(20) not null comment '籍贯',
-   registered_address   varchar(30) not null comment '户口地址',
+   nation               varchar(30) not null comment '民族',
+   native_place         varchar(30) not null comment '籍贯',
+   registered_address   varchar(255) not null comment '户口地址',
    house_address        varchar(255) not null comment '家庭住址',
    political_status     int not null comment '政治面貌
             {
@@ -516,18 +513,18 @@ create table resume
             }',
    marital_status       int not null comment '婚姻状况 0未婚1已婚',
    phone_number         varchar(20) not null comment '手机号码',
-   email                varchar(30) not null comment '邮箱',
+   email                varchar(50) not null comment '邮箱',
    qq                   varchar(20) comment 'qq号码',
-   education            varchar(20) comment '学历',
-   academic_degree      varchar(20) comment '学位',
-   major                varchar(20) comment '专业',
-   tie                  varchar(20) comment '系别',
-   graduated_school     varchar(20) comment '毕业院校',
+   education            varchar(50) comment '学历',
+   academic_degree      varchar(50) comment '学位',
+   major                varchar(50) comment '专业',
+   tie                  varchar(50) comment '系别',
+   graduated_school     varchar(255) comment '毕业院校',
    graduated_time       datetime comment '毕业时间',
    awards_received      varchar(255) comment '获得的奖项',
-   language_level       varchar(10) not null comment '语言水平',
+   language_level       varchar(255) not null comment '语言水平',
    work_experience      varchar(255) not null comment '工作经验',
-   hobbies              varchar(100) comment '兴趣爱好',
+   hobbies              varchar(255) comment '兴趣爱好',
    self_evaluation      varchar(255) not null comment '自我评价',
    state                int not null comment '状态
             {
@@ -607,9 +604,9 @@ create table training_info
    id                   bigint not null auto_increment comment '唯一标识，主键自增',
    department_id        bigint comment '部门id',
    employee_id          bigint comment '员工id',
-   lecturer             varchar(10) not null comment '讲师',
+   lecturer             varchar(30) not null comment '讲师',
    time                 datetime not null comment '培训开始时间',
-   duration             varchar(20) not null comment '培训计划时长',
+   duration             varchar(30) not null comment '培训计划时长',
    purpose              varchar(255) not null comment '培训目的',
    number               int comment '计划人数',
    cost                 decimal not null comment '计划费用',
@@ -711,7 +708,7 @@ alter table late_early add constraint FK_Reference_25 foreign key (employee_id)
 alter table leave_detail add constraint FK_Reference_27 foreign key (employee_id)
       references employee (id) on delete restrict on update restrict;
 
-alter table over_work add constraint FK_Reference_29 foreign key (employeeId)
+alter table over_work add constraint FK_Reference_29 foreign key (employee_id)
       references employee (id) on delete restrict on update restrict;
 
 alter table position add constraint FK_Reference_36 foreign key (department_id)

@@ -1,4 +1,4 @@
-package com.tticareer.hrms.util;
+package com.tticareer.hrms.web.controller;
 
 import javax.servlet.http.HttpSession;
 

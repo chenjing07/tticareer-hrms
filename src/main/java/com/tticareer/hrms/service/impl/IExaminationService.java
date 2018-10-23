@@ -1,5 +1,6 @@
 package com.tticareer.hrms.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +9,11 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
 import com.tticareer.hrms.mapper.ExaminationQuestionsMapper;
 import com.tticareer.hrms.mapper.WrittenExaminationContentMapper;
 import com.tticareer.hrms.pojo.ExaminationQuestions;
 import com.tticareer.hrms.pojo.WrittenExaminationContent;
-import com.tticareer.hrms.pojo.dto.ExaminationQuestionsDto;
-import com.tticareer.hrms.pojo.dto.WrittenExaminationContentDto;
 import com.tticareer.hrms.service.ExaminationService;
 
 import tk.mybatis.mapper.entity.Example;
@@ -68,12 +68,36 @@ public class IExaminationService implements ExaminationService {
 	}
 
 	@Override
-	public List<WrittenExaminationContent> queryAllWrittenExaminationContent() {
+	public List<WrittenExaminationContent> queryAllWrittenExaminationContent(Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		return writtenExaminationContentMapper.selectAll();
 	}
 
 	@Override
-	public List<WrittenExaminationContent> queryWrittenExaminationContentWhoIsDelete() {
+	public List<WrittenExaminationContent> queryWrittenExaminationContentByState(Integer state,Integer pageNum,Integer pageSize,String orderBy){
+		PageHelper.startPage(pageNum, pageSize,orderBy);
+		Example example = new Example(WrittenExaminationContent.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("state", state);
+		return writtenExaminationContentMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<WrittenExaminationContent> queryWrittenExaminationContentByCreateTime(Date createTimeStart,Date createTimeEnd,Integer pageNum,Integer pageSize,String orderBy){
+		PageHelper.startPage(pageNum, pageSize,orderBy);
+		Example example = new Example(WrittenExaminationContent.class);
+		Example.Criteria criteria = example.createCriteria();
+		if(null!=createTimeStart)
+			criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
+		if(null!=createTimeEnd)
+			criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
+		criteria.andNotEqualTo("state", 0);
+		return writtenExaminationContentMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<WrittenExaminationContent> queryWrittenExaminationContentWhoIsDelete(Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(WrittenExaminationContent.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("state", 0);
@@ -81,7 +105,8 @@ public class IExaminationService implements ExaminationService {
 	}
 
 	@Override
-	public List<WrittenExaminationContent> queryWrittenExaminationContentWhoIsNotDelete() {
+	public List<WrittenExaminationContent> queryWrittenExaminationContentWhoIsNotDelete(Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(WrittenExaminationContent.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andNotEqualTo("state", 0);
@@ -89,15 +114,16 @@ public class IExaminationService implements ExaminationService {
 	}
 
 	@Override
-	public List<WrittenExaminationContent> queryWrittenExaminationContentList(WrittenExaminationContentDto wecDto) {
+	public List<WrittenExaminationContent> queryWrittenExaminationContentList(Integer state,Date createTimeStart,Date createTimeEnd,Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(WrittenExaminationContent.class);
 		Example.Criteria criteria = example.createCriteria();
-		if(null!=wecDto.getState())
-			criteria.andLike("state", "%" + wecDto.getState() + "%");
-		if(null!=wecDto.getCreateTimeStart())
-			criteria.andGreaterThanOrEqualTo("createTime", wecDto.getCreateTimeStart());
-		if(null!=wecDto.getCreateTimeEnd())
-			criteria.andLessThanOrEqualTo("createTime", wecDto.getCreateTimeEnd());
+		if(null!=state)
+			criteria.andEqualTo("state", state);
+		if(null!=createTimeStart)
+			criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
+		if(null!=createTimeEnd)
+			criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
 		return writtenExaminationContentMapper.selectByExample(example);
 	}
 	
@@ -142,28 +168,66 @@ public class IExaminationService implements ExaminationService {
 	}
 
 	@Override
-	public List<ExaminationQuestions> queryExaminationQuestionsByCategory(int category){
+	public List<ExaminationQuestions> queryExaminationQuestionsByCategory(Integer category,Integer pageNum,Integer pageSize,String orderBy){
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(ExaminationQuestions.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("category", category);
+		criteria.andNotEqualTo("state", 0);
+		criteria.andNotEqualTo("state", -1);
+		return examinationQuestionsMapper.selectByExample(example);
+	}
+	@Override
+	public List<ExaminationQuestions> queryExaminationQuestionsByState(Integer state,Integer pageNum,Integer pageSize,String orderBy){
+		PageHelper.startPage(pageNum, pageSize,orderBy);
+		Example example = new Example(ExaminationQuestions.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("state", state);
 		return examinationQuestionsMapper.selectByExample(example);
 	}
 	
 	@Override
-	public List<ExaminationQuestions> queryAllExaminationQuestions() {
+	public List<ExaminationQuestions> queryExaminationQuestionsByCreateTime(Date createTimeStart,Date createTimeEnd,Integer pageNum,Integer pageSize,String orderBy){
+		PageHelper.startPage(pageNum, pageSize,orderBy);
+		Example example = new Example(ExaminationQuestions.class);
+		Example.Criteria criteria = example.createCriteria();
+		if(null!=createTimeStart)
+			criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
+		if(null!=createTimeEnd)
+			criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
+		criteria.andNotEqualTo("state", 0);
+		criteria.andNotEqualTo("state", -1);
+		return examinationQuestionsMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<ExaminationQuestions> queryAllExaminationQuestions(Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		return examinationQuestionsMapper.selectAll();
 	}
 
 	@Override
-	public List<ExaminationQuestions> queryExaminationQuestionsWhoIsDelete() {
+	public List<ExaminationQuestions> queryExaminationQuestionsWhoIsDelete(Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(ExaminationQuestions.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("state", 0);
 		return examinationQuestionsMapper.selectByExample(example);
 	}
-
+	
 	@Override
-	public List<ExaminationQuestions> queryExaminationQuestionsWhoIsUsing() {
+	public List<ExaminationQuestions> queryExaminationQuestionsWhoIsNotDeleteAndNotWrong(Integer pageNum,Integer pageSize,String orderBy){
+		PageHelper.startPage(pageNum, pageSize,orderBy);
+		Example example = new Example(ExaminationQuestions.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andNotEqualTo("state", 0);
+		criteria.andNotEqualTo("state", -1);
+		return examinationQuestionsMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<ExaminationQuestions> queryExaminationQuestionsWhoIsUsing(Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(ExaminationQuestions.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("state", 2);
@@ -171,7 +235,8 @@ public class IExaminationService implements ExaminationService {
 	}
 
 	@Override
-	public List<ExaminationQuestions> queryExaminationQuestionsWhoIsNotUsing() {
+	public List<ExaminationQuestions> queryExaminationQuestionsWhoIsNotUsing(Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(ExaminationQuestions.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("state", 1);
@@ -179,7 +244,8 @@ public class IExaminationService implements ExaminationService {
 	}
 	
 	@Override
-	public List<ExaminationQuestions> queryExaminationQuestionsWhoIsWrong() {
+	public List<ExaminationQuestions> queryExaminationQuestionsWhoIsWrong(Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(ExaminationQuestions.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("state", -1);
@@ -187,37 +253,18 @@ public class IExaminationService implements ExaminationService {
 	}
 	
 	@Override
-	public List<ExaminationQuestions> queryExaminationQuestionsList(ExaminationQuestionsDto examinationQuestionsDto){
+	public List<ExaminationQuestions> queryExaminationQuestionsList(Integer state,Date createTimeStart,Date createTimeEnd,Integer pageNum,Integer pageSize,String orderBy){
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(ExaminationQuestions.class);
 		Example.Criteria criteria = example.createCriteria();
-		if(null!=examinationQuestionsDto.getState())
-			criteria.andLike("state", "%" + examinationQuestionsDto.getState() + "%");
-		if(null!=examinationQuestionsDto.getCategory())
-			criteria.andLike("category", "%" + examinationQuestionsDto.getCategory() + "%");
-		if(null!=examinationQuestionsDto.getCreateTimeStart())
-			criteria.andGreaterThanOrEqualTo("createTime", examinationQuestionsDto.getCreateTimeStart());
-		if(null!=examinationQuestionsDto.getCreateTimeEnd())
-			criteria.andLessThanOrEqualTo("createTime", examinationQuestionsDto.getCreateTimeEnd());
-		criteria.andNotEqualTo("state", 0);
+		if(null!=state)
+			criteria.andEqualTo("state",state);
+		if(null!=createTimeStart)
+			criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
+		if(null!=createTimeEnd)
+			criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
 		return examinationQuestionsMapper.selectByExample(example);
 	}
 
-	@Override
-	public List<ExaminationQuestions> queryExaminationQuestionsListA(ExaminationQuestions examinationQuestions) {
-		Example example = new Example(ExaminationQuestions.class);
-		Example.Criteria criteria = example.createCriteria();
-		criteria.andLike("question", "%" + examinationQuestions.getQuestion() + "%");
-		criteria.andEqualTo("state", 1);
-		return examinationQuestionsMapper.selectByExample(example);
-	}
-	
-	@Override
-	public List<ExaminationQuestions> queryExaminationQuestionsListB(ExaminationQuestions examinationQuestions) {
-		Example example = new Example(ExaminationQuestions.class);
-		Example.Criteria criteria = example.createCriteria();
-		criteria.andLike("question", "%" + examinationQuestions.getQuestion() + "%");
-		criteria.andEqualTo("state", 2);
-		return examinationQuestionsMapper.selectByExample(example);
-	}
 
 }

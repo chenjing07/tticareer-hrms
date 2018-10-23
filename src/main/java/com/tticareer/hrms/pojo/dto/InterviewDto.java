@@ -2,22 +2,22 @@ package com.tticareer.hrms.pojo.dto;
 
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class InterviewDto {
 
 	private Long id;
 	private Long resumeId;
 	private String oneContent;
-	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
 	private Date oneStart;
-	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
 	private Date oneEnd;
 	private String oneFeedback;
 	private String twoContent;
-	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
 	private Date twoStart;
-	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
 	private Date twoEnd;
 	private String twoFeedback;
 	/**
@@ -27,12 +27,12 @@ public class InterviewDto {
             }
      */
 	private Integer state;
-	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
 	private Date createTime;
 	
-	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")  
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")  
 	private Date createTimeStart;
-	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")  
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8") 
 	private Date createTimeEnd;
 	
 	private String note;

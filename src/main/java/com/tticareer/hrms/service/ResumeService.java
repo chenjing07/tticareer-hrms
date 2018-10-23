@@ -1,30 +1,29 @@
 package com.tticareer.hrms.service;
 
+import java.util.Date;
 import java.util.List;
 
-
 import com.tticareer.hrms.pojo.Resume;
-import com.tticareer.hrms.pojo.dto.ResumeDto;
 
 public interface ResumeService {
 
+	public void saveResume(Resume resume);
 	public void updateResume(Resume resume);
 	public void deleteResume(Long id);
 	public void deleteResume(Long[] ids);
 	public Resume queryResumeById(Long id);
-	public List<Resume> queryResumeByApplicationName(String applicationName);
-	public List<Resume> queryAllResume();
+	public List<Resume> queryResumeByApplicationName(String applicationName,Integer pageNum,Integer pageSize,String orderBy);
+	public List<Resume> queryResumeByCreateTime(Date createTimeStart,Date createTimeEnd,Integer pageNum,Integer pageSize,String orderBy);
+	public List<Resume> queryAllResume(Integer pageNum,Integer pageSize,String orderBy);
 	/*
 	 * 按状态查询
 	*/
-	public List<Resume> queryResumeListWhoIsWaiting();
-	public List<Resume> queryResumeListWhoIsPass();
-	public List<Resume> queryResumeListWhoIsNotPass();
-	/*
-	* 模糊查询
-	*/
-	public List<Resume> queryResumeList(ResumeDto resumeDto);
-	public List<Resume> queryResumeListA(String expectedPosition);
-	public List<Resume> queryResumeListB(String expectedPosition);
+	public List<Resume> queryResumeByState(Integer state,Integer pageNum,Integer pageSize,String orderBy);
+	public List<Resume> queryResumeListWhoIsWaiting(Integer pageNum,Integer pageSize,String orderBy);
+	public List<Resume> queryResumeListWhoIsNotDelete(Integer pageNum,Integer pageSize,String orderBy);
+	public List<Resume> queryResumeListWhoIsPass(Integer pageNum,Integer pageSize,String orderBy);
+	public List<Resume> queryResumeListWhoIsNotPass(Integer pageNum,Integer pageSize,String orderBy);
+
+	public List<Resume> queryResumeList(String applicationName,Date createTimeStart,Date createTimeEnd,Integer pageNum,Integer pageSize,String orderBy);
 	
 }

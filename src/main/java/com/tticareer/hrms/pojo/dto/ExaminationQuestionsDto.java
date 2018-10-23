@@ -2,7 +2,7 @@ package com.tticareer.hrms.pojo.dto;
 
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ExaminationQuestionsDto {
 
@@ -17,6 +17,12 @@ public class ExaminationQuestionsDto {
             }	
      */
 	private Integer difficultyLevel;
+	/**
+     * 分类
+     	{
+     		1选择题 2填空题 3问答题 4计算题
+     	}
+     */
 	private Integer category;
 	private String explanation;
 	/**
@@ -26,12 +32,12 @@ public class ExaminationQuestionsDto {
             }
      */
     private Integer state;
-    @DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
 	private Date createTime;
 	
-	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")  
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")  
 	private Date createTimeStart;
-	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")  
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")  
 	private Date createTimeEnd;
 	
     private String note;

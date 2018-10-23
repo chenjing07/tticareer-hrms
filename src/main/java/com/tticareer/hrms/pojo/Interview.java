@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Interview implements Serializable {
     /**
      * 唯一标识，主键自增
@@ -27,12 +29,14 @@ public class Interview implements Serializable {
      * 初面开始时间
      */
     @Column(name = "one_start")
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     private Date oneStart;
 
     /**
      * 初面结束时间
      */
     @Column(name = "one_end")
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     private Date oneEnd;
 
     /**
@@ -51,12 +55,14 @@ public class Interview implements Serializable {
      * 复面开始时间
      */
     @Column(name = "two_start")
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     private Date twoStart;
 
     /**
      * 复面结束时间
      */
     @Column(name = "two_end")
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     private Date twoEnd;
 
     /**
@@ -68,7 +74,7 @@ public class Interview implements Serializable {
     /**
      * 状态
             {
-            	0落选 1进入二面
+            	0落选 1二面2录用
             }
      */
     private Integer state;
@@ -77,6 +83,7 @@ public class Interview implements Serializable {
      * 录入时间
      */
     @Column(name = "create_time")
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     private Date createTime;
 
     /**

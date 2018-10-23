@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Table(name = "examination_questions")
 public class ExaminationQuestions implements Serializable {
     /**
@@ -38,6 +40,9 @@ public class ExaminationQuestions implements Serializable {
 
     /**
      * 分类
+     	{
+     		1选择题 2填空题 3问答题 4计算题
+     	}
      */
     private Integer category;
 
@@ -58,6 +63,7 @@ public class ExaminationQuestions implements Serializable {
      * 录入时间
      */
     @Column(name = "create_time")
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     private Date createTime;
 
     /**

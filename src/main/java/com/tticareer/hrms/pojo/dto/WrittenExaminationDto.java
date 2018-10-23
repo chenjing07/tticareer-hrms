@@ -4,12 +4,14 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class WrittenExaminationDto {
 
 	private Long id;
 	private Long resumeId;
 	private Long examContentId;
-	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
 	private Date examStart;
 	private String note;
 	private Long examScore;
@@ -20,10 +22,10 @@ public class WrittenExaminationDto {
             }
      */
 	private Integer examResult;
-	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
 	private Date createTime;
 	
-	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")  
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8") 
 	private Date createTimeStart;
 	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")  
 	private Date createTimeEnd;

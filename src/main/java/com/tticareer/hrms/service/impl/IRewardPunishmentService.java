@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
 import com.tticareer.hrms.mapper.RewardPunishmentMapper;
 import com.tticareer.hrms.pojo.RewardPunishment;
 import com.tticareer.hrms.service.RewardPunishmentService;
@@ -49,15 +50,17 @@ public class IRewardPunishmentService implements RewardPunishmentService {
 	}
 
 	@Override
-	public List<RewardPunishment> queryAllRewardPunishment() {
+	public List<RewardPunishment> queryAllRewardPunishment(Integer page,Integer pageSize) {
+		PageHelper.startPage(page, pageSize);
 		return rewardPunishmentMapper.selectAll();
 	}
 
 	@Override
-	public List<RewardPunishment> queryRewardPunishmentByEmployeeId(Long employeeId) {
+	public List<RewardPunishment> queryRewardPunishmentByEmployeeId(Integer page,Integer pageSize,Long employeeId) {
 		Example example=new Example(RewardPunishment.class);
 		Example.Criteria criteria=example.createCriteria();
-		criteria.andEqualTo("employe",employeeId);
+		criteria.andEqualTo("employeeId",employeeId);
+		PageHelper.startPage(page, pageSize);
 		return rewardPunishmentMapper.selectByExample(example);
 	}
 
@@ -86,10 +89,11 @@ public class IRewardPunishmentService implements RewardPunishmentService {
 	}
 
 	@Override
-	public List<RewardPunishment> queryRewardPunishmentWhoIsNotDelete() {
+	public List<RewardPunishment> queryRewardPunishmentWhoIsNotDelete(Integer page,Integer pageSize) {
 		Example example=new Example(RewardPunishment.class);
 		Example.Criteria criteria=example.createCriteria();
 		criteria.andNotEqualTo("state",0);
+		PageHelper.startPage(page, pageSize);
 		return rewardPunishmentMapper.selectByExample(example);
 	}
 
@@ -107,6 +111,27 @@ public class IRewardPunishmentService implements RewardPunishmentService {
 		criteria.andEqualTo("employeeId",employeeId);
 		criteria.andEqualTo("createTime",createTime);
 		return rewardPunishmentMapper.selectOneByExample(example);
+	}
+
+	@Override
+	public List<RewardPunishment> queryRewardPunishmentByTime(Integer page, Integer pageSize, Date timeStart,
+			Date timeEnd) {
+		Example example=new Example(RewardPunishment.class);
+		Example.Criteria criteria=example.createCriteria();
+		criteria.andBetween("createTime", timeStart, timeEnd);
+		PageHelper.startPage(page, pageSize);
+		return rewardPunishmentMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<RewardPunishment> queryRewardPunishmentByEmployeeIdAndTime(Integer page, Integer pageSize,
+			Long employeeId, Date timeStart, Date timeEnd) {
+		Example example=new Example(RewardPunishment.class);
+		Example.Criteria criteria=example.createCriteria();
+		criteria.andBetween("createTime", timeStart, timeEnd);
+		criteria.andEqualTo("employeeId",employeeId);
+		PageHelper.startPage(page, pageSize);
+		return rewardPunishmentMapper.selectByExample(example);
 	}
    
 

@@ -17,7 +17,7 @@
     <result column="place" jdbcType="VARCHAR" property="place" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="state" jdbcType="INTEGER" property="state" />
-    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="note" jdbcType="VARCHAR" property="note" />
   </resultMap>
 </mapper>

@@ -7,6 +7,10 @@ import com.tticareer.hrms.pojo.HolidayStatistics;
 import com.tticareer.hrms.pojo.LateEarly;
 import com.tticareer.hrms.pojo.LeaveDetail;
 import com.tticareer.hrms.pojo.OverWork;
+import com.tticareer.hrms.pojo.dto.ClockDetailDto;
+import com.tticareer.hrms.pojo.dto.LateEarlyDto;
+import com.tticareer.hrms.pojo.dto.LeaveDetailDto;
+import com.tticareer.hrms.pojo.dto.OverWorkDto;
 
 /**
  * <p>CreateTime: 2018年9月27日 下午7:36:05 </p>
@@ -28,17 +32,19 @@ public interface AttendanceService {
 	public List<OverWork> queryAllOverWork();
 	public List<OverWork> queryOverWorkWhoIsNotDelete();
 	public List<OverWork> queryOverWorkList(OverWork ow);
+	public List<OverWorkDto> selectOverWork(Integer page);
 	
 	public void saveLateEarly(LateEarly le);
 	public void updateLateEarly(LateEarly le);
 	public void deleteLateEarly(Long id);
 	public LateEarly queryLateEarly(LateEarly le);
-	public void deleteLateEarlykList(Long[] ids);
+	public void deleteLateEarlyList(Long[] ids);
 	public LateEarly queryLateEarlyById(Long id);
 	public List<LateEarly> queryLateEarlyByEmployeeId(Long employeeId);
 	public List<LateEarly> queryAllLateEarly();
 	public List<LateEarly> queryLateEarlyWhoIsNotDelete();
 	public List<LateEarly> queryLateEarlyList(LateEarly le);
+	public List<LateEarlyDto> selectLateEarly(Integer page);
 	
 	public void saveClockDetail(ClockDetail cd);
 	public void updateClockDetail(ClockDetail cd);
@@ -50,6 +56,7 @@ public interface AttendanceService {
 	public List<ClockDetail> queryAllClockDetail();
 	public List<ClockDetail> queryClockDetailWhoIsNotDelete();
 	public List<ClockDetail> queryClockDetailList(ClockDetail cd);
+	public List<ClockDetailDto> selectClockDetail(Integer page);
 	
 	public void saveLeaveDetail(LeaveDetail ld);
 	public void updateLeaveDetail(LeaveDetail ld);
@@ -63,6 +70,8 @@ public interface AttendanceService {
 	public List<LeaveDetail> queryLeaveDetailWhoIsNotDeleteAndCheckStatus();
 	public List<LeaveDetail> queryLeaveDetailWhoIsNotDeleteAndAudited();
 	public List<LeaveDetail> queryLeaveDetailList(LeaveDetail ld);
+	public List<LeaveDetailDto> selectLeaveDetail(Integer page);
+	public List<LeaveDetailDto> selectLeaveDetailCheck(Integer page);
 	
 	public void saveHolidayStatistics(HolidayStatistics hs);
 	public void updateHolidayStatistics(HolidayStatistics hs);

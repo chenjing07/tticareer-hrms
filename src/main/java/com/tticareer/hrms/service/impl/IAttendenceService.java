@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
 import com.tticareer.hrms.mapper.ClockDetailMapper;
 import com.tticareer.hrms.mapper.HolidayStatisticsMapper;
 import com.tticareer.hrms.mapper.LateEarlyMapper;
@@ -15,6 +16,10 @@ import com.tticareer.hrms.pojo.HolidayStatistics;
 import com.tticareer.hrms.pojo.LateEarly;
 import com.tticareer.hrms.pojo.LeaveDetail;
 import com.tticareer.hrms.pojo.OverWork;
+import com.tticareer.hrms.pojo.dto.ClockDetailDto;
+import com.tticareer.hrms.pojo.dto.LateEarlyDto;
+import com.tticareer.hrms.pojo.dto.LeaveDetailDto;
+import com.tticareer.hrms.pojo.dto.OverWorkDto;
 import com.tticareer.hrms.service.AttendanceService;
 
 import tk.mybatis.mapper.entity.Example;
@@ -116,6 +121,12 @@ public class IAttendenceService implements AttendanceService {
 		criteria.andNotEqualTo("state", 0);
 		return owMapper.selectByExample(example);
 	}
+	
+	@Override
+	public List<OverWorkDto> selectOverWork(Integer page) {
+		PageHelper.startPage(page, 20);
+		return owMapper.selectOverWork();
+	}
 
 	@Override
 	public void saveLateEarly(LateEarly le) {
@@ -135,7 +146,7 @@ public class IAttendenceService implements AttendanceService {
 	}
 
 	@Override
-	public void deleteLateEarlykList(Long[] ids) {
+	public void deleteLateEarlyList(Long[] ids) {
 		for (Long id : ids) {
 			LateEarly le = leMapper.selectByPrimaryKey(id);
 			le.setState(0);
@@ -187,6 +198,12 @@ public class IAttendenceService implements AttendanceService {
 		criteria.andLike("lateEarlyReason", "%" + le.getLateEarlyReason() + "%");
 		criteria.andNotEqualTo("state", 0);
 		return leMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<LateEarlyDto> selectLateEarly(Integer page){
+		PageHelper.startPage(page, 20);
+		return leMapper.selectLateEarly();
 	}
 
 	@Override
@@ -254,6 +271,12 @@ public class IAttendenceService implements AttendanceService {
 	public List<ClockDetail> queryClockDetailList(ClockDetail cd){
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public List<ClockDetailDto> selectClockDetail(Integer page){
+		PageHelper.startPage(page, 20);
+		return cdMapper.selectClockDetail();
 	}
 
 	@Override
@@ -345,6 +368,18 @@ public class IAttendenceService implements AttendanceService {
 		criteria.andLike("reason", "%" + ld.getReason() + "%");
 		criteria.andNotEqualTo("state", 0);
 		return ldMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<LeaveDetailDto> selectLeaveDetail(Integer page){
+		PageHelper.startPage(page, 20);
+		return ldMapper.selectLeaveDetail();
+	}
+	
+	@Override
+	public List<LeaveDetailDto> selectLeaveDetailCheck(Integer page){
+		PageHelper.startPage(page, 20);
+		return ldMapper.selectLeaveDetailCheck();
 	}
 
 	@Override

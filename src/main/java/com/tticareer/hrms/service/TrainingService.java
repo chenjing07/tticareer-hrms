@@ -1,9 +1,11 @@
 package com.tticareer.hrms.service;
 
 import java.util.List;
-
 import com.tticareer.hrms.pojo.TrainingFeedback;
 import com.tticareer.hrms.pojo.TrainingInfo;
+import com.tticareer.hrms.pojo.dto.DepartmentTrainingDto;
+import com.tticareer.hrms.pojo.dto.EmployeeTrainingDto;
+import com.tticareer.hrms.pojo.dto.TrainingFeedbackDto;
 
 /**
  * <p>CreateTime: 2018年9月26日 上午8:51:05 </p>
@@ -114,6 +116,9 @@ public interface TrainingService {
 	 */
 	public List<TrainingInfo> queryTrainingInfoList(TrainingInfo ti);
 	
+	public List<DepartmentTrainingDto> selectDepartTraining(Integer page);
+	public List<EmployeeTrainingDto> selectEmpTraining(Integer page);
+	
 	/**
 	 * <p>Title: saveTrainingFeedback</p>
 	 * <p>Description: 培训反馈添加</p>
@@ -202,4 +207,6 @@ public interface TrainingService {
 	 * @return
 	 */
 	public List<TrainingFeedback> queryTrainingFeedbackList(TrainingFeedback tf);
+	
+	public List<TrainingFeedbackDto> selectTfTraining(Integer page);
 }

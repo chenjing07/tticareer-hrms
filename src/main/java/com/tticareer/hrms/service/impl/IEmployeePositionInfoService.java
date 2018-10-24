@@ -62,13 +62,13 @@ public class IEmployeePositionInfoService implements EmployeePositionInfoService
 	}
 
 	@Override
-	public EmployeePositionInfo queryEmployeePositionInfoByEmployeeId(Long employeeId) {
+	public List<EmployeePositionInfo> queryEmployeePositionInfoByEmployeeId(Long employeeId) {
 		// TODO Auto-generated method stub
 		//return employeePositionInfoMapper.;
 		Example example = new Example(EmployeePositionInfo.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("employeeId", employeeId);
-		return employeePositionInfoMapper.selectOneByExample(example);
+		return employeePositionInfoMapper.selectByExample(example);
 	}
 
 	@Override

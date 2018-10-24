@@ -43,7 +43,7 @@ public interface EmployeePositionInfoService {
 	 * @param employeeId
 	 * @return
 	 */
-	public EmployeePositionInfo queryEmployeePositionInfoByEmployeeId(Long employeeId);
+	public List<EmployeePositionInfo> queryEmployeePositionInfoByEmployeeId(Long employeeId);
 	
 	/**
 	 * 查询所有人员调动信息，包括所有状态

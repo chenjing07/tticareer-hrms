@@ -1,9 +1,11 @@
 package com.tticareer.hrms.web.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,16 +13,20 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageInfo;
 import com.tticareer.hrms.pojo.AssessmentStandard;
 import com.tticareer.hrms.pojo.Department;
 import com.tticareer.hrms.pojo.Employee;
 import com.tticareer.hrms.pojo.EmployeeAssessment;
 import com.tticareer.hrms.pojo.GreatTeam;
 import com.tticareer.hrms.pojo.Position;
+import com.tticareer.hrms.pojo.dto.AssessmentStandardDto;
+import com.tticareer.hrms.pojo.dto.EmployeeAssessmentDto;
 import com.tticareer.hrms.service.AssessmentService;
 import com.tticareer.hrms.service.DepartmentService;
 import com.tticareer.hrms.service.EmployeeService;
 import com.tticareer.hrms.service.PositionService;
+import com.tticareer.hrms.util.ExtjsPageRequest;
 import com.tticareer.hrms.util.JSONResult;
 
 /**
@@ -97,7 +103,7 @@ public class AssessmentController {
 	 * <p>Title: updateAssessmentStandard</p>
 	 * <p>Description: 
 	 * 		-4不存在该岗位或被删除
-	 * 		-3 该岗位已审核
+	 * 		-3 该岗位未审核
 	 *  	-2 存在该岗位对应的其他考核信息
 	 * 		-1 不存在该考核标准或被删除
 	 * 		0 该考核标准未审核
@@ -107,11 +113,12 @@ public class AssessmentController {
 	 * @param positionNumber
 	 * @return
 	 */
-	@PutMapping("/asupdate")
+	@PostMapping("/asupdate")
 	public JSONResult updateAssessmentStandard(AssessmentStandard a, @Param("positionNumber")String positionNumber) {
+		System.out.println(positionNumber);
 		Position p = ps.queryPositionByPositionNumber(positionNumber);
 		if (p!=null && p.getState()!=0) {
-			if (p.getCheckStatus()==0) {
+			if (p.getCheckStatus()!=0) {
 				if (as.queryAssessmentStandardByPositionId(p.getId()).get(0).getId()!=a.getId()) {
 					return JSONResult.ok(-2);
 				}
@@ -153,7 +160,7 @@ public class AssessmentController {
 	 * @param id
 	 * @return
 	 */
-	@PutMapping("/aschecksuccess")
+	@PostMapping("/aschecksuccess")
 	public JSONResult checkAssessmentStandardSuccess(@Param("id")Long id) {
 		AssessmentStandard a = as.queryAssessmentStandardById(id);
 		if (a!=null && a.getState()!=0) {
@@ -178,7 +185,7 @@ public class AssessmentController {
 	 * @param id
 	 * @return
 	 */
-	@PutMapping("/ascheckfail")
+	@PostMapping("/ascheckfail")
 	public JSONResult checkAssessmentStandardFail(@Param("id")Long id) {
 		AssessmentStandard a = as.queryAssessmentStandardById(id);
 		if (a!=null && a.getState()!=0) {
@@ -222,49 +229,35 @@ public class AssessmentController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping("/asdelete")
-	public JSONResult deleteAssessmentStandard(@Param("id")Long id) {
-		as.deleteAssessmentStandard(id);
-		if (as.queryAssessmentStandardById(id).getState()==0) {
-			return JSONResult.ok(1);
-		}
-		return JSONResult.ok(0);
+	@PostMapping("/asdeletes")
+	public JSONResult deleteAssessmentStandard(@Param("ids")Long[] ids) {
+		as.deleteAssessmentStandardList(ids);
+		
+		return JSONResult.ok(1);
 	}
 	
-	/**
-	 * <p>Title: queryAssessmentStandard</p>
-	 * <p>Description: 
-	 * 		（需要seesion）
-	 * 		假的视图分权，如果用户为人事部管理或者超级管理员则显示全部已审核信息，如果是人事部员工则只显示未被删除已审核的信息
-	 * </p>
-	 * @param userName
-	 * @return
-	 */
+	
 	@GetMapping("/asquery")
-	public JSONResult queryAssessmentStandard(@Param("userName") String userName) {
-		if (es.queryEmployeeByUserName(userName)!=null) {
-			if (es.queryEmployeeByUserName(userName).getState()!=3) {
-				return JSONResult.ok(as.queryAssessmentStandardWhoIsNotDeleteAndCheckStatus());
-			} else {
-				return JSONResult.ok(as.queryAssessmentStandardCheckStatus());
-			}
-		} else {
-			if (userName.equals("admin")) {
-				return JSONResult.ok(as.queryAssessmentStandardCheckStatus());
-			} else {
-				return JSONResult.ok("这辈子都不会进入这里");
-			}
+	public JSONResult queryAssessmentStandard(ExtjsPageRequest pageable,Integer page) {
+		List<AssessmentStandardDto> tis = as.selectAssessmentStandardDto(page);
+		for (AssessmentStandardDto lddto : tis) {
+			lddto.setCheckStatus("已审核");
 		}
+		PageInfo<AssessmentStandardDto> tiss = new PageInfo<>(tis);
+		PageImpl<AssessmentStandardDto> pages = new PageImpl<AssessmentStandardDto>(tis,pageable.getPageable(),tiss.getTotal());
+		return JSONResult.ok(pages);
 	}
 	
-	/**
-	 * <p>Title: queryAssessmentStandardCheck</p>
-	 * <p>Description: 审核情况查看，未删除待审核</p>
-	 * @return
-	 */
+	
 	@GetMapping("/ascheck")
-	public JSONResult queryAssessmentStandardCheck() {
-		return JSONResult.ok(as.queryAssessmentStandardWhoIsNotDeleteAndAudited());	
+	public JSONResult queryAssessmentStandardCheck(ExtjsPageRequest pageable,Integer page) {
+		List<AssessmentStandardDto> tis = as.selectAssessmentStandardCheckDto(page);
+		for (AssessmentStandardDto lddto : tis) {
+			lddto.setCheckStatus("待审核");
+		}
+		PageInfo<AssessmentStandardDto> tiss = new PageInfo<>(tis);
+		PageImpl<AssessmentStandardDto> pages = new PageImpl<AssessmentStandardDto>(tis,pageable.getPageable(),tiss.getTotal());
+		return JSONResult.ok(pages);
 	}
 	
 	/**
@@ -340,11 +333,23 @@ public class AssessmentController {
 	 * @return
 	 */
 	@PostMapping("/easave")
-	public JSONResult saveEmployeeAssessment(EmployeeAssessment ea, @Param("userName")String userName) {
+	public JSONResult saveEmployeeAssessment(EmployeeAssessment ea, @Param("userName")String userName, @Param("workResult")String workResult, @Param("attitude")String attitude,@Param("quality")String quality,@Param("skill")String skill,@Param("calculationWay")String calculationWay,@Param("assessmentType")String assessmentType,@Param("assessmentResult")String assessmentResult) {
 		Employee emp = es.queryEmployeeByUserName(userName);
 		if (emp!=null && emp.getState()!=0) {
 			if (emp.getCheckSatus()!=0) {
+				Integer a = Integer.parseInt(workResult);
+				Integer b = Integer.parseInt(attitude);
+				Integer c = Integer.parseInt(quality);
+				Integer d = Integer.parseInt(skill);
+				Integer e = Integer.parseInt(assessmentType);
+				Integer f = Integer.parseInt(assessmentResult);
 				ea.setEmployeeId(emp.getId());
+				ea.setWorkResult(a);
+				ea.setAttitude(b);
+				ea.setQuality(c);
+				ea.setSkill(d);
+				ea.setAssessmentType(e);
+				ea.setAssessmentResult(f);
 				ea.setState(1);
 				ea.setCreateTime(new Date());
 				ea.setCheckStatus(0);
@@ -369,7 +374,7 @@ public class AssessmentController {
 	 * @param userName
 	 * @return
 	 */
-	@PutMapping("/eaupdate")
+	@PostMapping("/eaupdate")
 	public JSONResult updateEmployeeAssessment(EmployeeAssessment ea, @Param("userName")String userName) {
 		Employee emp = es.queryEmployeeByUserName(userName);
 		if (emp!=null && emp.getState()!=0) {
@@ -404,7 +409,7 @@ public class AssessmentController {
 	 * @param id
 	 * @return
 	 */
-	@PutMapping("/eachecksuccess")
+	@PostMapping("/eachecksuccess")
 	public JSONResult checkEmployeeAssessmentSuccess(@Param("id")Long id) {
 		EmployeeAssessment ea = as.queryEmployeeAssessmentById(id);
 		if (ea!=null && ea.getState()!=0) {
@@ -429,7 +434,7 @@ public class AssessmentController {
 	 * @param id
 	 * @return
 	 */
-	@PutMapping("/eacheckfail")
+	@PostMapping("/eacheckfail")
 	public JSONResult checkEmployeeAssessmentFail(@Param("id")Long id) {
 		EmployeeAssessment ea = as.queryEmployeeAssessmentById(id);
 		if (ea!=null && ea.getState()!=0) {
@@ -473,49 +478,178 @@ public class AssessmentController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping("/eadelete")
-	public JSONResult deleteEmployeeAssessment(@Param("id")Long id) {
-		as.deleteEmployeeAssessment(id);
-		if (as.queryEmployeeAssessmentById(id).getState()==0) {
-			return JSONResult.ok(1);
-		}
-		return JSONResult.ok(0);
+	@PostMapping("/eadeletes")
+	public JSONResult deleteEmployeeAssessment(@Param("ids")Long[] ids) {
+		as.deleteEmployeeAssessmentList(ids);		
+		return JSONResult.ok(1);
 	}
 	
-	/**
-	 * <p>Title: queryEmployeeAssessment</p>
-	 * <p>Description: 
-	 * 		（需要seesion）
-	 * 		假的视图分权，如果用户为人事部管理或者超级管理员则显示全部已审核信息，如果是人事部员工则只显示未被删除已审核的信息
-	 * </p>
-	 * @param userName
-	 * @return
-	 */
+	
 	@GetMapping("/eaquery")
-	public JSONResult queryEmployeeAssessment(@Param("userName") String userName) {
-		if (es.queryEmployeeByUserName(userName)!=null) {
-			if (es.queryEmployeeByUserName(userName).getState()!=3) {
-				return JSONResult.ok(as.queryEmployeeAssessmentWhoIsNotDeleteAndCheckStatus());
-			} else {
-				return JSONResult.ok(as.queryEmployeeAssessmentCheckStatus());
+	public JSONResult queryEmployeeAssessment(ExtjsPageRequest pageable,Integer page) {
+		List<EmployeeAssessmentDto> tis = as.selectEmployeeAssessment(page);
+		for (EmployeeAssessmentDto lddto : tis) {
+			lddto.setCheckStatus("已审核");
+			if (lddto.getAssessmentType().equals("1")) {
+				lddto.setAssessmentType("日常考核");
 			}
-		} else {
-			if (userName.equals("admin")) {
-				return JSONResult.ok(as.queryEmployeeAssessmentCheckStatus());
-			} else {
-				return JSONResult.ok("这辈子都不会进入这里");
+			if (lddto.getAssessmentType().equals("2")) {
+				lddto.setAssessmentType("定期考核");
 			}
+			if (lddto.getAssessmentType().equals("3")) {
+				lddto.setAssessmentType("长期考核");
+			}
+			if (lddto.getAssessmentType().equals("4")) {
+				lddto.setAssessmentType("不定期考核");
+			}
+			if (lddto.getWorkResult().equals("1")) {
+				lddto.setWorkResult("优秀");
+			}
+			if (lddto.getWorkResult().equals("2")) {
+				lddto.setWorkResult("良好");
+			}
+			if (lddto.getWorkResult().equals("3")) {
+				lddto.setWorkResult("及格");
+			}
+			if (lddto.getWorkResult().equals("4")) {
+				lddto.setWorkResult("不及格");
+			}
+			if (lddto.getAttitude().equals("1")) {
+				lddto.setAttitude("优秀");
+			}
+			if (lddto.getAttitude().equals("2")) {
+				lddto.setAttitude("良好");
+			}
+			if (lddto.getAttitude().equals("3")) {
+				lddto.setAttitude("及格");
+			}
+			if (lddto.getAttitude().equals("4")) {
+				lddto.setAttitude("不及格");
+			}
+			if (lddto.getQuality().equals("1")) {
+				lddto.setQuality("优秀");
+			}
+			if (lddto.getQuality().equals("2")) {
+				lddto.setQuality("良好");
+			}
+			if (lddto.getQuality().equals("3")) {
+				lddto.setQuality("及格");
+			}
+			if (lddto.getQuality().equals("4")) {
+				lddto.setQuality("不及格");
+			}
+			if (lddto.getSkill().equals("1")) {
+				lddto.setSkill("优秀");
+			}
+			if (lddto.getSkill().equals("2")) {
+				lddto.setSkill("良好");
+			}
+			if (lddto.getSkill().equals("3")) {
+				lddto.setSkill("及格");
+			}
+			if (lddto.getSkill().equals("4")) {
+				lddto.setSkill("不及格");
+			}
+			if (lddto.getAssessmentResult().equals("1")) {
+				lddto.setAssessmentResult("优秀");
+			}
+			if (lddto.getAssessmentResult().equals("2")) {
+				lddto.setAssessmentResult("良好");
+			}
+			if (lddto.getAssessmentResult().equals("3")) {
+				lddto.setAssessmentResult("及格");
+			}
+			if (lddto.getAssessmentResult().equals("4")) {
+				lddto.setAssessmentResult("不及格");
+			}
+			
 		}
+		PageInfo<EmployeeAssessmentDto> tiss = new PageInfo<>(tis);
+		PageImpl<EmployeeAssessmentDto> pages = new PageImpl<EmployeeAssessmentDto>(tis,pageable.getPageable(),tiss.getTotal());
+		return JSONResult.ok(pages);
 	}
 	
-	/**
-	 * <p>Title: queryEmployeeAssessmentCheck</p>
-	 * <p>Description: 审核情况查看，未删除待审核</p>
-	 * @return
-	 */
 	@GetMapping("/eacheck")
-	public JSONResult queryEmployeeAssessmentCheck() {
-		return JSONResult.ok(as.queryEmployeeAssessmentWhoIsNotDeleteAndAudited());	
+	public JSONResult queryEmployeeAssessmentCheck(ExtjsPageRequest pageable,Integer page) {
+		List<EmployeeAssessmentDto> tis = as.selectEmployeeAssessmentCheck(page);
+		for (EmployeeAssessmentDto lddto : tis) {
+			lddto.setCheckStatus("未审核");
+			if (lddto.getAssessmentType().equals("1")) {
+				lddto.setAssessmentType("日常考核");
+			}
+			if (lddto.getAssessmentType().equals("2")) {
+				lddto.setAssessmentType("定期考核");
+			}
+			if (lddto.getAssessmentType().equals("3")) {
+				lddto.setAssessmentType("长期考核");
+			}
+			if (lddto.getAssessmentType().equals("4")) {
+				lddto.setAssessmentType("不定期考核");
+			}
+			if (lddto.getWorkResult().equals("1")) {
+				lddto.setWorkResult("优秀");
+			}
+			if (lddto.getWorkResult().equals("2")) {
+				lddto.setWorkResult("良好");
+			}
+			if (lddto.getWorkResult().equals("3")) {
+				lddto.setWorkResult("及格");
+			}
+			if (lddto.getWorkResult().equals("4")) {
+				lddto.setWorkResult("不及格");
+			}
+			if (lddto.getAttitude().equals("1")) {
+				lddto.setAttitude("优秀");
+			}
+			if (lddto.getAttitude().equals("2")) {
+				lddto.setAttitude("良好");
+			}
+			if (lddto.getAttitude().equals("3")) {
+				lddto.setAttitude("及格");
+			}
+			if (lddto.getAttitude().equals("4")) {
+				lddto.setAttitude("不及格");
+			}
+			if (lddto.getQuality().equals("1")) {
+				lddto.setQuality("优秀");
+			}
+			if (lddto.getQuality().equals("2")) {
+				lddto.setQuality("良好");
+			}
+			if (lddto.getQuality().equals("3")) {
+				lddto.setQuality("及格");
+			}
+			if (lddto.getQuality().equals("4")) {
+				lddto.setQuality("不及格");
+			}
+			if (lddto.getSkill().equals("1")) {
+				lddto.setSkill("优秀");
+			}
+			if (lddto.getSkill().equals("2")) {
+				lddto.setSkill("良好");
+			}
+			if (lddto.getSkill().equals("3")) {
+				lddto.setSkill("及格");
+			}
+			if (lddto.getSkill().equals("4")) {
+				lddto.setSkill("不及格");
+			}
+			if (lddto.getAssessmentResult().equals("1")) {
+				lddto.setAssessmentResult("优秀");
+			}
+			if (lddto.getAssessmentResult().equals("2")) {
+				lddto.setAssessmentResult("良好");
+			}
+			if (lddto.getAssessmentResult().equals("3")) {
+				lddto.setAssessmentResult("及格");
+			}
+			if (lddto.getAssessmentResult().equals("4")) {
+				lddto.setAssessmentResult("不及格");
+			}
+		}
+		PageInfo<EmployeeAssessmentDto> tiss = new PageInfo<>(tis);
+		PageImpl<EmployeeAssessmentDto> pages = new PageImpl<EmployeeAssessmentDto>(tis,pageable.getPageable(),tiss.getTotal());
+		return JSONResult.ok(pages);
 	}
 	
 	/**

@@ -5,17 +5,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
-<<<<<<< HEAD
 public class ExtjsPageRequest {
 
 	private int 	page 	= 0;
 	private int 	limit	= 20;
-=======
-public class ExtjsPageRequest 
-{
-	private int 	page 	= 1;
-	private int 	limit	=15;
->>>>>>> 78870184fc8b79adf984df8907b833d3da127536
 	private String  sort	= "id";
 	private String  dir 	= "DESC";
 	
@@ -24,7 +17,6 @@ public class ExtjsPageRequest
 	public void setSort(String sort) {this.sort = sort;}
 	public void setDir(String dir) {this.dir = dir;}
 	
-<<<<<<< HEAD
 	
 	
 	public int getPage() {
@@ -40,8 +32,6 @@ public class ExtjsPageRequest
 		return dir;
 	}
 	
-=======
->>>>>>> 78870184fc8b79adf984df8907b833d3da127536
 	public Pageable getPageable() 
 	{
 		Pageable pageable = null;
@@ -58,7 +48,3 @@ public class ExtjsPageRequest
 		return pageable;
 	}
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> 78870184fc8b79adf984df8907b833d3da127536

@@ -194,4 +194,14 @@ public class IDepartmentService implements DepartmentService {
 				departmentSuperiors.get(0).getDepartmentName());*/
 		return departmentSuperiors;
 	}
+
+	@Override
+	public Department queryDepartmentByDepartmentNumber(String departmentNumber) {
+		Example example = new Example(Department.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("departmentNumber", departmentNumber);
+		return departmentMapper.selectOneByExample(example);
+	}
+	
+	
 }

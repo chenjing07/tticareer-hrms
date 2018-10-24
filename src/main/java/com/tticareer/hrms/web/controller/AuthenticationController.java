@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tticareer.hrms.pojo.Employee;
-import com.tticareer.hrms.pojo.dto.AuthenticationApproveDto;
 import com.tticareer.hrms.pojo.dto.AuthenticationDto;
 import com.tticareer.hrms.service.EmployeeService;
 import com.tticareer.hrms.util.BeanUtils;
@@ -186,7 +185,6 @@ public class AuthenticationController {
     
     /**
      * 审核提交
-     */
     @PostMapping(value = "/approve")
     public  ExtAjaxResponse approve(AuthenticationApproveDto authenticationApproveDto,HttpSession session) {
     	if(SessionUtil.getUserName(session)==null) {
@@ -202,5 +200,5 @@ public class AuthenticationController {
     	}else {
     		return new ExtAjaxResponse(false,"审核不通过！");
     	}   	
-    }
+    } */
 }

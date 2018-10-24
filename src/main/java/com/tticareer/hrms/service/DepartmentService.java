@@ -80,5 +80,7 @@ public interface DepartmentService {
 
 	
 	public List<DepartmentIdAndName> getDepartmentIdAndName();
+
+	public Department queryDepartmentByDepartmentNumber(String departmentNumber);
 	
 }

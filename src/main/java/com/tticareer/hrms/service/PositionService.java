@@ -3,6 +3,8 @@ package com.tticareer.hrms.service;
 import java.util.List;
 
 import com.tticareer.hrms.pojo.Position;
+import com.tticareer.hrms.pojo.dto.DepartmentIdAndName;
+import com.tticareer.hrms.pojo.dto.PositionIdAndName;
 
 
 
@@ -66,7 +68,7 @@ public interface PositionService {
 	 * 查询没有被删除即状态不为0的岗位
 	 * @return
 	 */
-	public List<Position> queryPositionWhoIsNotDelete();
+	public List<Position> queryPositionWhoIsNotDelete(Integer pageNum,Integer pageSize,String orderBy);
 	
 	
 	/**
@@ -76,14 +78,16 @@ public interface PositionService {
 	 */
 	public List<Position> queryPositionList(Position position);
 	
-	public List<Position> queryPositionListByPositionNumber(String positionNumber);
-	public List<Position> queryPositionListByPositionName(String positionName);
-	public List<Position> queryPositionListByPositionNumberAndPositionName(String positionNumber,String positionName);
+	public List<Position> queryPositionListByPositionNumber(String positionNumber,Integer pageNum,Integer pageSize,String orderBy);
+	public List<Position> queryPositionListByPositionName(String positionName,Integer pageNum,Integer pageSize,String orderBy);
+	public List<Position> queryPositionListByPositionNumberAndPositionName(String positionNumber,String positionName,Integer pageNum,Integer pageSize,String orderBy);
 	
 	
 	public void deleteAll(Long[] ids);
 	
 	
-	public List<Position> queryWaitApprove();
+	public List<Position> queryWaitApprove(Integer pageNum,Integer pageSize,String orderBy);
+	
+	public List<PositionIdAndName> getPositionIdAndName();
 	
 }

@@ -60,7 +60,7 @@ public interface ArchivesService {
 	 * 查询没有被删除即状态不为0的档案
 	 * @return
 	 */
-	public List<Archives> queryArchivesWhoIsNotDelete();
+	public List<Archives> queryArchivesWhoIsNotDelete(Integer pageNum,Integer pageSize);
 	
 	
 	/**
@@ -75,14 +75,16 @@ public interface ArchivesService {
 	
 
 
-	public List<Archives> queryArchivesListByEmployeeId(Long employeeId);
-	public List<Archives> queryArchivesListByCreateTime(Date createTimeStart, Date createTimeEnd);
-	public List<Archives> queryArchivesListByMore(Long employeeId,Date createTimeStart, Date createTimeEnd);
+	//public List<Archives> queryArchivesListByEmployeeId(Long employeeId,Integer pageNum,Integer pageSize,String orderBy);
+	public List<Archives> queryArchivesListByEmployeeId(String userName,Integer pageNum,Integer pageSize);
+	public List<Archives> queryArchivesListByCreateTime(Date createTimeStart, Date createTimeEnd,Integer pageNum,Integer pageSize);
+	//public List<Archives> queryArchivesListByMore(Long employeeId,Date createTimeStart, Date createTimeEnd,Integer pageNum,Integer pageSize,String orderBy);
+	public List<Archives> queryArchivesListByMore(String userName,Date createTimeStart, Date createTimeEnd,Integer pageNum,Integer pageSize);
 	
 	
 
 	public void deleteAll(Long[] ids);
 	
 	
-	public List<Archives> queryWaitApprove();
+	public List<Archives> queryWaitApprove(Integer pageNum,Integer pageSize);
 }

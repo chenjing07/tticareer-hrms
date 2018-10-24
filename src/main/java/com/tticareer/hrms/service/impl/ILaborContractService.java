@@ -1,5 +1,7 @@
 package com.tticareer.hrms.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
 import com.tticareer.hrms.mapper.LaborContractMapper;
 
 import com.tticareer.hrms.pojo.LaborContract;
@@ -85,8 +88,9 @@ public class ILaborContractService implements LaborContractService {
 	}
 
 	@Override
-	public List<LaborContract> queryLaborContractWhoIsNotDelete() {
+	public List<LaborContract> queryLaborContractWhoIsNotDelete(Integer pageNum,Integer pageSize) {
 		// TODO Auto-generated method stub
+		PageHelper.startPage(pageNum, pageSize);
 		Example example = new Example(LaborContract.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andNotEqualTo("state", 0);
@@ -101,7 +105,8 @@ public class ILaborContractService implements LaborContractService {
 	
 	
 	@Override
-	public List<LaborContract> queryLaborContractListByEmployerName(String employerName){
+	public List<LaborContract> queryLaborContractListByEmployerName(String employerName,Integer pageNum,Integer pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
 		Example example = new Example(LaborContract.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andLike("employerName", "%"+ employerName+"%");
@@ -112,45 +117,17 @@ public class ILaborContractService implements LaborContractService {
 	
 	
 	@Override
-	public List<LaborContract> queryLaborContractListByEmployeeId(Long employeeId){
-		Example example = new Example(LaborContract.class);
-		Example.Criteria criteria = example.createCriteria();
-		criteria.andLike("employeeId", "%"+ employeeId+"%");
-		criteria.andNotEqualTo("state", 0);
-		//System.out.println(departmentMapper.selectByExample(example));
-		return laborContractMapper.selectByExample(example);
+	public List<LaborContract> queryLaborContractListByEmployeeId(String userName,Integer pageNum,Integer pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
+		List<LaborContract> result =laborContractMapper.queryJoinEmployeeAndLaC(userName);
+		return result;
 	}
 	
 	@Override
-	public List<LaborContract> queryLaborContractListByCreateTime(Date createTimeStart, Date createTimeEnd){
+	public List<LaborContract> queryLaborContractListByCreateTime(Date createTimeStart, Date createTimeEnd,Integer pageNum,Integer pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
 		Example example = new Example(LaborContract.class);
 		Example.Criteria criteria = example.createCriteria();
-		//System.out.println(createTimeStart + "!!!!!!!!!!!"+createTimeEnd);
-		if(createTimeStart!=null) {
-			criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
-		}
-		if(createTimeEnd!=null) {
-			//System.out.println("?????????");
-			criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
-		}
-		criteria.andNotEqualTo("state", 0);
-		//System.out.println(departmentMapper.selectByExample(example));
-		return laborContractMapper.selectByExample(example);
-	}
-	
-	@Override
-	public List<LaborContract> queryLaborContractListByMore(String employerName,Long employeeId,
-				Date createTimeStart, Date createTimeEnd){
-		
-		//System.out.println(employerName + "******" +employeeId);
-		//System.out.println(createTimeStart + "******" +createTimeEnd);
-		
-		Example example = new Example(LaborContract.class);
-		Example.Criteria criteria = example.createCriteria();
-		if(employerName!=null)
-			criteria.andLike("employeeId", "%"+ employeeId+"%");
-		if(employeeId!=null)
-			criteria.andLike("employeeId", "%"+ employeeId+"%");
 		if(createTimeStart!=null) {
 			criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
 		}
@@ -159,6 +136,125 @@ public class ILaborContractService implements LaborContractService {
 		}
 		criteria.andNotEqualTo("state", 0);
 		return laborContractMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<LaborContract> queryLaborContractListByMore(String employerName,String userName,
+				Date createTimeStart, Date createTimeEnd,Integer pageNum,Integer pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
+		if(employerName!="") {
+			if(userName=="" && createTimeStart==null && createTimeEnd==null) {
+				Example example = new Example(LaborContract.class);
+				Example.Criteria criteria = example.createCriteria();
+				criteria.andLike("employerName", "%"+ employerName+"%");
+				criteria.andNotEqualTo("state", 0);
+				return laborContractMapper.selectByExample(example);   
+			}else if(userName=="" && createTimeStart!=null && createTimeEnd==null) {
+				Example example = new Example(LaborContract.class);
+				Example.Criteria criteria = example.createCriteria();
+				criteria.andLike("employerName", "%"+ employerName+"%");
+				if(createTimeStart!=null) {
+					criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
+				}
+				criteria.andNotEqualTo("state", 0);
+				return laborContractMapper.selectByExample(example);
+			}else if(userName=="" && createTimeStart==null && createTimeEnd!=null) {
+				Example example = new Example(LaborContract.class);
+				Example.Criteria criteria = example.createCriteria();
+				criteria.andLike("employerName", "%"+ employerName+"%");
+				if(createTimeEnd!=null) {
+					criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
+				}
+				criteria.andNotEqualTo("state", 0);
+				return laborContractMapper.selectByExample(example);
+			}else if(userName=="" && createTimeStart!=null && createTimeEnd!=null) {
+				Example example = new Example(LaborContract.class);
+				Example.Criteria criteria = example.createCriteria();
+				criteria.andLike("employerName", "%"+ employerName+"%");
+				if(createTimeStart!=null) {
+					criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
+				}
+				if(createTimeEnd!=null) {
+					criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
+				}
+				criteria.andNotEqualTo("state", 0);
+				return laborContractMapper.selectByExample(example);
+			}else if(userName!="" && createTimeStart==null && createTimeEnd==null) {
+				List<LaborContract> result =laborContractMapper.queryJoinEmployeeAndLaCENAndUN(employerName,userName);
+				return result;
+			}else if(userName!="" && createTimeStart!=null && createTimeEnd==null) {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String dateStringStart = formatter.format(createTimeStart);
+				List<LaborContract> result =laborContractMapper.queryJoinEmployeeAndLaCENAndUNAndTS(employerName,userName,dateStringStart);
+				return result;
+			}else if(userName!="" && createTimeStart==null && createTimeEnd!=null) {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String dateStringEnd = formatter.format(createTimeEnd);
+				List<LaborContract> result =laborContractMapper.queryJoinEmployeeAndLaCENAndUNAndTE(employerName,userName,dateStringEnd);
+				return result;
+			}else {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String dateStringStart = formatter.format(createTimeStart);
+				String dateStringEnd = formatter.format(createTimeEnd);
+				List<LaborContract> result =laborContractMapper.queryJoinEmployeeAndLaCENAndUNAndTSE(employerName,userName,dateStringStart,dateStringEnd);
+				return result;
+			}
+		}
+		else{
+			if(userName=="" && createTimeStart==null && createTimeEnd==null) {
+				Example example = new Example(LaborContract.class);
+				Example.Criteria criteria = example.createCriteria();
+				criteria.andNotEqualTo("state", 0);
+				return laborContractMapper.selectByExample(example);
+			}else if(userName=="" && createTimeStart!=null && createTimeEnd==null) {
+				Example example = new Example(LaborContract.class);
+				Example.Criteria criteria = example.createCriteria();
+				if(createTimeStart!=null) {
+					criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
+				}
+				criteria.andNotEqualTo("state", 0);
+				return laborContractMapper.selectByExample(example);
+			}else if(userName=="" && createTimeStart==null && createTimeEnd!=null) {
+				Example example = new Example(LaborContract.class);
+				Example.Criteria criteria = example.createCriteria();
+				if(createTimeEnd!=null) {
+					criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
+				}
+				criteria.andNotEqualTo("state", 0);
+				return laborContractMapper.selectByExample(example);
+			}else if(userName=="" && createTimeStart!=null && createTimeEnd!=null) {
+				Example example = new Example(LaborContract.class);
+				Example.Criteria criteria = example.createCriteria();
+				if(createTimeStart!=null) {
+					criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
+				}
+				if(createTimeEnd!=null) {
+					criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
+				}
+				criteria.andNotEqualTo("state", 0);
+				return laborContractMapper.selectByExample(example);
+			}else if(userName!="" && createTimeStart==null && createTimeEnd==null) {
+				List<LaborContract> result =laborContractMapper.queryJoinEmployeeAndLaC(userName);
+				return result;
+			}else if(userName!="" && createTimeStart!=null && createTimeEnd==null) {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String dateStringStart = formatter.format(createTimeStart);
+				List<LaborContract> result =laborContractMapper.queryJoinEmployeeAndLaCUNAndTS(userName,dateStringStart);
+				return result;
+			}else if(userName!="" && createTimeStart==null && createTimeEnd!=null) {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String dateStringEnd = formatter.format(createTimeEnd);
+				List<LaborContract> result =laborContractMapper.queryJoinEmployeeAndLaCUNAndTE(userName,dateStringEnd);
+				return result;
+			}else  {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String dateStringStart = formatter.format(createTimeStart);
+				String dateStringEnd = formatter.format(createTimeEnd);
+				List<LaborContract> result =laborContractMapper.queryJoinEmployeeAndLaCUNAndTSE(userName,dateStringStart,dateStringEnd);
+				return result;
+			}
+		
+		}
 	}
 	
 
@@ -179,11 +275,15 @@ public class ILaborContractService implements LaborContractService {
 	
 
 	@Override
-	public List<LaborContract> queryWaitApprove() {
+	public List<LaborContract> queryWaitApprove(Integer pageNum,Integer pageSize ) {
+		PageHelper.startPage(pageNum, pageSize);
 		Example example = new Example(LaborContract.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("checkStatus", 0);
 		return laborContractMapper.selectByExample(example);
 	}
+	
+	
+	
 
 }

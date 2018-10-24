@@ -2,12 +2,12 @@ package com.tticareer.hrms.web.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+import java.util.List;
 import java.text.ParsePosition;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.github.pagehelper.PageInfo;
 import com.tticareer.hrms.pojo.LaborContract;
 import com.tticareer.hrms.service.LaborContractService;
 import com.tticareer.hrms.util.BeanUtils;
@@ -47,6 +47,8 @@ public class LaborContractController {
 	 */
 	@PostMapping("/save")
 	public JSONResult saveLaborContract(@RequestBody LaborContract laborContract) {
+		laborContract.setState(1);
+		laborContract.setCheckStatus(0);
 		laborContractService.saveLaborContract(laborContract);
 		/*LaborContract emp = laborContractService.queryLaborContractByEmployerName(laborContract.getEmployerName());
 		if (emp!=null) {
@@ -67,15 +69,20 @@ public class LaborContractController {
 	/*public JSONResult queryRealAllLaborContract() {
 		return JSONResult.ok(laborContractService.queryAllLaborContract());
 	}*/
-	public JSONResult getPage(@Param("employerName") String employerName,@Param("employeeId") Long employeeId,
-			@Param("createTimeStart") String createTimeStart,@Param("createTimeEnd") String createTimeEnd) 
+	public JSONResult getPage(@Param("employerName") String employerName,@Param("userName") String userName,
+			@Param("createTimeStart") String createTimeStart,@Param("createTimeEnd") String createTimeEnd,
+			ExtjsPageRequest pageRequest) 
 	{
 		//System.out.println("---------------------------------------------------");
 		//System.out.println(employerName + "******" +employeeId);
 		//System.out.println(createTimeStart + "******" +createTimeEnd);
 		
-		if (createTimeStart==null && createTimeEnd == null) {
-				return JSONResult.ok(laborContractService.queryAllLaborContract());
+		if (employerName==null && userName==null && createTimeStart==null && createTimeEnd == null) {
+				//return JSONResult.ok(laborContractService.queryAllLaborContract());
+				List<LaborContract> rdList=laborContractService.queryLaborContractWhoIsNotDelete(pageRequest.getPage(), pageRequest.getLimit());
+				PageInfo<LaborContract> p=new PageInfo<LaborContract>(rdList);
+				PageImpl<LaborContract> rdPage=new PageImpl<LaborContract>(rdList,pageRequest.getPageable(),p.getTotal());
+				return JSONResult.ok(rdPage);
 		}else{
 			 SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			 ParsePosition pos1 = new ParsePosition(0);
@@ -86,18 +93,32 @@ public class LaborContractController {
 			//System.out.println(datecreateTimeStart + "******" +datecreateTimeEnd);
 			//System.out.println("---------------------------------------------------");
 		 
-			if(employerName!=null && employeeId==null && datecreateTimeStart==null && datecreateTimeEnd==null) {
-				return JSONResult.ok(laborContractService.queryLaborContractListByEmployerName(employerName));
+			if(employerName!=null && userName=="" && datecreateTimeStart==null && datecreateTimeEnd==null) {
+				//return JSONResult.ok(laborContractService.queryLaborContractListByEmployerName(employerName));
+				List<LaborContract> rdList=laborContractService.queryLaborContractListByEmployerName(employerName,pageRequest.getPage(), pageRequest.getLimit());
+				PageInfo<LaborContract> p=new PageInfo<LaborContract>(rdList);
+				PageImpl<LaborContract> rdPage=new PageImpl<LaborContract>(rdList,pageRequest.getPageable(),p.getTotal());
+				return JSONResult.ok(rdPage);
 			}
-			else if(employerName==null && employeeId!=null && datecreateTimeStart==null && datecreateTimeEnd==null) {
-				return JSONResult.ok(laborContractService.queryLaborContractListByEmployeeId(employeeId));
+			else if(employerName=="" && userName!=null && datecreateTimeStart==null && datecreateTimeEnd==null) {
+				//return JSONResult.ok(laborContractService.queryLaborContractListByEmployeeId(employeeId));
+				List<LaborContract> rdList=laborContractService.queryLaborContractListByEmployeeId(userName,pageRequest.getPage(), pageRequest.getLimit());
+				PageInfo<LaborContract> p=new PageInfo<LaborContract>(rdList);
+				PageImpl<LaborContract> rdPage=new PageImpl<LaborContract>(rdList,pageRequest.getPageable(),p.getTotal());
+				return JSONResult.ok(rdPage);
 			}
-			else if(employerName==null && employeeId==null && (datecreateTimeStart!=null || datecreateTimeEnd!=null)) {	
-				return  JSONResult.ok(laborContractService.
-						queryLaborContractListByCreateTime(datecreateTimeStart,datecreateTimeEnd));
+			else if(employerName==null && userName==null && (datecreateTimeStart!=null || datecreateTimeEnd!=null)) {	
+				//return  JSONResult.ok(laborContractService.queryLaborContractListByCreateTime(datecreateTimeStart,datecreateTimeEnd));
+				List<LaborContract> rdList=laborContractService.queryLaborContractListByCreateTime(datecreateTimeStart,datecreateTimeEnd,pageRequest.getPage(), pageRequest.getLimit());
+				PageInfo<LaborContract> p=new PageInfo<LaborContract>(rdList);
+				PageImpl<LaborContract> rdPage=new PageImpl<LaborContract>(rdList,pageRequest.getPageable(),p.getTotal());
+				return JSONResult.ok(rdPage);
 			}else {
-				return JSONResult.ok(laborContractService.
-						queryLaborContractListByMore(employerName,employeeId,datecreateTimeStart,datecreateTimeEnd));
+				//return JSONResult.ok(laborContractService.queryLaborContractListByMore(employerName,employeeId,datecreateTimeStart,datecreateTimeEnd));
+				List<LaborContract> rdList=laborContractService.queryLaborContractListByMore(employerName,userName,datecreateTimeStart,datecreateTimeEnd,pageRequest.getPage(), pageRequest.getLimit());
+				PageInfo<LaborContract> p=new PageInfo<LaborContract>(rdList);
+				PageImpl<LaborContract> rdPage=new PageImpl<LaborContract>(rdList,pageRequest.getPageable(),p.getTotal());
+				return JSONResult.ok(rdPage);
 			}
 	
 		 
@@ -120,10 +141,10 @@ public class LaborContractController {
 	 * 查询未被删除的合同
 	 * @return
 	 */
-	@GetMapping("/mockall")
+	/*@GetMapping("/mockall")
 	public JSONResult queryLaborContractWhoIsNotDelete() {
 		return JSONResult.ok(laborContractService.queryLaborContractWhoIsNotDelete());
-	}
+	}*/
 	
 	
 	/**
@@ -177,9 +198,13 @@ public class LaborContractController {
 	
 	
 	@GetMapping("/approve")
-	public JSONResult queryApprove() {
+	public JSONResult queryApprove(ExtjsPageRequest pageRequest) {
 		//return JSONResult.ok(laborContractService.queryAllLaborContract());
-		return JSONResult.ok(laborContractService.queryWaitApprove());
+		//return JSONResult.ok(laborContractService.queryWaitApprove());
+		List<LaborContract> rdList=laborContractService.queryWaitApprove(pageRequest.getPage(), pageRequest.getLimit());
+		PageInfo<LaborContract> p=new PageInfo<LaborContract>(rdList);
+		PageImpl<LaborContract> rdPage=new PageImpl<LaborContract>(rdList,pageRequest.getPageable(),p.getTotal());
+		return JSONResult.ok(rdPage);
 	}
 	
 	@PostMapping("/approvePass")
@@ -194,6 +219,7 @@ public class LaborContractController {
 				laborContractService.updateLaborContract(entity);
 			}else if(pass.equals("nopass"))  {
 				//System.out.println("nopass");
+				entity.setState(0);
 				entity.setCheckStatus(2);
 				laborContractService.updateLaborContract(entity);
 			}
@@ -201,6 +227,8 @@ public class LaborContractController {
 		
 		return JSONResult.ok(1);
 	}
+
+	
 
 	
 }

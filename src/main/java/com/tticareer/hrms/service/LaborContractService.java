@@ -5,6 +5,9 @@ import java.util.List;
 
 
 import com.tticareer.hrms.pojo.LaborContract;
+import com.tticareer.hrms.pojo.Position;
+
+import com.tticareer.hrms.pojo.dto.PositionIdAndName;
 
 
 
@@ -61,7 +64,7 @@ public interface LaborContractService {
 	 * 查询没有被删除即状态不为0的合同
 	 * @return
 	 */
-	public List<LaborContract> queryLaborContractWhoIsNotDelete();
+	public List<LaborContract> queryLaborContractWhoIsNotDelete(Integer pageNum,Integer pageSize);
 	
 	/**
 	 * 查询状态为1，即其他合同
@@ -90,14 +93,19 @@ public interface LaborContractService {
 	
 	
 	
-	public List<LaborContract> queryLaborContractListByEmployerName(String employerName);
-	public List<LaborContract> queryLaborContractListByEmployeeId(Long employeeId);
-	public List<LaborContract> queryLaborContractListByCreateTime(Date createTimeStart, Date createTimeEnd);
-	public List<LaborContract> queryLaborContractListByMore(String employerName,Long employeeId,Date createTimeStart, Date createTimeEnd);
+	public List<LaborContract> queryLaborContractListByEmployerName(String employerName,Integer pageNum,Integer pageSizey);
+	//public List<LaborContract> queryLaborContractListByEmployeeId(Long employeeId,Integer pageNum,Integer pageSize,String orderBy);
+	public List<LaborContract> queryLaborContractListByEmployeeId(String userName,Integer pageNum,Integer pageSize);
+	public List<LaborContract> queryLaborContractListByCreateTime(Date createTimeStart, Date createTimeEnd,Integer pageNum,Integer pageSize);
+	//public List<LaborContract> queryLaborContractListByMore(String employerName,Long employeeId,Date createTimeStart, Date createTimeEnd,Integer pageNum,Integer pageSize,String orderBy);
+	public List<LaborContract> queryLaborContractListByMore(String employerName,String userName,Date createTimeStart, Date createTimeEnd,Integer pageNum,Integer pageSize);
 	
 	
 	public void deleteAll(Long[] ids);
 	
 	
-	public List<LaborContract> queryWaitApprove();
+	public List<LaborContract> queryWaitApprove(Integer pageNum,Integer pageSize);
+	
+	
+
 }

@@ -1,5 +1,6 @@
 package com.tticareer.hrms.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +9,9 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
 import com.tticareer.hrms.mapper.ResumeMapper;
 import com.tticareer.hrms.pojo.Resume;
-import com.tticareer.hrms.pojo.dto.ResumeDto;
 import com.tticareer.hrms.service.ResumeService;
 
 import tk.mybatis.mapper.entity.Example;
@@ -20,6 +21,12 @@ public class IResumeService implements ResumeService {
 
 	@Autowired
 	ResumeMapper resumeMapper;
+	
+	@Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED)
+	@Override
+	public void saveResume(Resume resume) {
+			resumeMapper.insert(resume);
+	}
 	
 	@Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED)
 	@Override
@@ -52,20 +59,45 @@ public class IResumeService implements ResumeService {
 	}
 
 	@Override
-	public List<Resume> queryResumeByApplicationName(String applicationName) {
+	public List<Resume> queryResumeByApplicationName(String applicationName,Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(Resume.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("applicationName", applicationName);
+		criteria.andLike("applicationName","%"+ applicationName+"%");
 		return resumeMapper.selectByExample(example);
 	}
 
 	@Override
-	public List<Resume> queryAllResume() {
+	public List<Resume> queryResumeByCreateTime(Date createTimeStart,Date createTimeEnd,Integer pageNum,Integer pageSize,String orderBy){
+		PageHelper.startPage(pageNum, pageSize,orderBy);
+		Example example = new Example(Resume.class);
+		Example.Criteria criteria = example.createCriteria();
+		if(null!=createTimeStart)
+			criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
+		if(null!=createTimeEnd)
+			criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
+		criteria.andNotEqualTo("state", 2);
+		return resumeMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<Resume> queryAllResume(Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		return resumeMapper.selectAll();
 	}
 
 	@Override
-	public List<Resume> queryResumeListWhoIsWaiting() {
+	public List<Resume> queryResumeByState(Integer state,Integer pageNum,Integer pageSize,String orderBy){
+		PageHelper.startPage(pageNum, pageSize,orderBy);
+		Example example = new Example(Resume.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("state", state);
+		return resumeMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<Resume> queryResumeListWhoIsWaiting(Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(Resume.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("state", 0);
@@ -73,50 +105,45 @@ public class IResumeService implements ResumeService {
 	}
 
 	@Override
-	public List<Resume> queryResumeListWhoIsPass() {
+	public List<Resume> queryResumeListWhoIsNotDelete(Integer pageNum,Integer pageSize,String orderBy){
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(Resume.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("state", 1);
+		criteria.andNotEqualTo("state",2);
+		return resumeMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<Resume> queryResumeListWhoIsPass(Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
+		Example example = new Example(Resume.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("state",1);
 		return resumeMapper.selectByExample(example);
 	}
 
 	@Override
-	public List<Resume> queryResumeListWhoIsNotPass() {
+	public List<Resume> queryResumeListWhoIsNotPass(Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(Resume.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("state", 2);
+		criteria.andEqualTo("state",2);
 		return resumeMapper.selectByExample(example);
 	}
 	
 	@Override
-	public List<Resume> queryResumeList(ResumeDto resumeDto){
+	public List<Resume> queryResumeList(String applicationName,Date createTimeStart,Date createTimeEnd,Integer pageNum,Integer pageSize,String orderBy){
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(Resume.class);
 		Example.Criteria criteria = example.createCriteria();
-		if(null!=resumeDto.getApplicationName())
-			criteria.andLike("applicationName", "%" + resumeDto.getApplicationName() + "%");
-		if(null!=resumeDto.getCreateTimeStart())
-			criteria.andGreaterThanOrEqualTo("createTime", resumeDto.getCreateTimeStart());
-		if(null!=resumeDto.getCreateTimeEnd())
-			criteria.andLessThanOrEqualTo("createTime", resumeDto.getCreateTimeEnd());
-		criteria.andNotEqualTo("state", 2);
+		if(null!=applicationName)
+			criteria.andLike("applicationName", "%" + applicationName + "%");
+		if(null!=createTimeStart)
+			criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
+		if(null!=createTimeEnd)
+			criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
+		criteria.andNotEqualTo("state",2);
 		return resumeMapper.selectByExample(example);
 	}
 	
-	@Override
-	public List<Resume> queryResumeListA(String expectedPosition){
-		Example example = new Example(Resume.class);
-		Example.Criteria criteria = example.createCriteria();
-		criteria.andLike("expectedPosition", "%" + expectedPosition + "%");
-		criteria.andEqualTo("state", 0);
-		return resumeMapper.selectByExample(example);
-	}
-	
-	@Override
-	public List<Resume> queryResumeListB(String expectedPosition){
-		Example example = new Example(Resume.class);
-		Example.Criteria criteria = example.createCriteria();
-		criteria.andLike("expectedPosition", "%" + expectedPosition + "%");
-		criteria.andEqualTo("state", 1);
-		return resumeMapper.selectByExample(example);
-	}
 }

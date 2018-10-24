@@ -5,6 +5,7 @@ public class AuthenticationDto {
 	private Long id;
 	private String userName;
 	private String password;
+	private String newPassword;
 	private String realName;
 	private String idCardNumber;
 	private String idCardPicture;
@@ -20,6 +21,10 @@ public class AuthenticationDto {
 	}
 	public String getPassword() {
 		return password;
+	}
+	
+	public String getNewPassword() {
+		return newPassword;
 	}
 	public String getRealName() {
 		return realName;
@@ -47,6 +52,10 @@ public class AuthenticationDto {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
 	}
 	public void setRealName(String realName) {
 		this.realName = realName;

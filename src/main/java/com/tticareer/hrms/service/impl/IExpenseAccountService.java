@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
 import com.tticareer.hrms.mapper.ExpenseAccountMapper;
 import com.tticareer.hrms.pojo.ExpenseAccount;
 import com.tticareer.hrms.service.ExpenseAccountService;
@@ -43,7 +44,8 @@ public class IExpenseAccountService implements ExpenseAccountService {
 	}
 
 	@Override
-	public List<ExpenseAccount> queryAllExpenseAccount() {
+	public List<ExpenseAccount> queryAllExpenseAccount(Integer page,Integer pageSize) {
+		PageHelper.startPage(page, pageSize);
 		return expenseAccountMapper.selectAll();
 	}
 
@@ -56,10 +58,11 @@ public class IExpenseAccountService implements ExpenseAccountService {
 	}
 
 	@Override
-	public List<ExpenseAccount> queryExpenseAccountWhoIsNotDelete() {
+	public List<ExpenseAccount> queryExpenseAccountWhoIsNotDelete(Integer page,Integer pageSize) {
 		Example example=new Example(ExpenseAccount.class);
 		Example.Criteria criteria=example.createCriteria();
 		criteria.andEqualTo("state",1);
+		PageHelper.startPage(page, pageSize);
 		return expenseAccountMapper.selectByExample(example);
 	}
 
@@ -69,10 +72,11 @@ public class IExpenseAccountService implements ExpenseAccountService {
 	}
 
 	@Override
-	public List<ExpenseAccount> queryExpenseAccountByEmployeeId(Long employeeId) {
+	public List<ExpenseAccount> queryExpenseAccountByEmployeeId(Integer page,Integer pageSize,Long employeeId) {
 		Example example=new Example(ExpenseAccount.class);
 		Example.Criteria criteria=example.createCriteria();
 		criteria.andEqualTo("employeeId",employeeId);
+		PageHelper.startPage(page, pageSize);
 		return expenseAccountMapper.selectByExample(example);
 	}
 
@@ -90,6 +94,27 @@ public class IExpenseAccountService implements ExpenseAccountService {
 	   ExpenseAccount expenseAccount=expenseAccountMapper.selectByPrimaryKey(id);
        expenseAccount.setCheckStatus(1);
        expenseAccountMapper.updateByPrimaryKey(expenseAccount);
+	}
+
+	@Override
+	public List<ExpenseAccount> queryExpenseAccountByTime(Integer page, Integer pageSize, Date dateStart,
+			Date dateEnd) {
+		Example example=new Example(ExpenseAccount.class);
+		Example.Criteria criteria=example.createCriteria();
+		criteria.andBetween("time", dateStart, dateEnd);
+		PageHelper.startPage(page, pageSize);
+		return expenseAccountMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<ExpenseAccount> queryExpenseAccountByEmployeeIdAndTime(Integer page, Integer pageSize, Long employeeId,
+			Date dateStart, Date dateEnd) {
+		Example example=new Example(ExpenseAccount.class);
+		Example.Criteria criteria=example.createCriteria();
+		criteria.andBetween("time", dateStart, dateEnd);
+		criteria.andEqualTo("employeeId", employeeId);
+		PageHelper.startPage(page, pageSize);
+		return expenseAccountMapper.selectByExample(example);
 	}
 
 }

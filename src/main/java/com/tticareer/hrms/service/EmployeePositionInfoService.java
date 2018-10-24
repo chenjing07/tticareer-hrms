@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.tticareer.hrms.pojo.EmployeePositionInfo;
+import com.tticareer.hrms.pojo.LaborContract;
 
 
 /**
@@ -60,7 +61,7 @@ public interface EmployeePositionInfoService {
 	 * 查询没有被删除即状态不为0的人员调动信息
 	 * @return
 	 */
-	public List<EmployeePositionInfo> queryEmployeePositionInfoWhoIsNotDelete();
+	public List<EmployeePositionInfo> queryEmployeePositionInfoWhoIsNotDelete(Integer pageNum,Integer pageSize);
 	
 	/**
 	 * 查询审核状态为0，即待审核
@@ -89,11 +90,19 @@ public interface EmployeePositionInfoService {
 	
 	
 
-	public List<EmployeePositionInfo> queryEmployeePositionInfoListByEmployeeId(Long employeeId);
-	public List<EmployeePositionInfo> queryEmployeePositionInfoListByCreateTime(Date createTimeStart, Date createTimeEnd);
-	public List<EmployeePositionInfo> queryEmployeePositionInfoListByMore(Long employeeId,Date createTimeStart, Date createTimeEnd);
+	//public List<EmployeePositionInfo> queryEmployeePositionInfoListByEmployeeId(Long employeeId,Integer pageNum,Integer pageSize,String orderBy);
+	public List<EmployeePositionInfo> queryEmployeePositionInfoListByEmployeeId(String userName,Integer pageNum,Integer pageSize);
+	public List<EmployeePositionInfo> queryEmployeePositionInfoListByCreateTime(Date createTimeStart, Date createTimeEnd,Integer pageNum,Integer pageSize);
+	//public List<EmployeePositionInfo> queryEmployeePositionInfoListByMore(Long employeeId,Date createTimeStart, Date createTimeEnd,Integer pageNum,Integer pageSize,String orderBy);
+	public List<EmployeePositionInfo> queryEmployeePositionInfoListByMore(String userName,Date createTimeStart, Date createTimeEnd,Integer pageNum,Integer pageSize);
 	
 	
 	public void deleteAll(Long[] ids);
+	
+	
+	public List<EmployeePositionInfo> queryWaitApprove(Integer pageNum,Integer pageSize);
+	
+	
+	public List<EmployeePositionInfo> queryJoinEmployeeAndEmP(String userName);
 	
 }

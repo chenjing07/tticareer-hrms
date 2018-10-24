@@ -2,7 +2,8 @@ package com.tticareer.hrms.pojo.dto;
 
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ResumeDto {
 
@@ -11,7 +12,7 @@ public class ResumeDto {
 	private String expectedPosition;
 	private String idCardNumber;
 	private String idCardPicture;
-	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
 	private Date birthday;
 	/**
       * 性别1男0女
@@ -40,7 +41,7 @@ public class ResumeDto {
 	private String major;
 	private String tie;
 	private String graduatedSchool;
-	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
 	private Date graduatedTime;
 	private String awardsReceived;
 	private String languageLevel;
@@ -54,12 +55,12 @@ public class ResumeDto {
             }
      */
 	private Integer state;
-	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
 	private Date createTime;
 	
-	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")  
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
 	private Date createTimeStart;
-	@DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")  
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")  
 	private Date createTimeEnd;
 	
 	private String note;

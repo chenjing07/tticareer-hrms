@@ -1,5 +1,6 @@
 package com.tticareer.hrms.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +9,9 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
 import com.tticareer.hrms.mapper.WrittenExaminationMapper;
 import com.tticareer.hrms.pojo.WrittenExamination;
-import com.tticareer.hrms.pojo.dto.WrittenExaminationDto;
 import com.tticareer.hrms.service.WrittenExaminationService;
 
 import tk.mybatis.mapper.entity.Example;
@@ -59,7 +60,8 @@ public class IWrittenExaminationService implements WrittenExaminationService {
 	}
 
 	@Override
-	public List<WrittenExamination> queryWrittenExaminationByExamScore(Long examScore) {
+	public List<WrittenExamination> queryWrittenExaminationByExamScore(Long examScore,Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(WrittenExamination.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("examScore", examScore);
@@ -67,12 +69,36 @@ public class IWrittenExaminationService implements WrittenExaminationService {
 	}
 
 	@Override
-	public List<WrittenExamination> queryAllWrittenExamination() {
+	public List<WrittenExamination> queryWrittenExaminationByExamResult(Integer examResult,Integer pageNum,Integer pageSize,String orderBy){
+		PageHelper.startPage(pageNum, pageSize,orderBy);
+		Example example = new Example(WrittenExamination.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andNotEqualTo("examResult", examResult);
+		return writtenExaminationMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<WrittenExamination> queryWrittenExaminationByCreateTime(Date createTimeStart,Date createTimeEnd,Integer pageNum,Integer pageSize,String orderBy){
+		PageHelper.startPage(pageNum, pageSize,orderBy);
+		Example example = new Example(WrittenExamination.class);
+		Example.Criteria criteria = example.createCriteria();
+		if(null!=createTimeStart)
+			criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
+		if(null!=createTimeEnd)
+			criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
+		criteria.andNotEqualTo("examResult", 0);
+		return writtenExaminationMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<WrittenExamination> queryAllWrittenExamination(Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		return writtenExaminationMapper.selectAll();
 	}
 
 	@Override
-	public List<WrittenExamination> queryWrittenExaminationWhoIsDelete() {
+	public List<WrittenExamination> queryWrittenExaminationWhoIsDelete(Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(WrittenExamination.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("examResult", 0);
@@ -80,7 +106,8 @@ public class IWrittenExaminationService implements WrittenExaminationService {
 	}
 
 	@Override
-	public List<WrittenExamination> queryWrittenExaminationWhoIsPass() {
+	public List<WrittenExamination> queryWrittenExaminationWhoIsPass(Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(WrittenExamination.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("examResult", 1);
@@ -88,15 +115,16 @@ public class IWrittenExaminationService implements WrittenExaminationService {
 	}
 
 	@Override
-	public List<WrittenExamination> queryWrittenExaminationList(WrittenExaminationDto writtenExaminationDto) {
+	public List<WrittenExamination> queryWrittenExaminationList(Integer examResult,Date createTimeStart,Date createTimeEnd,Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(WrittenExamination.class);
 		Example.Criteria criteria = example.createCriteria();
-		if(null!=writtenExaminationDto.getExamResult())
-			criteria.andLike("examResult", "%" + writtenExaminationDto.getExamResult() + "%");
-		if(null!=writtenExaminationDto.getCreateTimeStart())
-			criteria.andGreaterThanOrEqualTo("createTime", writtenExaminationDto.getCreateTimeStart());
-		if(null!=writtenExaminationDto.getCreateTimeEnd())
-			criteria.andLessThanOrEqualTo("createTime", writtenExaminationDto.getCreateTimeEnd());
+		if(null!=examResult)
+			criteria.andEqualTo("examResult", examResult);
+		if(null!=createTimeStart)
+			criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
+		if(null!=createTimeEnd)
+			criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
 		criteria.andNotEqualTo("examResult", 0);
 		return writtenExaminationMapper.selectByExample(example);
 	}

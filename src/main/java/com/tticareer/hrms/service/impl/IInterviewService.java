@@ -1,5 +1,6 @@
 package com.tticareer.hrms.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +9,9 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
 import com.tticareer.hrms.mapper.InterviewMapper;
 import com.tticareer.hrms.pojo.Interview;
-import com.tticareer.hrms.pojo.dto.InterviewDto;
 import com.tticareer.hrms.service.InterviewService;
 
 import tk.mybatis.mapper.entity.Example;
@@ -59,12 +60,46 @@ public class IInterviewService implements InterviewService {
 	}
 
 	@Override
-	public List<Interview> queryAllInterview() {
+	public List<Interview> queryInterviewByState(Integer state,Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
+		Example example = new Example(Interview.class);
+		Example.Criteria criteria = example.createCriteria();	
+		criteria.andEqualTo("state",state);
+		return interviewMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<Interview> queryInterviewByCreateTime(Date createTimeStart,Date createTimeEnd,Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
+		Example example = new Example(Interview.class);
+		Example.Criteria criteria = example.createCriteria();	
+		if(null!=createTimeStart)
+			criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
+		if(null!=createTimeEnd)
+			criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
+		criteria.andNotEqualTo("state",0);
+		return interviewMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<Interview> queryAllInterview(Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		return interviewMapper.selectAll();
 	}
 
 	@Override
-	public List<Interview> queryInterviewWhoIsDelete() {
+	public List<Interview> queryInterviewWhoIsNotDelete(Integer pageNum,Integer pageSize,String orderBy){
+		PageHelper.startPage(pageNum, pageSize,orderBy);
+		Example example = new Example(Interview.class);
+		Example.Criteria criteria = example.createCriteria();	
+		criteria.andNotEqualTo("state",0);
+		return interviewMapper.selectByExample(example);
+	}
+
+	
+	@Override
+	public List<Interview> queryInterviewWhoIsDelete(Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(Interview.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("state", 0);
@@ -72,7 +107,8 @@ public class IInterviewService implements InterviewService {
 	}
 
 	@Override
-	public List<Interview> queryInterviewWhoIsSecond() {
+	public List<Interview> queryInterviewWhoIsSecond(Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(Interview.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("state", 1);
@@ -80,7 +116,8 @@ public class IInterviewService implements InterviewService {
 	}
 
 	@Override
-	public List<Interview> queryInterviewWhoIsPass() {
+	public List<Interview> queryInterviewWhoIsPass(Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(Interview.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("state", 2);
@@ -88,35 +125,18 @@ public class IInterviewService implements InterviewService {
 	}
 
 	@Override
-	public List<Interview> queryInterviewList(InterviewDto interviewDto){
+	public List<Interview> queryInterviewList(Integer state,Date createTimeStart,Date createTimeEnd,Integer pageNum,Integer pageSize,String orderBy){
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(Interview.class);
 		Example.Criteria criteria = example.createCriteria();
-		if(null!=interviewDto.getState())
-			criteria.andLike("state", "%" + interviewDto.getState() + "%");
-		if(null!=interviewDto.getCreateTimeStart())
-			criteria.andGreaterThanOrEqualTo("createTime", interviewDto.getCreateTimeStart());
-		if(null!=interviewDto.getCreateTimeEnd())
-			criteria.andLessThanOrEqualTo("createTime", interviewDto.getCreateTimeEnd());
-		criteria.andNotEqualTo("state", 0);
+		if(null!=state)
+			criteria.andEqualTo("state",state);
+		if(null!=createTimeStart)
+			criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
+		if(null!=createTimeEnd)
+			criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
 		return interviewMapper.selectByExample(example);
 	}
 	
-	@Override
-	public List<Interview> queryInterviewListA(Interview interview) {
-		Example example = new Example(Interview.class);
-		Example.Criteria criteria = example.createCriteria();
-		criteria.andLike("oneContent", "%" + interview.getOneContent() + "%");
-		criteria.andNotEqualTo("state", 0);
-		return interviewMapper.selectByExample(example);
-	}
-
-	@Override
-	public List<Interview> queryInterviewListB(Interview interview) {
-		Example example = new Example(Interview.class);
-		Example.Criteria criteria = example.createCriteria();
-		criteria.andLike("twoContent", "%" + interview.getTwoContent() + "%");
-		criteria.andNotEqualTo("state", 0);
-		return interviewMapper.selectByExample(example);
-	}
 
 }

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Resume implements Serializable {
     /**
      * 唯一标识，主键自增
@@ -38,6 +40,7 @@ public class Resume implements Serializable {
     /**
      * 出生年月
      */
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     private Date birthday;
 
     /**
@@ -130,6 +133,7 @@ public class Resume implements Serializable {
      * 毕业时间
      */
     @Column(name = "graduated_time")
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     private Date graduatedTime;
 
     /**
@@ -173,6 +177,7 @@ public class Resume implements Serializable {
      * 录入时间
      */
     @Column(name = "create_time")
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     private Date createTime;
 
     /**

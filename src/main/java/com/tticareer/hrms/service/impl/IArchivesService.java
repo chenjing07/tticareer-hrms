@@ -1,5 +1,6 @@
 package com.tticareer.hrms.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -9,8 +10,10 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
 import com.tticareer.hrms.mapper.ArchivesMapper;
 import com.tticareer.hrms.pojo.Archives;
+
 import com.tticareer.hrms.service.ArchivesService;
 
 import tk.mybatis.mapper.entity.Example;
@@ -83,8 +86,9 @@ public class IArchivesService implements ArchivesService {
 	}
 
 	@Override
-	public List<Archives> queryArchivesWhoIsNotDelete() {
+	public List<Archives> queryArchivesWhoIsNotDelete(Integer pageNum,Integer pageSize) {
 		// TODO Auto-generated method stub
+		PageHelper.startPage(pageNum, pageSize);
 		Example example = new Example(Archives.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andNotEqualTo("state", 0);
@@ -100,40 +104,21 @@ public class IArchivesService implements ArchivesService {
 	
 	
 	@Override
-	public List<Archives> queryArchivesListByEmployeeId(Long employeeId){
-		Example example = new Example(Archives.class);
-		Example.Criteria criteria = example.createCriteria();
-		criteria.andLike("employeeId", "%"+ employeeId+"%");
-		criteria.andNotEqualTo("state", 0);
-		//System.out.println(departmentMapper.selectByExample(example));
-		return archivesMapper.selectByExample(example);
-	}
-	
-	@Override
-	public List<Archives> queryArchivesListByCreateTime(Date createTimeStart, Date createTimeEnd){
-		Example example = new Example(Archives.class);
-		Example.Criteria criteria = example.createCriteria();
-
-		if(createTimeStart!=null) {
-			criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
-		}
-		if(createTimeEnd!=null) {
-			criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
-		}
-		criteria.andNotEqualTo("state", 0);
-		//System.out.println(departmentMapper.selectByExample(example));
-		return archivesMapper.selectByExample(example);
-	}
-	
-	@Override
-	public List<Archives> queryArchivesListByMore(Long employeeId,
-				Date createTimeStart, Date createTimeEnd){
+	public List<Archives> queryArchivesListByEmployeeId(String userName,Integer pageNum,Integer pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
 		
+
+		List<Archives> result =archivesMapper.queryJoinEmployeeAndArc(userName);
+		//System.out.println("-----"+result.toString());
+		return result;
+	}
+	
+	@Override
+	public List<Archives> queryArchivesListByCreateTime(Date createTimeStart, Date createTimeEnd,Integer pageNum,Integer pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
 		Example example = new Example(Archives.class);
 		Example.Criteria criteria = example.createCriteria();
 
-		if(employeeId!=null)
-			criteria.andLike("employeeId", "%"+ employeeId+"%");
 		if(createTimeStart!=null) {
 			criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
 		}
@@ -141,7 +126,69 @@ public class IArchivesService implements ArchivesService {
 			criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
 		}
 		criteria.andNotEqualTo("state", 0);
+		//System.out.println(departmentMapper.selectByExample(example));
 		return archivesMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<Archives> queryArchivesListByMore(String userName,
+				Date createTimeStart, Date createTimeEnd,Integer pageNum,Integer pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
+		
+		if(userName!=null) {
+			if(userName!=null && createTimeStart==null && createTimeEnd==null) {
+				List<Archives> result =archivesMapper.queryJoinEmployeeAndArc(userName);
+				return result;
+			}
+			else if(createTimeStart!=null && createTimeEnd==null) {
+				//System.out.println("--");
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String dateString = formatter.format(createTimeStart);
+				List<Archives> result =archivesMapper.queryJoinEmployeeAndArcTS(userName,dateString);
+				return result;
+			}
+			else if(createTimeStart==null && createTimeEnd!=null) {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String dateString = formatter.format(createTimeEnd);
+				List<Archives> result =archivesMapper.queryJoinEmployeeAndArcTE(userName,dateString);
+				return result;
+			}
+			else {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String dateStringStart = formatter.format(createTimeStart);
+				String dateStringEnd = formatter.format(createTimeEnd);
+				List<Archives> result =archivesMapper.queryJoinEmployeeAndArcTSAndE(userName,dateStringStart,dateStringEnd);
+				return result;
+			}
+		}else {
+			if(createTimeStart!=null&&createTimeEnd==null) {
+				Example example = new Example(Archives.class);
+				Example.Criteria criteria = example.createCriteria();
+				criteria.andGreaterThanOrEqualTo("createTime", createTimeStart);
+				criteria.andNotEqualTo("state", 0);
+				return archivesMapper.selectByExample(example);
+			}
+			else if(createTimeStart==null&&createTimeEnd!=null) {
+				Example example = new Example(Archives.class);
+				Example.Criteria criteria = example.createCriteria();
+				criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
+				criteria.andNotEqualTo("state", 0);
+				return archivesMapper.selectByExample(example);
+			}else if(createTimeStart!=null&&createTimeEnd!=null){
+				Example example = new Example(Archives.class);
+				Example.Criteria criteria = example.createCriteria();
+				criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
+				criteria.andLessThanOrEqualTo("createTime", createTimeEnd);
+				criteria.andNotEqualTo("state", 0);
+				return archivesMapper.selectByExample(example);
+			}else {
+				Example example = new Example(Archives.class);
+				Example.Criteria criteria = example.createCriteria();
+				criteria.andNotEqualTo("state", 0);
+				return archivesMapper.selectByExample(example);
+			}
+		
+		}
 	}
 	
 	@Transactional(isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED)
@@ -161,7 +208,8 @@ public class IArchivesService implements ArchivesService {
 	
 
 	@Override
-	public List<Archives> queryWaitApprove() {
+	public List<Archives> queryWaitApprove(Integer pageNum,Integer pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
 		Example example = new Example(Archives.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("checkStatus", 0);

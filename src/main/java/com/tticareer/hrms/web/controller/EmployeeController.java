@@ -1,8 +1,10 @@
 package com.tticareer.hrms.web.controller;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageInfo;
 import com.tticareer.hrms.pojo.Employee;
 import com.tticareer.hrms.service.EmployeeService;
 import com.tticareer.hrms.util.BeanUtils;
@@ -70,22 +73,28 @@ public class EmployeeController {
 	 */
 	@PostMapping("/save")
 	public JSONResult saveEmployee(@RequestBody Employee employee) {
+		employee.setState(1);
+		employee.setCheckSatus(0);
 		//System.out.println(employee.getUserName());
-		
-		if (employeeService.queryEmployeeByUserName(employee.getUserName())!=null) {
-			//System.out.println(employeeService.queryEmployeeByUserName("test").getId());
-			return JSONResult.ok(0);
-		} else {
-			employeeService.saveEmployee(employee);
-			Employee emp = employeeService.queryEmployeeByUserName(employee.getUserName());
-			if (emp!=null) {
-				String data = emp.getId()+"";
-				return JSONResult.ok(data);
+		try{
+			if (employeeService.queryEmployeeByUserName(employee.getUserName())!=null) {
+				//System.out.println(employeeService.queryEmployeeByUserName("test").getId());
+				return JSONResult.ok(0);
 			} else {
-				String msg = "未知错误，数据未录入";
-				return JSONResult.errorMsg(msg);
+				employeeService.saveEmployee(employee);
+				Employee emp = employeeService.queryEmployeeByUserName(employee.getUserName());
+				if (emp!=null) {
+					String data = emp.getId()+"";
+					return JSONResult.ok(data);
+				} else {
+					String msg = "未知错误，数据未录入";
+					return JSONResult.errorMsg(msg);
+				}
 			}
+		}catch(Exception e){
+			return JSONResult.errorMsg("请正确填写数据");
 		}
+		
 	}
 	
 	/**
@@ -99,21 +108,38 @@ public class EmployeeController {
 		return JSONResult.ok(employeeService.queryAllEmployee());
 	}*/
 	//public JSONResult getPage(EmployeeQueryDTO employeeQueryDTO /*, ExtjsPageRequest pageRequest*/) 
-	public JSONResult getPage(@Param("userName") String userName,@Param("realName") String realName) 
+	public JSONResult getPage(@Param("userName") String userName,@Param("realName") String realName,
+			ExtjsPageRequest pageRequest) 
 	{
 		//System.out.println(userName + "********" +realName);
 		
-		if(userName!=null && realName==null) {
+		if(userName!=null && realName=="") {
 			//System.out.println(userName);
-			return JSONResult.ok(employeeService.queryEmployeeListByUserName(userName));
-		}else if(userName==null && realName!=null) {
-			return JSONResult.ok(employeeService.queryEmployeeListByRealName(realName));
+			//return JSONResult.ok(employeeService.queryEmployeeListByUserName(userName));
+			List<Employee> rdList=employeeService.queryEmployeeListByUserName(userName,pageRequest.getPage(), pageRequest.getLimit(),"id DESC");
+			PageInfo<Employee> p=new PageInfo<Employee>(rdList);
+			PageImpl<Employee> rdPage=new PageImpl<Employee>(rdList,pageRequest.getPageable(),p.getTotal());
+			return JSONResult.ok(rdPage);	
+		}else if(userName=="" && realName!=null) {
+			//return JSONResult.ok(employeeService.queryEmployeeListByRealName(realName));
+			List<Employee> rdList=employeeService.queryEmployeeListByRealName(realName,pageRequest.getPage(), pageRequest.getLimit(),"id DESC");
+			PageInfo<Employee> p=new PageInfo<Employee>(rdList);
+			PageImpl<Employee> rdPage=new PageImpl<Employee>(rdList,pageRequest.getPageable(),p.getTotal());
+			return JSONResult.ok(rdPage);
 		}else if(userName!=null && realName!=null) {
 			//System.out.println(userName + "&&&&&&" +realName);
-			return JSONResult.ok(employeeService.queryEmployeeListByUserNameAndRealName(userName,realName));
+			//return JSONResult.ok(employeeService.queryEmployeeListByUserNameAndRealName(userName,realName));
+			List<Employee> rdList=employeeService.queryEmployeeListByUserNameAndRealName(userName,realName,pageRequest.getPage(), pageRequest.getLimit(),"id DESC");
+			PageInfo<Employee> p=new PageInfo<Employee>(rdList);
+			PageImpl<Employee> rdPage=new PageImpl<Employee>(rdList,pageRequest.getPageable(),p.getTotal());
+			return JSONResult.ok(rdPage);
 		}
 		else {
-			return JSONResult.ok(employeeService.queryAllEmployee());
+			//return JSONResult.ok(employeeService.queryAllEmployee());
+			List<Employee> rdList=employeeService.queryEmployeeWhoIsNotDelete(pageRequest.getPage(), pageRequest.getLimit(),"id DESC");
+			PageInfo<Employee> p=new PageInfo<Employee>(rdList);
+			PageImpl<Employee> rdPage=new PageImpl<Employee>(rdList,pageRequest.getPageable(),p.getTotal());
+			return JSONResult.ok(rdPage);	
 		}
 		
 	}
@@ -144,11 +170,11 @@ public class EmployeeController {
 	 * 查询未被删除的员工
 	 * @return
 	 */
-	@GetMapping("/mockall")
+	/*@GetMapping("/mockall")
 	public JSONResult queryEmployeeWhoIsNotDelete() {
 		return JSONResult.ok(employeeService.queryEmployeeWhoIsNotDelete());
 	}
-	
+	*/
 	/**
 	 * 查询其他员工，非人事部的员工
 	 * @return
@@ -228,9 +254,13 @@ public class EmployeeController {
 	
 	
 	@GetMapping("/approve")
-	public JSONResult queryApprove() {
+	public JSONResult queryApprove(ExtjsPageRequest pageRequest) {
 		//return JSONResult.ok(employeeService.queryAllEmployee());
-		return JSONResult.ok(employeeService.queryWaitApprove());
+		//return JSONResult.ok(employeeService.queryWaitApprove());
+		List<Employee> rdList=employeeService.queryWaitApprove(pageRequest.getPage(), pageRequest.getLimit(),"id DESC");
+		PageInfo<Employee> p=new PageInfo<Employee>(rdList);
+		PageImpl<Employee> rdPage=new PageImpl<Employee>(rdList,pageRequest.getPageable(),p.getTotal());
+		return JSONResult.ok(rdPage);	
 	}
 	
 	@PostMapping("/approvePass")
@@ -245,6 +275,7 @@ public class EmployeeController {
 				employeeService.updateEmployee(entity);
 			}else if(pass.equals("nopass"))  {
 				//System.out.println("nopass");
+				entity.setState(0);
 				entity.setCheckSatus(2);
 				employeeService.updateEmployee(entity);
 			}
@@ -252,4 +283,25 @@ public class EmployeeController {
 		
 		return JSONResult.ok(1);
 	}
+	
+	
+	@GetMapping("/getEmployeeIdAndName")
+	public JSONResult getSuperior() {
+		//return JSONResult.ok(departmentService.queryAllDepartment());
+		return JSONResult.ok(employeeService.getEmployeeIdAndName());
+	}
+	
+	@GetMapping("/getEmployeeNameById")
+	public JSONResult getEmployeeNameById(@Param("id") Long id) {
+		//return JSONResult.ok(employeeService.queryAllEmployee());
+		if(id!=0) {
+			String employeeName = (employeeService.queryEmployeeById(id)).getUserName();
+			//System.out.println(employeeName);
+			return JSONResult.ok(employeeName);
+		}else
+			return JSONResult.ok("");
+	}
+	
+	
+	
 }

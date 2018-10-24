@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Table(name = "written_examination_content")
 public class WrittenExaminationContent implements Serializable {
     /**
@@ -75,7 +77,7 @@ public class WrittenExaminationContent implements Serializable {
     /**
      * 状态
             {
-            	0异常 1正常
+            	0冻结 1激活
             }
      */
     private Integer state;
@@ -84,6 +86,7 @@ public class WrittenExaminationContent implements Serializable {
      * 录入时间
      */
     @Column(name = "create_time")
+    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     private Date createTime;
 
     /**

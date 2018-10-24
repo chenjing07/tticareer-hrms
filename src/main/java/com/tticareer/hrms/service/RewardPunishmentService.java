@@ -29,12 +29,12 @@ public interface RewardPunishmentService {
 	/*
 	 * 查找所有的奖惩信息
 	 */
-	public List<RewardPunishment> queryAllRewardPunishment();
+	public List<RewardPunishment> queryAllRewardPunishment(Integer page,Integer pageSize);
 	/*
 	 * 通过员工id查找其所有奖惩信息
 	 * @Param employeeId
 	 */
-	public List<RewardPunishment> queryRewardPunishmentByEmployeeId(Long employeeId);
+	public List<RewardPunishment> queryRewardPunishmentByEmployeeId(Integer page,Integer pageSize,Long employeeId);
 	/*
 	 * 查找所有被冻结的奖惩
 	 */
@@ -42,7 +42,7 @@ public interface RewardPunishmentService {
 	/*
   	 * 查找出所有未被冻结（删除）的奖惩信息
   	 */
-	public List<RewardPunishment> queryRewardPunishmentWhoIsNotDelete();
+	public List<RewardPunishment> queryRewardPunishmentWhoIsNotDelete(Integer page,Integer pageSize);
 	/*
   	 * 查找出所有奖的信息
   	 */
@@ -59,4 +59,12 @@ public interface RewardPunishmentService {
   	 * 通过员工ID以及创建时间查找奖惩信息
   	 */
 	public RewardPunishment queryRewardPunishmentByEmployeeIdAndCreateTime(Long employeeId,Date createTime);
+	 /*
+  	 * 通过创建时间范围查找奖惩信息
+  	 */
+	public List<RewardPunishment> queryRewardPunishmentByTime(Integer page,Integer pageSize,Date timeStart,Date timeEnd);
+	 /*
+  	 * 通过员工id以及创建时间范围查找奖惩信息
+  	 */
+	public List<RewardPunishment> queryRewardPunishmentByEmployeeIdAndTime(Integer page,Integer pageSize,Long employeeId,Date timeStart,Date timeEnd);
 }

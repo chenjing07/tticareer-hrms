@@ -3,9 +3,11 @@ package com.tticareer.hrms.web.controller;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageInfo;
 import com.tticareer.hrms.pojo.Archives;
 import com.tticareer.hrms.service.ArchivesService;
 import com.tticareer.hrms.util.BeanUtils;
@@ -44,6 +47,8 @@ public class ArchivesController {
 	 */
 	@PostMapping("/save")
 	public JSONResult saveArchives(@RequestBody Archives archives) {
+		archives.setState(1);
+		archives.setCheckStatus(0);
 		archivesService.saveArchives(archives);
 //		Archives emp = archivesService.queryArchivesById(archives.getId());
 //		if (emp!=null) {
@@ -55,6 +60,7 @@ public class ArchivesController {
 //		}
 		return JSONResult.ok();
 	}
+
 	
 	/**
 	 * 查询所有档案信息
@@ -64,11 +70,16 @@ public class ArchivesController {
 	/*public JSONResult queryRealAllArchives() {
 		return JSONResult.ok(archivesService.queryAllArchives());
 	}*/
-	public JSONResult getPage(@Param("employeeId") Long employeeId,
-			@Param("createTimeStart") String createTimeStart,@Param("createTimeEnd") String createTimeEnd) 
+	public JSONResult getPage(@Param("userName") String userName,
+			@Param("createTimeStart") String createTimeStart,@Param("createTimeEnd") String createTimeEnd,
+			 ExtjsPageRequest pageRequest) 
 	{
-		if (createTimeStart==null && createTimeEnd == null) {
-				return JSONResult.ok(archivesService.queryAllArchives());
+		if (userName==null && createTimeStart==null && createTimeEnd == null) {
+				//return JSONResult.ok(archivesService.queryArchivesWhoIsNotDelete();
+				List<Archives> rdList=archivesService.queryArchivesWhoIsNotDelete(pageRequest.getPage(), pageRequest.getLimit());
+				PageInfo<Archives> p=new PageInfo<Archives>(rdList);
+				PageImpl<Archives> rdPage=new PageImpl<Archives>(rdList,pageRequest.getPageable(),p.getTotal());
+				return JSONResult.ok(rdPage);	
 		}else{
 			 SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			 ParsePosition pos1 = new ParsePosition(0);
@@ -76,15 +87,25 @@ public class ArchivesController {
 			 Date datecreateTimeStart = formatter.parse(createTimeStart, pos1);
 			 Date datecreateTimeEnd = formatter.parse(createTimeEnd, pos2);		
 			
-			if(employeeId!=null && datecreateTimeStart==null && datecreateTimeEnd==null) {
-				return JSONResult.ok(archivesService.queryArchivesListByEmployeeId(employeeId));
+			if(userName!=null && datecreateTimeStart==null && datecreateTimeEnd==null) {
+				//return JSONResult.ok(archivesService.queryArchivesListByEmployeeId(employeeId));
+				List<Archives> rdList=archivesService.queryArchivesListByEmployeeId(userName,pageRequest.getPage(), pageRequest.getLimit());
+				PageInfo<Archives> p=new PageInfo<Archives>(rdList);
+				PageImpl<Archives> rdPage=new PageImpl<Archives>(rdList,pageRequest.getPageable(),p.getTotal());
+				return JSONResult.ok(rdPage);	
 			}
-			else if( employeeId==null && (datecreateTimeStart!=null || datecreateTimeEnd!=null)) {	
-				return  JSONResult.ok(archivesService.
-						queryArchivesListByCreateTime(datecreateTimeStart,datecreateTimeEnd));
+			else if( userName=="" && (datecreateTimeStart!=null || datecreateTimeEnd!=null)) {	
+				//return  JSONResult.ok(archivesService.queryArchivesListByCreateTime(datecreateTimeStart,datecreateTimeEnd));
+				List<Archives> rdList=archivesService.queryArchivesListByCreateTime(datecreateTimeStart,datecreateTimeEnd,pageRequest.getPage(), pageRequest.getLimit());
+				PageInfo<Archives> p=new PageInfo<Archives>(rdList);
+				PageImpl<Archives> rdPage=new PageImpl<Archives>(rdList,pageRequest.getPageable(),p.getTotal());
+				return JSONResult.ok(rdPage);	
 			}else {
-				return JSONResult.ok(archivesService.
-						queryArchivesListByMore(employeeId,datecreateTimeStart,datecreateTimeEnd));
+				//return JSONResult.ok(archivesService.queryArchivesListByMore(employeeId,datecreateTimeStart,datecreateTimeEnd));
+				List<Archives> rdList=archivesService.queryArchivesListByMore(userName,datecreateTimeStart,datecreateTimeEnd,pageRequest.getPage(), pageRequest.getLimit());
+				PageInfo<Archives> p=new PageInfo<Archives>(rdList);
+				PageImpl<Archives> rdPage=new PageImpl<Archives>(rdList,pageRequest.getPageable(),p.getTotal());
+				return JSONResult.ok(rdPage);	
 			}
 		}
 	}
@@ -102,11 +123,11 @@ public class ArchivesController {
 	/**
 	 * 查询未被删除的档案
 	 * @return
-	 */
+	 
 	@GetMapping("/mockall")
 	public JSONResult queryArchivesWhoIsNotDelete() {
 		return JSONResult.ok(archivesService.queryArchivesWhoIsNotDelete());
-	}
+	}*/
 	
 	
 	
@@ -160,9 +181,13 @@ public class ArchivesController {
 	
 	
 	@GetMapping("/approve")
-	public JSONResult queryApprove() {
+	public JSONResult queryApprove(ExtjsPageRequest pageRequest) {
 		//return JSONResult.ok(archivesService.queryAllArchives());
-		return JSONResult.ok(archivesService.queryWaitApprove());
+		//return JSONResult.ok(archivesService.queryWaitApprove());
+		List<Archives> rdList=archivesService.queryWaitApprove(pageRequest.getPage(), pageRequest.getLimit());
+		PageInfo<Archives> p=new PageInfo<Archives>(rdList);
+		PageImpl<Archives> rdPage=new PageImpl<Archives>(rdList,pageRequest.getPageable(),p.getTotal());
+		return JSONResult.ok(rdPage);	
 	}
 	
 	@PostMapping("/approvePass")
@@ -177,6 +202,7 @@ public class ArchivesController {
 				archivesService.updateArchives(entity);
 			}else if(pass.equals("nopass"))  {
 				//System.out.println("nopass");
+				entity.setState(0);
 				entity.setCheckStatus(2);
 				archivesService.updateArchives(entity);
 			}

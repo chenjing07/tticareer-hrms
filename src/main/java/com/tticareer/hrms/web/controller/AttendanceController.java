@@ -9,11 +9,9 @@ package com.tticareer.hrms.web.controller;
  */
 
 import java.util.Date;
-import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,24 +19,18 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.pagehelper.PageInfo;
 import com.tticareer.hrms.pojo.ClockDetail;
 import com.tticareer.hrms.pojo.Employee;
 import com.tticareer.hrms.pojo.HolidayStatistics;
 import com.tticareer.hrms.pojo.LateEarly;
 import com.tticareer.hrms.pojo.LeaveDetail;
 import com.tticareer.hrms.pojo.OverWork;
-import com.tticareer.hrms.pojo.dto.ClockDetailDto;
-import com.tticareer.hrms.pojo.dto.LateEarlyDto;
-import com.tticareer.hrms.pojo.dto.LeaveDetailDto;
-import com.tticareer.hrms.pojo.dto.OverWorkDto;
 import com.tticareer.hrms.service.AttendanceService;
 import com.tticareer.hrms.service.EmployeeService;
-import com.tticareer.hrms.util.ExtjsPageRequest;
 import com.tticareer.hrms.util.JSONResult;
 
 @RestController
-@RequestMapping("/attendance")
+@RequestMapping("/attendence")
 public class AttendanceController {
 	
 	@Autowired
@@ -101,7 +93,7 @@ public class AttendanceController {
 	 * @param userName
 	 * @return
 	 */
-	@PostMapping("/owupdate")
+	@PutMapping("/owupdate")
 	public JSONResult updateOverWork(OverWork ow, @Param("userName")String userName) {
 		Employee emp = es.queryEmployeeByUserName(userName);
 		if (emp!=null && emp.getState()!=0) {
@@ -157,19 +149,39 @@ public class AttendanceController {
 	 * @param id
 	 * @return
 	 */
-	@PostMapping("/owdeletes")
-	public JSONResult deleteOverWork(@Param("ids")Long[] ids) {
-		as.deleteOverWorkList(ids);
-		return JSONResult.ok(1);
+	@DeleteMapping("/owdelete")
+	public JSONResult deleteOverWork(@Param("id")Long id) {
+		as.deleteOverWork(id);
+		if (as.queryOverWorkById(id).getState()==0) {
+			return JSONResult.ok(1);
+		}
+		return JSONResult.ok(0);
 	}
 	
-	
+	/**
+	 * <p>Title: queryOverWork</p>
+	 * <p>Description: 
+	 * 		（需要seesion）
+	 * 		假的视图分权，如果用户为人事部管理或者超级管理员则显示全部已审核信息，如果是人事部员工则只显示未被删除已审核的信息
+	 * </p>
+	 * @param userName
+	 * @return
+	 */
 	@GetMapping("/owquery")
-	public JSONResult queryOverWork(ExtjsPageRequest pageable,Integer page) {
-		List<OverWorkDto> tis = as.selectOverWork(page);
-		PageInfo<OverWorkDto> tiss = new PageInfo<>(tis);
-		PageImpl<OverWorkDto> pages = new PageImpl<OverWorkDto>(tis,pageable.getPageable(),tiss.getTotal());
-		return JSONResult.ok(pages);
+	public JSONResult queryOverWork(@Param("userName") String userName) {
+		if (es.queryEmployeeByUserName(userName)!=null) {
+			if (es.queryEmployeeByUserName(userName).getState()!=3) {
+				return JSONResult.ok(as.queryOverWorkWhoIsNotDelete());
+			} else {
+				return JSONResult.ok(as.queryAllOverWork());
+			}
+		} else {
+			if (userName.equals("admin")) {
+				return JSONResult.ok(as.queryAllOverWork());
+			} else {
+				return JSONResult.ok("这辈子都不会进入这里");
+			}
+		}
 	}
 	
 	/**
@@ -186,7 +198,7 @@ public class AttendanceController {
 	 * @return
 	 */
 	@PostMapping("/lesave")
-	public JSONResult saveLateEarly(LateEarly le, @Param("userName") String userName, @Param("state")String state) {
+	public JSONResult saveLateEarly(LateEarly le, @Param("userName") String userName) {
 		Employee emp = es.queryEmployeeByUserName(userName);
 		if (emp!=null && emp.getState()!=0) {
 			if (emp.getCheckSatus()!=0) {
@@ -194,9 +206,7 @@ public class AttendanceController {
 				LateEarly l = as.queryLateEarly(le);
 				if (l==null) {
 					//test
-					//le.setLateEarlyTime(new Date());
-					Integer state1 = Integer.parseInt(state);
-					le.setState(state1);
+					le.setLateEarlyTime(new Date());
 					le.setCreateTime(new Date());
 					as.saveLateEarly(le);
 					return JSONResult.ok(1);
@@ -227,9 +237,8 @@ public class AttendanceController {
 	 * @param userName
 	 * @return
 	 */
-	@PostMapping("/leupdate")
+	@PutMapping("/leupdate")
 	public JSONResult updateLateEarly(LateEarly le, @Param("userName") String userName) {
-		System.out.println(le.getState());
 		Employee emp = es.queryEmployeeByUserName(userName);
 		if (emp!=null && emp.getState()!=0) {
 			if (emp.getCheckSatus()!=0) {
@@ -262,25 +271,39 @@ public class AttendanceController {
 	 * @param id
 	 * @return
 	 */
-	@PostMapping("/ledeletes")
-	public JSONResult deleteLateEarly(@Param("ids")Long[] ids) {
-		as.deleteLateEarlyList(ids);
-		return JSONResult.ok(1);
+	@DeleteMapping("/ledelete")
+	public JSONResult deleteLateEarly(@Param("id")Long id) {
+		as.deleteLateEarly(id);
+		if (as.queryLateEarlyById(id).getState()==0) {
+			return JSONResult.ok(1);
+		}
+		return JSONResult.ok(0);
 	}
 	
+	/**
+	 * <p>Title: queryLateEarly</p>
+	 * <p>Description: 
+	 * 		（需要seesion）
+	 * 		假的视图分权，如果用户为人事部管理或者超级管理员则显示全部已审核信息，如果是人事部员工则只显示未被删除已审核的信息
+	 * </p>
+	 * @param userName
+	 * @return
+	 */
 	@GetMapping("/lequery")
-	public JSONResult queryLateEarly(ExtjsPageRequest pageable,Integer page) {
-		List<LateEarlyDto> tis = as.selectLateEarly(page);
-		for (LateEarlyDto ledto : tis) {
-			if (ledto.getState().equals("1")) {
-				ledto.setState("迟到");
+	public JSONResult queryLateEarly(@Param("userName") String userName) {
+		if (es.queryEmployeeByUserName(userName)!=null) {
+			if (es.queryEmployeeByUserName(userName).getState()!=3) {
+				return JSONResult.ok(as.queryLateEarlyWhoIsNotDelete());
 			} else {
-				ledto.setState("早退");
+				return JSONResult.ok(as.queryAllLateEarly());
+			}
+		} else {
+			if (userName.equals("admin")) {
+				return JSONResult.ok(as.queryAllLateEarly());
+			} else {
+				return JSONResult.ok("这辈子都不会进入这里");
 			}
 		}
-		PageInfo<LateEarlyDto> tiss = new PageInfo<>(tis);
-		PageImpl<LateEarlyDto> pages = new PageImpl<LateEarlyDto>(tis,pageable.getPageable(),tiss.getTotal());
-		return JSONResult.ok(pages);
 	}
 	
 	/**
@@ -306,7 +329,7 @@ public class AttendanceController {
 				ClockDetail c = as.queryClockDetail(cd);
 				if (c==null) {
 					cd.setClockIn(new Date());
-					cd.setNote("已签到");
+					cd.setNote("签到");
 					cd.setCreateTime(new Date());
 					cd.setState(1);
 					as.saveClockDetail(cd);
@@ -317,7 +340,7 @@ public class AttendanceController {
 					} else {
 						if(c.getClockIn()!=null && c.getClockOut()==null) {
 							c.setClockOut(new Date());
-							c.setNote("已签退");
+							c.setNote("签退");
 							as.updateClockDetail(c);
 							return JSONResult.ok(2);
 						}
@@ -334,7 +357,7 @@ public class AttendanceController {
 	}
 	
 	/**
-	 * <p>Title: deleteClockDetail</p>
+	 * <p>Title: deleteClockDetailList</p>
 	 * <p>Description: 
 	 * 		1 删除成功
 	 * 		0 删除失败
@@ -342,13 +365,15 @@ public class AttendanceController {
 	 * @param ids
 	 * @return
 	 */
-	@DeleteMapping("/clear")
-	public JSONResult clearClockDetail() {
-		List<ClockDetail> cds = as.queryClockDetailWhoIsNotDelete();
-		for (ClockDetail cd : cds) {
-			as.deleteClockDetail(cd.getId());
+	@DeleteMapping("/cddelete")
+	public JSONResult deleteClockDetail(@Param("id")Long id) {
+		as.deleteClockDetail(id);
+		
+		if(as.queryClockDetailById(id).getState()!=0) {
+			return JSONResult.ok(0);
+		} else {
+			return JSONResult.ok(1);
 		}
-		return JSONResult.ok(1);
 	}
 	
 	/**
@@ -367,11 +392,8 @@ public class AttendanceController {
 	 * @return
 	 */
 	@GetMapping("/cdquerytoday")
-	public JSONResult queryClockDetailToday(ExtjsPageRequest pageable,Integer page) {
-		List<ClockDetailDto> tis = as.selectClockDetail(page);
-		PageInfo<ClockDetailDto> tiss = new PageInfo<>(tis);
-		PageImpl<ClockDetailDto> pages = new PageImpl<ClockDetailDto>(tis,pageable.getPageable(),tiss.getTotal());
-		return JSONResult.ok(pages);
+	public JSONResult queryClockDetailToday() {
+		return JSONResult.ok(as.queryClockDetailWhoIsNotDelete());
 	}
 	
 	/**
@@ -422,7 +444,7 @@ public class AttendanceController {
 	 * @param userName
 	 * @return
 	 */
-	@PostMapping("/ldupdate")
+	@PutMapping("/ldupdate")
 	public JSONResult updateLeaveDetail(LeaveDetail ld, @Param("userName")String userName) {
 		Employee emp = es.queryEmployeeByUserName(userName);
 		if (emp!=null && emp.getState()!=0) {
@@ -435,7 +457,6 @@ public class AttendanceController {
 					l.setLeaveDays(ld.getLeaveDays());
 					l.setReason(ld.getReason());
 					l.setNote(ld.getNote());
-					l.setCheckStatus(0);
 					as.updateLeaveDetail(l);
 					return JSONResult.ok(1);
 				} else {
@@ -481,7 +502,7 @@ public class AttendanceController {
 	 * @param result
 	 * @return
 	 */
-	@PostMapping("/ldcheck")
+	@PutMapping("/ldcheck")
 	public JSONResult checkLeaveDatil(@Param("id")Long id, @Param("result")String result) {
 		LeaveDetail l = as.queryLeaveDetailById(id);
 		if (l!=null && l.getState()!=0) {
@@ -509,7 +530,7 @@ public class AttendanceController {
 	 * @param id
 	 * @return
 	 */
-	@PostMapping("/ldxiaojia")
+	@PutMapping("/ldxiaojia")
 	public JSONResult xiaoJia(@Param("id")Long id) {
 		LeaveDetail l = as.queryLeaveDetailById(id);
 		if (l!=null && l.getState()!=0) {
@@ -534,7 +555,7 @@ public class AttendanceController {
 	 * @param realEnd
 	 * @return
 	 */
-	@PostMapping("/ldcheckxiao")
+	@PutMapping("/ldcheckxiao")
 	public JSONResult checkXiaoJia(@Param("id")Long id, @Param("result")String result) {
 		LeaveDetail l = as.queryLeaveDetailById(id);
 		if (l!=null && l.getState()!=0) {
@@ -567,48 +588,51 @@ public class AttendanceController {
 	 * @param id
 	 * @return
 	 */
-	@PostMapping("/lddeletes")
-	public JSONResult deleteLeaveDetail(@Param("ids")Long[] ids) {
-		as.deleteLeaveDetailList(ids);
-		return JSONResult.ok(1);
+	@DeleteMapping("/lddelete")
+	public JSONResult deleteLeaveDetail(@Param("id")Long id) {
+		as.deleteLeaveDetail(id);
+		if (as.queryLeaveDetailById(id).getState()==0) {
+			return JSONResult.ok(1);
+		}
+		return JSONResult.ok(0);
 	}
 	
-	
+	/**
+	 * <p>Title: queryLeaveDetail</p>
+	 * <p>Description: 
+	 * 		（需要seesion）
+	 * 		假的视图分权，如果用户为人事部管理或者超级管理员则显示全部已审核信息，如果是人事部员工则只显示未被删除已审核的信息
+	 * </p>
+	 * @param userName
+	 * @return
+	 */
 	@GetMapping("/ldquery")
-	public JSONResult queryLeaveDetail(ExtjsPageRequest pageable,Integer page) {
-		List<LeaveDetailDto> tis = as.selectLeaveDetail(page);
-		for (LeaveDetailDto lddto : tis) {
-			lddto.setCheckStatus("已审核");
-			if (lddto.getState().equals("1")) {
-				lddto.setState("激活");
-			} else if (lddto.getState().equals("2")) {
-				lddto.setState("销假申请");
+	public JSONResult queryLeaveDetail(@Param("userName") String userName) {
+		if (es.queryEmployeeByUserName(userName)!=null) {
+			if (es.queryEmployeeByUserName(userName).getState()!=3) {
+				return JSONResult.ok(as.queryLeaveDetailWhoIsNotDeleteAndCheckStatus());
 			} else {
-				lddto.setState("销假成功");
+				return JSONResult.ok(as.queryLeaveDetailCheckStatus());
+			}
+		} else {
+			if (userName.equals("admin")) {
+				return JSONResult.ok(as.queryLeaveDetailCheckStatus());
+			} else {
+				return JSONResult.ok("这辈子都不会进入这里");
 			}
 		}
-		PageInfo<LeaveDetailDto> tiss = new PageInfo<>(tis);
-		PageImpl<LeaveDetailDto> pages = new PageImpl<LeaveDetailDto>(tis,pageable.getPageable(),tiss.getTotal());
-		return JSONResult.ok(pages);
 	}
 	
-	
+	/**
+	 * <p>Title: queryLeaveDetailCheck</p>
+	 * <p>Description: 
+	 * 		请假审核
+	 * </p>
+	 * @return
+	 */
 	@GetMapping("/ldcheckquery")
-	public JSONResult queryLeaveDetailCheck(ExtjsPageRequest pageable,Integer page) {
-		List<LeaveDetailDto> tis = as.selectLeaveDetailCheck(page);
-		for (LeaveDetailDto lddto : tis) {
-			lddto.setCheckStatus("待审核");
-			if (lddto.getState().equals("1")) {
-				lddto.setState("激活");
-			} else if (lddto.getState().equals("2")) {
-				lddto.setState("销假申请");
-			} else {
-				lddto.setState("销假成功");
-			}
-		}
-		PageInfo<LeaveDetailDto> tiss = new PageInfo<>(tis);
-		PageImpl<LeaveDetailDto> pages = new PageImpl<LeaveDetailDto>(tis,pageable.getPageable(),tiss.getTotal());
-		return JSONResult.ok(pages);
+	public JSONResult queryLeaveDetailCheck() {
+		return JSONResult.ok(as.queryLeaveDetailWhoIsNotDeleteAndAudited());	
 	}
 	
 	/**

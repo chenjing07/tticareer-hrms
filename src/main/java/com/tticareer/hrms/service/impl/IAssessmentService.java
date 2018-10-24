@@ -5,15 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
 import com.tticareer.hrms.mapper.AssessmentStandardMapper;
 import com.tticareer.hrms.mapper.EmployeeAssessmentMapper;
 import com.tticareer.hrms.mapper.GreatTeamMapper;
 import com.tticareer.hrms.pojo.AssessmentStandard;
 import com.tticareer.hrms.pojo.EmployeeAssessment;
 import com.tticareer.hrms.pojo.GreatTeam;
-import com.tticareer.hrms.pojo.dto.AssessmentStandardDto;
-import com.tticareer.hrms.pojo.dto.EmployeeAssessmentDto;
 import com.tticareer.hrms.service.AssessmentService;
 
 import tk.mybatis.mapper.entity.Example;
@@ -159,18 +156,6 @@ public class IAssessmentService implements AssessmentService {
 		criteria.andEqualTo("state", 1);
 		criteria.andEqualTo("checkStatus", 0);
 		return asMapper.selectByExample(example);
-	}
-	
-	@Override
-	public List<AssessmentStandardDto> selectAssessmentStandardDto(Integer page){
-		PageHelper.startPage(page, 20);
-		return asMapper.selectAssessmentStandard();
-	}
-	
-	@Override
- 	public List<AssessmentStandardDto> selectAssessmentStandardCheckDto(Integer page){
-		PageHelper.startPage(page, 20);
-		return asMapper.selectAssessmentStandardCheck();
 	}
 
 	@Override
@@ -362,18 +347,6 @@ public class IAssessmentService implements AssessmentService {
 		criteria.andLike("evaluate", "%" + ea.getEvaluate() + "%");
 		criteria.andNotEqualTo("state", 0);
 		return eaMapper.selectByExample(example);
-	}
-	
-	@Override
-	public List<EmployeeAssessmentDto> selectEmployeeAssessment(Integer page) {
-		PageHelper.startPage(page, 20);
-		return eaMapper.selectEmployeeAssessment();
-	}
- 	
-	@Override
-	public List<EmployeeAssessmentDto> selectEmployeeAssessmentCheck(Integer page) {
-		PageHelper.startPage(page, 20);
-		return eaMapper.selectEmployeeAssessmentCheck();
 	}
 
 	@Override

@@ -38,13 +38,6 @@
 			</exclusions>
 		</dependency>
 		
-		<!-- spring-boot-starter-data-jpa -->
-		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		
-		
 		<!-- 引入log4j日志依赖 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

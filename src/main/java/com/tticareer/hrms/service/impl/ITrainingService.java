@@ -5,14 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
 import com.tticareer.hrms.mapper.TrainingFeedbackMapper;
 import com.tticareer.hrms.mapper.TrainingInfoMapper;
 import com.tticareer.hrms.pojo.TrainingFeedback;
 import com.tticareer.hrms.pojo.TrainingInfo;
-import com.tticareer.hrms.pojo.dto.DepartmentTrainingDto;
-import com.tticareer.hrms.pojo.dto.EmployeeTrainingDto;
-import com.tticareer.hrms.pojo.dto.TrainingFeedbackDto;
 import com.tticareer.hrms.service.TrainingService;
 
 import tk.mybatis.mapper.entity.Example;
@@ -87,7 +83,7 @@ public class ITrainingService implements TrainingService {
 	public List<TrainingInfo> queryTrainingInfoByDepartmentId(Long departmentId) {
 		Example example = new Example(TrainingInfo.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("departmentId", departmentId);
+		criteria.andEqualTo("departimeId", departmentId);
 		return tiMapper.selectByExample(example);
 	}
 
@@ -135,18 +131,6 @@ public class ITrainingService implements TrainingService {
 		criteria.andLike("purpose", "%" + ti.getPurpose() + "%");
 		criteria.andNotEqualTo("state", 0);
 		return tiMapper.selectByExample(example);
-	}
-	
-	@Override
-	public List<DepartmentTrainingDto> selectDepartTraining(Integer page){
-		PageHelper.startPage(page, 20);
-		return tiMapper.selectDepartTraining();
-	}
-	
-	@Override
-	public List<EmployeeTrainingDto> selectEmpTraining(Integer page){
-		PageHelper.startPage(page, 20);
-		return tiMapper.selectEmpTraining();
 	}
 
 	@Override
@@ -234,10 +218,5 @@ public class ITrainingService implements TrainingService {
 		criteria.andNotEqualTo("state", 0);
 		return tfMapper.selectByExample(example);
 	}
-	
-	@Override
-	public List<TrainingFeedbackDto> selectTfTraining(Integer page){
-		PageHelper.startPage(page, 20);
-		return tfMapper.selectTfTraining();
-	}
+
 }

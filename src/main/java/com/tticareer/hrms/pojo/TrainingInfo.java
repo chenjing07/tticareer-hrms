@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 @Table(name = "training_info")
 public class TrainingInfo implements Serializable {
     /**
@@ -34,7 +32,6 @@ public class TrainingInfo implements Serializable {
     /**
      * 培训开始时间
      */
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
     private Date time;
 
     /**
@@ -78,9 +75,8 @@ public class TrainingInfo implements Serializable {
     /**
      * 录入时间
      */
-    @JsonFormat(pattern="yyyy/MM/dd HH:mm:ss",timezone="GMT+8")
-    @Column(name = "create_time")
-    private Date createTime;
+    @Column(name = "createTime")
+    private Date createtime;
 
     /**
      * 备注
@@ -323,7 +319,7 @@ public class TrainingInfo implements Serializable {
      * @return createTime - 录入时间
      */
     public Date getCreatetime() {
-        return createTime;
+        return createtime;
     }
 
     /**
@@ -331,8 +327,8 @@ public class TrainingInfo implements Serializable {
      *
      * @param createtime 录入时间
      */
-    public void setCreatetime(Date createTime) {
-        this.createTime = createTime;
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
     }
 
     /**
@@ -352,14 +348,4 @@ public class TrainingInfo implements Serializable {
     public void setNote(String note) {
         this.note = note;
     }
-
-	@Override
-	public String toString() {
-		return "TrainingInfo [id=" + id + ", departmentId=" + departmentId + ", employeeId=" + employeeId
-				+ ", lecturer=" + lecturer + ", time=" + time + ", duration=" + duration + ", purpose=" + purpose
-				+ ", number=" + number + ", cost=" + cost + ", place=" + place + ", content=" + content + ", state="
-				+ state + ", createTime=" + createTime + ", note=" + note + "]";
-	}
-    
-    
 }

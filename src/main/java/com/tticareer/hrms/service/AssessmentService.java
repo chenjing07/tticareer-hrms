@@ -5,8 +5,6 @@ import java.util.List;
 import com.tticareer.hrms.pojo.AssessmentStandard;
 import com.tticareer.hrms.pojo.EmployeeAssessment;
 import com.tticareer.hrms.pojo.GreatTeam;
-import com.tticareer.hrms.pojo.dto.AssessmentStandardDto;
-import com.tticareer.hrms.pojo.dto.EmployeeAssessmentDto;
 
 /**
  * <p>CreateTime: 2018年9月27日 下午8:39:47 </p>
@@ -34,8 +32,6 @@ public interface AssessmentService {
  	public List<AssessmentStandard> queryAssessmentStandardListA(Long positionId);
  	public List<AssessmentStandard> queryAssessmentStandardListB(Long positionId);
  	public List<AssessmentStandard> queryAssessmentStandardListC(Long positionId);
- 	public List<AssessmentStandardDto> selectAssessmentStandardDto(Integer page);
- 	public List<AssessmentStandardDto> selectAssessmentStandardCheckDto(Integer page);
 	
 	public void saveEmployeeAssessment(EmployeeAssessment ea);
 	public void updateEmployeeAssessment(EmployeeAssessment ea);
@@ -62,8 +58,6 @@ public interface AssessmentService {
 	public List<EmployeeAssessment> queryEmployeeAssessmentWhoIsNotDeleteAndCheckStatus();
 	public List<EmployeeAssessment> queryEmployeeAssessmentWhoIsNotDeleteAndAudited();
 	public List<EmployeeAssessment> queryEmployeeAssessmentList(EmployeeAssessment ea);
-	public List<EmployeeAssessmentDto> selectEmployeeAssessment(Integer page);
- 	public List<EmployeeAssessmentDto> selectEmployeeAssessmentCheck(Integer page);
 	
 	public void saveGreatTeam(GreatTeam gt);
 	public void updateGreatTeam(GreatTeam gt);

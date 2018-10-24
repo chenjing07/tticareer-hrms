@@ -37,7 +37,7 @@
 			targetProject="src/test/java" type="XMLMAPPER" />
 
 
-		<table tableName="over_work"></table>
+		<table tableName="clock_detail"></table>
 
 	</context>
 </generatorConfiguration>

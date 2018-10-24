@@ -54,7 +54,6 @@ Ext.define('Admin.view.authentication.RealNameWindow', {
             emptyText: 'id Card Picture',
             name:'idCardPicture',
             bind: '{idCardPicture}',
-		height: 55,
 		allowBlank : false,
 		buttonConfig: {
 	            xtype: 'filebutton',

@@ -3,12 +3,13 @@ Ext.define('Admin.view.laborContract.LaborContractSearchWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.laborContractSearchWindow',
 
-    height: 300,
-    minHeight: 100,
-    minWidth: 300,
+    y:10,
+    height: 280,
+   // minHeight: 100,
+    //minWidth: 300,
     width: 500,
     scrollable: true,
-    title: 'LaborContract Search Window',
+    title: '搜索合同',
     closable: true,
     modal:true, //打开窗口后 不能操作其他模块
     
@@ -31,8 +32,8 @@ Ext.define('Admin.view.laborContract.LaborContractSearchWindow', {
             name:'employerName'
         }, {
             xtype: 'textfield',
-            fieldLabel: '员工Id',
-            name:'employeeId'
+            fieldLabel: '员工工号',
+            name:'userName'
         }, {
             xtype: 'datefield',
             fieldLabel: 'From',

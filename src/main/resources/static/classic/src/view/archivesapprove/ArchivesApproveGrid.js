@@ -2,7 +2,7 @@
     extend: 'Ext.grid.Panel',
 	xtype:'archivesApproveGrid',
 	title: '待审批档案信息',		//需要修改
-	iconCls: 'fa-arrow-circle-o-up',
+	//iconCls: 'fa-arrow-circle-o-up',
 	bind: '{archivesApproveStore}',//调用组件4
 	columns: [{
 			xtype: 'actioncolumn',
@@ -25,7 +25,25 @@
 			tooltip: 'edit '
 		}
 		,{header: 'id' 		,dataIndex: 'id',width: 60,sortable: true	,hidden:true}
-		,{header: '员工Id'  	,dataIndex: 'employeeId',width: 60,sortable: true}
+		,{header: '员工Id'  	,dataIndex: 'employeeId',width: 60,sortable: true,
+				renderer: function(val) {
+				   var result;
+		           Ext.Ajax.request({
+					   url:'/employee/getEmployeeNameById', 
+					   method:'get', 
+					   params:{id:val}, 
+					  async: false,
+					   success:function(response, options) {
+          					var json = Ext.util.JSON.decode(response.responseText);
+          					if (json.data) {
+            					result = json.data;
+								//console.log(result);
+         				 	}
+						}
+					});
+					return result;
+			    }
+		}
 		,{header: '转入时间'  	,dataIndex: 'inTime',width: 60,sortable: true,renderer: Ext.util.Format.dateRenderer('Y/m/d H:i:s')}
 		,{header: '转出时间'  	,dataIndex: 'outTime',width: 60,sortable: true,renderer: Ext.util.Format.dateRenderer('Y/m/d H:i:s')}
 		,{header: '档案来源'  	,dataIndex: 'archivesSource',width: 60,sortable: true}

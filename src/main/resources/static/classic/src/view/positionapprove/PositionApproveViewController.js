@@ -8,6 +8,28 @@
 			var win = grid.up('container').add(Ext.widget('positionApproveWindow'));
 	             win.show();	      
 		      win.down('form').getForm().loadRecord(record);
+			  Ext.Ajax.request(
+			{
+				url:'/department/getDepartmentNameById', 
+				method:'get', 
+				params:{id:record.get('departmentId')}, 
+				success: function(response) {
+					var jsonResult = Ext.util.JSON.decode(response.responseText);
+					win.down('form').getForm().findField('departmentId').setValue(jsonResult.data);
+					
+				}
+			});
+			Ext.Ajax.request(
+			{
+				url:'/position/getPositionNameById', 
+				method:'get', 
+				params:{id:record.get('superiorPositionid')}, 
+				success: function(response) {
+					var jsonResult = Ext.util.JSON.decode(response.responseText);
+					win.down('form').getForm().findField('superiorPositionid').setValue(jsonResult.data);
+					
+				}
+			});
 	      }
 	},
 	passApproveButton:function(button){

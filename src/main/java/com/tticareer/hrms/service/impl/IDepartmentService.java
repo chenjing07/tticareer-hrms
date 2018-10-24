@@ -1,5 +1,7 @@
 package com.tticareer.hrms.service.impl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +10,12 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
 import com.tticareer.hrms.mapper.DepartmentMapper;
 import com.tticareer.hrms.pojo.Department;
+
+import com.tticareer.hrms.pojo.LaborContract;
+import com.tticareer.hrms.pojo.dto.DepartmentIdAndName;
 
 import com.tticareer.hrms.service.DepartmentService;
 
@@ -80,8 +86,9 @@ public class IDepartmentService implements DepartmentService {
 	}
 
 	@Override
-	public List<Department> queryDepartmentWhoIsNotDelete() {
+	public List<Department> queryDepartmentWhoIsNotDelete(Integer pageNum,Integer pageSize,String orderBy) {
 		// TODO Auto-generated method stub
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(Department.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andNotEqualTo("state", 0);
@@ -98,16 +105,11 @@ public class IDepartmentService implements DepartmentService {
 		return departmentMapper.selectByExample(example);
 	}
 
-	@Override
-	public Department queryDepartmentByDepartmentNumber(String departmentNumber) {
-		Example example = new Example(Department.class);
-		Example.Criteria criteria = example.createCriteria();
-		criteria.andEqualTo("departmentNumber", departmentNumber);
-		return departmentMapper.selectOneByExample(example);
-	}
+	
 	
 	@Override
-	public List<Department> queryDepartmentListByDepartmentNumber(String departmentNumber) {
+	public List<Department> queryDepartmentListByDepartmentNumber(String departmentNumber,Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(Department.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andLike("departmentNumber", "%"+ departmentNumber+"%");
@@ -117,7 +119,8 @@ public class IDepartmentService implements DepartmentService {
 	}
 
 	@Override
-	public List<Department> queryDepartmentListByDepartmentName(String departmentName) {
+	public List<Department> queryDepartmentListByDepartmentName(String departmentName,Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(Department.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andLike("departmentName", "%"+ departmentName+"%");
@@ -127,7 +130,8 @@ public class IDepartmentService implements DepartmentService {
 	}
 	
 	@Override
-	public List<Department> queryDepartmentListByDepartmentNumberAndDepartmentName(String departmentNumber,String departmentName){
+	public List<Department> queryDepartmentListByDepartmentNumberAndDepartmentName(String departmentNumber,String departmentName,Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(Department.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andLike("departmentNumber", "%"+ departmentNumber+"%");
@@ -157,10 +161,37 @@ public class IDepartmentService implements DepartmentService {
 	
 
 	@Override
-	public List<Department> queryWaitApprove() {
+	public List<Department> queryWaitApprove(Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(Department.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("checkStatus", 0);
 		return departmentMapper.selectByExample(example);
+	}
+	
+	@Override
+	public List<DepartmentIdAndName> getDepartmentIdAndName(){
+		
+		Example example = new Example(Department.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("state", 1);
+		criteria.andEqualTo("checkStatus", 1);
+		List<Department> departments = departmentMapper.selectByExample(example);
+		
+		
+		List<DepartmentIdAndName> departmentSuperiors = new ArrayList<DepartmentIdAndName>();
+		
+		for( int i = 0 ; i < departments.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
+		    //System.out.println(departments.get(i).get);
+			DepartmentIdAndName departmentSuperior = new DepartmentIdAndName();
+			departmentSuperior.setDepartmentId(departments.get(i).getId());
+			departmentSuperior.setDepartmentName(departments.get(i).getDepartmentName());
+			departmentSuperiors.add(departmentSuperior);
+			//System.out.println(i+"*********"+departmentSuperiors.get(i).getSuperiorDepartmentId()+"**********"+
+			//		departmentSuperiors.get(i).getDepartmentName());
+		}
+		/*System.out.println(0+"*********"+departmentSuperiors.get(0).getSuperiorDepartmentId()+"**********"+
+				departmentSuperiors.get(0).getDepartmentName());*/
+		return departmentSuperiors;
 	}
 }

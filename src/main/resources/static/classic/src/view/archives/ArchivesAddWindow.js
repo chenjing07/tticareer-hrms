@@ -3,9 +3,10 @@ Ext.define('Admin.view.archives.ArchivesAddWindow', {
     alias: 'widget.archivesAddWindow',
 
 	
-    height: 300,
-    minHeight: 10,
-    minWidth: 300,
+    y:10,
+    height:400,
+    //minHeight: 10,
+    //minWidth: 300,
     width: 500,
     scrollable: true,
     title: 'Archives Add Window',
@@ -27,48 +28,74 @@ Ext.define('Admin.view.archives.ArchivesAddWindow', {
             hidden: true,
             readOnly: true
         }, {
-            xtype: 'textfield',
-            fieldLabel: 'EmployeeId',
-            name:'employeeId'
+            xtype: 'combo',
+            fieldLabel: '<span style="color:red;">*</span>员工Id',
+            name:'employeeId',
+			store : Ext.create('Ext.data.Store',{
+				fields:[
+					{type:'int',name:'employeeId'},
+					{type:'string',name:'employeeName'}
+				],
+				 proxy: {
+					type: 'rest',
+					url: '/employee/getEmployeeIdAndName',	//mvc url  xxx.json
+					reader:{
+						type:'json',
+						rootProperty:'data',
+						totalProperty: 'totalElements'
+					},
+						writer: {
+						type: 'json'
+					},
+						simpleSortMode: true
+				},
+				autoLoad:true,
+				autoSync:true
+			}),
+			mode : 'local',
+			allowBlank : false,
+			editable : false, 
+			valueField : 'employeeId',
+			displayField : 'employeeName'
         }, {
             xtype: 'datefield',
-            fieldLabel: 'InTime',
+            fieldLabel: '转入时间',
             name:'inTime',
             format: 'Y/m/d H:i:s'
         },  {
             xtype: 'datefield',
-            fieldLabel: 'OutTime',
+            fieldLabel: '转出时间',
             name:'outTime',
             format: 'Y/m/d H:i:s'
         }, {
             xtype: 'textfield',
-            fieldLabel: 'ArchivesSource',
+            fieldLabel: '档案来处',
             name:'archivesSource'
         }, {
             xtype: 'textfield',
-            fieldLabel: 'ArchivesDestination',
+            fieldLabel: '档案去处',
             name:'archivesDestination'
         },
         {
             xtype: 'textfield',
-            fieldLabel: 'ArchivesChange',
+            fieldLabel: '档案变更说明',
             name:'archivesChange'
-        }, {
+        },/* {
             xtype: 'textfield',
-            fieldLabel: 'State',
+            fieldLabel: '状态',
             name:'state'
-        }, {
+        },*/ {
             xtype: 'datefield',
-            fieldLabel: 'Create Time',
+            fieldLabel: '<span style="color:red;">*</span>录入时间',
             name:'createTime',
             format: 'Y/m/d H:i:s'
-        }, {
+        }, /*{
             xtype: 'textfield',
-            fieldLabel: 'Check Satus',
+            fieldLabel: '审核状态',
             name:'checkStatus'
-        }, {
+        },*/ {
             xtype: 'textfield',
-            fieldLabel: 'Note',
+            fieldLabel: '备注',
             name:'note'
         }
 	]

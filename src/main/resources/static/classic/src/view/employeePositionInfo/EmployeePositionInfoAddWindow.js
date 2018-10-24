@@ -3,12 +3,13 @@ Ext.define('Admin.view.employeePositionInfo.EmployeePositionInfoAddWindow', {
     alias: 'widget.employeePositionInfoAddWindow',
 
 	
-    height: 300,
-    minHeight: 10,
-    minWidth: 300,
+    y:10,
+    height:400,
+    //minHeight: 10,
+    //minWidth: 300,
     width: 500,
     scrollable: true,
-    title: 'EmployeePositionInfo Add Window',
+    title: '增添调动信息',
     closable: true,
     modal:true, //打开窗口后 不能操作其他模块
     
@@ -27,53 +28,105 @@ Ext.define('Admin.view.employeePositionInfo.EmployeePositionInfoAddWindow', {
             hidden: true,
             readOnly: true
         }, {
-            xtype: 'textfield',
-            fieldLabel: 'EmployeeId',
-            name:'employeeId'
+            xtype: 'combo',
+            fieldLabel: '<span style="color:red;">*</span>员工id',
+            name:'employeeId',
+			store : Ext.create('Ext.data.Store',{
+				fields:[
+					{type:'int',name:'employeeId'},
+					{type:'string',name:'employeeName'}
+				],
+				 proxy: {
+					type: 'rest',
+					url: '/employee/getEmployeeIdAndName',	//mvc url  xxx.json
+					reader:{
+						type:'json',
+						rootProperty:'data',
+						totalProperty: 'totalElements'
+					},
+						writer: {
+						type: 'json'
+					},
+						simpleSortMode: true
+				},
+				autoLoad:true,
+				autoSync:true
+			}),
+			mode : 'local',
+			allowBlank : false,
+			editable : false, 
+			valueField : 'employeeId',
+			displayField : 'employeeName'
         }, {
-            xtype: 'textfield',
-            fieldLabel: 'PositionId',
-            name:'positionId'
+            xtype: 'combo',
+            fieldLabel: '<span style="color:red;">*</span>岗位id',
+            name:'positionId',
+			store : Ext.create('Ext.data.Store',{
+				fields:[
+					{type:'int',name:'positionId'},
+					{type:'string',name:'positionName'}
+				],
+				 proxy: {
+					type: 'rest',
+					url: '/position/getPositionIdAndName',	//mvc url  xxx.json
+					reader:{
+						type:'json',
+						rootProperty:'data',
+						totalProperty: 'totalElements'
+					},
+						writer: {
+						type: 'json'
+					},
+						simpleSortMode: true
+				},
+				autoLoad:true,
+				autoSync:true
+			}),
+			mode : 'local',
+			allowBlank : false,
+			editable : false, 
+			valueField : 'positionId',
+			displayField : 'positionName'
         },
         {
             xtype: 'datefield',
-            fieldLabel: 'ArrivePost',
+            fieldLabel: '<span style="color:red;">*</span>到岗时间',
             name:'arrivePost',
 			format: 'Y/m/d H:i:s'
         }, {
             xtype: 'datefield',
-            fieldLabel: 'LeavePost',
+            fieldLabel: '调岗时间',
             name:'leavePost',
 			format: 'Y/m/d H:i:s'
         }, {
             xtype: 'textfield',
-            fieldLabel: 'TransferReason',
+            fieldLabel: '调岗原因',
             name:'transferReason'
         }, {
             xtype: 'textfield',
-            fieldLabel: 'LeaveOpinion',
+            fieldLabel: '调出部门意见',
             name:'leaveOpinion'
         }, {
             xtype: 'textfield',
-            fieldLabel: 'ArriveOpinion',
+            fieldLabel: '调入部门意见',
             name:'arriveOpinion'
         },
-        {
+        /*{
             xtype: 'textfield',
-            fieldLabel: 'State',
+            fieldLabel: '状态',
             name:'state'
-        }, {
+        }, */{
             xtype: 'datefield',
-            fieldLabel: 'CreateTime',
+            fieldLabel: '<span style="color:red;">*</span>录入时间',
             name:'createTime',
             format: 'Y/m/d H:i:s'
-        }, {
+        }, /*{
             xtype: 'textfield',
-            fieldLabel: 'Check Satus',
-            name:'checkSatus'
-        }, {
+            fieldLabel: '审核状态',
+            name:'checkStatus'
+        },*/ {
             xtype: 'textfield',
-            fieldLabel: 'Note',
+            fieldLabel: '备注',
             name:'note'
         }
 	]

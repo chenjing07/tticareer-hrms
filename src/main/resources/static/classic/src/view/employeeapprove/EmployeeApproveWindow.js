@@ -2,9 +2,10 @@ Ext.define('Admin.view.employeeapprove.EmployeeApproveWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.employeeApproveWindow',
 
-    height: 300,
-    minHeight: 10,
-    minWidth: 300,
+    y:10,
+    height: 400,
+    //minHeight: 10,
+    //minWidth: 300,
     width: 500,
     scrollable: true,
     title: '审批窗口',
@@ -63,6 +64,7 @@ Ext.define('Admin.view.employeeapprove.EmployeeApproveWindow', {
             fieldLabel: '性别',
             name:'gender',
 			readOnly: true
+			
         }, {
             xtype: 'textfield',
             fieldLabel: '民族',

@@ -9,8 +9,8 @@ Ext.define('Admin.store.archives.ArchivesGridStore', {
         url: '/archives',	//mvc url  xxx.json
 	  reader:{
 	    	type:'json',
-	    	rootProperty:'data',
-	    	totalProperty: 'totalElements'
+	    	rootProperty:'data.content',
+	    	totalProperty: 'data.totalElements'
 	    },
 	    	writer: {
 			type: 'json'
@@ -19,7 +19,7 @@ Ext.define('Admin.store.archives.ArchivesGridStore', {
     },
     autoLoad: 'true',
     autoSync: true,
-    pageSize: 20,
+    pageSize: 10,
     remoteSort: true,
     sorters: {
         direction: 'DESC',

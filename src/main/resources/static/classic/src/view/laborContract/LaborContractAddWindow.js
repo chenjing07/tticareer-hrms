@@ -3,9 +3,10 @@ Ext.define('Admin.view.laborContract.LaborContractAddWindow', {
     alias: 'widget.laborContractAddWindow',
 
 	
-    height: 300,
-    minHeight: 10,
-    minWidth: 300,
+   y:10,
+    height:400,
+    //minHeight: 10,
+    //minWidth: 300,
     width: 500,
     scrollable: true,
     title: 'LaborContract Add Window',
@@ -28,78 +29,103 @@ Ext.define('Admin.view.laborContract.LaborContractAddWindow', {
             readOnly: true
         }, {
             xtype: 'textfield',
-            fieldLabel: 'EmployerName',
+            fieldLabel: '<span style="color:red;">*</span>甲方名称',
             name:'employerName'
         }, {
-            xtype: 'textfield',
-            fieldLabel: 'EmployeeId',
-            name:'employeeId'
+            xtype: 'combo',
+            fieldLabel: '<span style="color:red;">*</span>员工Id',
+            name:'employeeId',
+			store : Ext.create('Ext.data.Store',{
+				fields:[
+					{type:'int',name:'employeeId'},
+					{type:'string',name:'employeeName'}
+				],
+				 proxy: {
+					type: 'rest',
+					url: '/employee/getEmployeeIdAndName',	//mvc url  xxx.json
+					reader:{
+						type:'json',
+						rootProperty:'data',
+						totalProperty: 'totalElements'
+					},
+						writer: {
+						type: 'json'
+					},
+						simpleSortMode: true
+				},
+				autoLoad:true,
+				autoSync:true
+			}),
+			mode : 'local',
+			allowBlank : false,
+			editable : false, 
+			valueField : 'employeeId',
+			displayField : 'employeeName'
         },
         {
             xtype: 'textfield',
-            fieldLabel: 'ContractTimeLimit',
+            fieldLabel: '<span style="color:red;">*</span>合同期限',
             name:'contractTimeLimit'
         }, {
             xtype: 'datefield',
-            fieldLabel: 'ContractStart',
+            fieldLabel: '<span style="color:red;">*</span>开始时间',
             name:'contractStart',
             format: 'Y/m/d H:i:s'
         },  {
             xtype: 'datefield',
-            fieldLabel: 'ContractEnd',
+            fieldLabel: '<span style="color:red;">*</span>终止时间',
             name:'contractEnd',
             format: 'Y/m/d H:i:s'
         }, {
             xtype: 'textfield',
-            fieldLabel: 'WorkContent',
+            fieldLabel: '<span style="color:red;">*</span>工作内容',
             name:'workContent'
         }, {
             xtype: 'textfield',
-            fieldLabel: 'WorkPlace',
+            fieldLabel: '<span style="color:red;">*</span>工作地点',
             name:'workPlace'
         },
         {
             xtype: 'textfield',
-            fieldLabel: 'LaborProtection',
+            fieldLabel: '<span style="color:red;">*</span>劳动保护',
             name:'laborProtection'
         }, {
             xtype: 'textfield',
-            fieldLabel: 'LaborConditions',
+            fieldLabel: '<span style="color:red;">*</span>劳动条件',
             name:'laborConditions'
         }, {
             xtype: 'textfield',
-            fieldLabel: 'LaborReward',
+            fieldLabel: '<span style="color:red;">*</span>劳动报酬',
             name:'laborReward'
         },
         {
             xtype: 'textfield',
-            fieldLabel: 'DefaultResponsibility',
+            fieldLabel: '<span style="color:red;">*</span>违约责任',
             name:'defaultResponsibility'
         }, {
             xtype: 'textfield',
-            fieldLabel: 'SocialInsurance',
+            fieldLabel: '<span style="color:red;">*</span>社会保险',
             name:'socialInsurance'
         }, {
             xtype: 'textfield',
-            fieldLabel: 'ContractChange',
+            fieldLabel: '合同变更',
             name:'contractChange'
-        },
-        {
+        },/*{
             xtype: 'textfield',
-            fieldLabel: 'State',
+            fieldLabel: '状态',
             name:'state'
-        }, {
+        }, */{
             xtype: 'datefield',
-            fieldLabel: 'Create Time',
+            fieldLabel: '<span style="color:red;">*</span>创建时间',
             name:'createTime',
             format: 'Y/m/d H:i:s'
-        }, {
+        },/* {
             xtype: 'textfield',
-            fieldLabel: 'Check Satus',
+            fieldLabel: '审查状态',
             name:'checkStatus'
-        }, {
+        },*/ {
             xtype: 'textfield',
-            fieldLabel: 'Note',
+            fieldLabel: '备注',
             name:'note'
         }
 	]

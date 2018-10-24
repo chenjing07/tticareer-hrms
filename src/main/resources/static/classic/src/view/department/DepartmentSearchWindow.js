@@ -2,12 +2,13 @@ Ext.define('Admin.view.department.DepartmentSearchWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.departmentSearchWindow',
 
+    y:10,
     height: 200,
-    minHeight: 100,
-    minWidth: 300,
+   // minHeight: 100,
+    //minWidth: 300,
     width: 500,
     scrollable: true,
-    title: 'Department Search Window',
+    title: '搜索部门',
     closable: true,
     modal:true, //打开窗口后 不能操作其他模块
     
@@ -26,11 +27,11 @@ Ext.define('Admin.view.department.DepartmentSearchWindow', {
             readOnly: true
         },{
             xtype: 'textfield',
-            fieldLabel: 'Department Number',
+            fieldLabel: '部门编号',
             name:'departmentNumber'
         }, {
             xtype: 'textfield',
-            fieldLabel: 'Department Name',
+            fieldLabel: '部门名称',
             name:'departmentName'
         }
 	]

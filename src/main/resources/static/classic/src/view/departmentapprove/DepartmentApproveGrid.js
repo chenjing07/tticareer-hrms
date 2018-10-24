@@ -2,7 +2,7 @@
     extend: 'Ext.grid.Panel',
 	xtype:'departmentApproveGrid',
 	title: '待审批部门信息',		//需要修改
-	iconCls: 'fa-arrow-circle-o-up',
+	//iconCls: 'fa-arrow-circle-o-up',
 	bind: '{departmentApproveStore}',//调用组件4
 	columns: [{
 			xtype: 'actioncolumn',
@@ -25,7 +25,25 @@
 			tooltip: 'edit '
 		}
 		,{header: 'id' 		,dataIndex: 'id',width: 60,sortable: true	,hidden:true}
-		,{header: '上级部门Id'  	,dataIndex: 'superiorDepartmentId',width: 60,sortable: true}
+		,{header: '上级部门Id'  	,dataIndex: 'superiorDepartmentId',width: 60,sortable: true,
+				renderer: function(val) {
+				   var result;
+		           Ext.Ajax.request({
+					   url:'/department/getDepartmentNameById', 
+					   method:'get', 
+					   params:{id:val}, 
+					  async: false,
+					   success:function(response, options) {
+          					var json = Ext.util.JSON.decode(response.responseText);
+          					if (json.data) {
+            					result = json.data;
+								//console.log(result);
+         				 	}
+						}
+					});
+					return result;
+			    }
+		}
 		,{header: '部门编号'  	,dataIndex: 'departmentNumber',width: 60,sortable: true}
 		,{header: '部门名称'  	,dataIndex: 'departmentName',width: 150,sortable: true}
 		,{header: '部门介绍' 	,dataIndex: 'departmentIntroduction',width: 150,sortable: true}

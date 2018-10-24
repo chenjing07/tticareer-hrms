@@ -8,8 +8,19 @@ Ext.define('Admin.view.laborContract.LaborContractViewController', {
 		var record = grid.getStore().getAt(rowIndex);
 		if (record ) {
 			var win = grid.up('container').add(Ext.widget('laborContractEditWindow'));
-	             win.show();	      
-		      win.down('form').getForm().loadRecord(record);
+	        Ext.Ajax.request(
+			{
+				url:'/employee/getEmployeeNameById', 
+				method:'get', 
+				params:{id:record.get('employeeId')}, 
+				success: function(response) {
+					var jsonResult = Ext.util.JSON.decode(response.responseText);
+					win.show();	
+					win.down('form').getForm().loadRecord(record);
+					win.down('form').getForm().findField('employeeId').setValue(jsonResult.data);
+					
+				}
+			});
 	      }
 	},
 	/*多条件查询弹窗按钮*/	
@@ -30,13 +41,13 @@ Ext.define('Admin.view.laborContract.LaborContractViewController', {
 		var searchDateFieldValue2 = this.lookupReference('searchDateFieldValue2').getValue();
 		var store =	button.up('gridpanel').getStore();
 		//var store = Ext.getCmp('userGridPanel').getStore();// Ext.getCmp(）需要在OrderPanel设置id属性
-		Ext.apply(store.proxy.extraParams, {employerName:"",employeeId:"",createTimeStart:"",createTimeEnd:""});
+		Ext.apply(store.proxy.extraParams, {employerName:"",userName:"",createTimeStart:"",createTimeEnd:""});
 		
 		if(searchField==='employerName'){
 			Ext.apply(store.proxy.extraParams, {employerName:searchFieldValue});
 		}
-		if(searchField==='employeeId'){
-			Ext.apply(store.proxy.extraParams, {employeeId:searchFieldValue1});
+		if(searchField==='userName'){
+			Ext.apply(store.proxy.extraParams, {userName:searchFieldValue1});
 		}
 		if(searchField==='createTime'){
 			
@@ -48,7 +59,7 @@ Ext.define('Admin.view.laborContract.LaborContractViewController', {
 					createTimeEnd:Ext.util.Format.date(searchDateFieldValue2, 'Y/m/d H:i:s')});
 			
 		}
-		store.load({params:{start:0, limit:20, page:1}});
+		store.load({params:{start:0, limit:10, page:1}});
 	},
 	/*删除多行按钮*/
 	deleteMoreRows:function(button, rowIndex, colIndex){
@@ -97,7 +108,7 @@ Ext.define('Admin.view.laborContract.LaborContractViewController', {
 	searchComboboxSelectChuang:function(combo,record,index){
 		//alert(record.data.name);
 		var searchField = this.lookupReference('searchFieldName').getValue();
-		if(searchField==='employeeId'){
+		if(searchField==='userName'){
 			this.lookupReference('searchFieldValue').hide();
 			this.lookupReference('searchFieldValue1').show();
 			this.lookupReference('searchDateFieldValue1').hide();
@@ -145,13 +156,13 @@ Ext.define('Admin.view.laborContract.LaborContractViewController', {
 		var form=win.down('form');
 		var values = form.getValues();
 		Ext.apply(store.proxy.extraParams, {
-			employerName:'',employeeId:'',
+			employerName:'',userName:'',
 			createTimeStart:'', createTimeEnd:''});
 		Ext.apply(store.proxy.extraParams, {
-			employerName:values.employerName,  employeeId:values.employeeId, 
+			employerName:values.employerName,  userName:values.userName, 
 			createTimeStart:Ext.util.Format.date(values.createTimeStart, 'Y/m/d H:i:s'), 
 			createTimeEnd:Ext.util.Format.date(values.createTimeEnd, 'Y/m/d H:i:s')});
-		store.load({params:{start:0, limit:20, page:1}});
+		store.load({params:{start:0, limit:10, page:1}});
 		win.close();
 	}
 });

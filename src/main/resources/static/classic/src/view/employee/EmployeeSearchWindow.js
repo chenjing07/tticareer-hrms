@@ -1,13 +1,16 @@
 Ext.define('Admin.view.employee.EmployeeSearchWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.employeeSearchWindow',
-
+	
+	y:10,
     height: 200,
-    minHeight: 100,
-    minWidth: 300,
+   // minHeight: 100,
+    //minWidth: 300,
     width: 500,
+	
+    
     scrollable: true,
-    title: 'Employee Search Window',
+    title: '搜索员工',
     closable: true,
     modal:true, //打开窗口后 不能操作其他模块
     
@@ -26,11 +29,11 @@ Ext.define('Admin.view.employee.EmployeeSearchWindow', {
             readOnly: true
         },{
             xtype: 'textfield',
-            fieldLabel: 'UserName',
+            fieldLabel: '员工工号',
             name:'userName'
         }, {
             xtype: 'textfield',
-            fieldLabel: 'Real Name',
+            fieldLabel: '真实姓名',
             name:'realName'
         }
 	]

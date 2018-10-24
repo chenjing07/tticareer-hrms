@@ -6,8 +6,19 @@
 		var record = grid.getStore().getAt(rowIndex);
 		if (record ) {
 			var win = grid.up('container').add(Ext.widget('archivesApproveWindow'));
-	             win.show();	      
+	          win.show();	      
 		      win.down('form').getForm().loadRecord(record);
+			 Ext.Ajax.request(
+			{
+				url:'/employee/getEmployeeNameById', 
+				method:'get', 
+				params:{id:record.get('employeeId')}, 
+				success: function(response) {
+					var jsonResult = Ext.util.JSON.decode(response.responseText);
+					win.down('form').getForm().findField('employeeId').setValue(jsonResult.data);
+					
+				}
+			});
 	      }
 	},
 	passApproveButton:function(button){

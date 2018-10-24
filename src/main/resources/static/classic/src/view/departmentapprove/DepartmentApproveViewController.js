@@ -8,6 +8,17 @@
 			var win = grid.up('container').add(Ext.widget('departmentApproveWindow'));
 	             win.show();	      
 		      win.down('form').getForm().loadRecord(record);
+			Ext.Ajax.request(
+			{
+				url:'/department/getDepartmentNameById', 
+				method:'get', 
+				params:{id:record.get('superiorDepartmentId')}, 
+				success: function(response) {
+					var jsonResult = Ext.util.JSON.decode(response.responseText);
+					win.down('form').getForm().findField('superiorDepartmentId').setValue(jsonResult.data);
+					
+				}
+			});
 	      }
 	},
 	passApproveButton:function(button){

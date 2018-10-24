@@ -9,8 +9,8 @@ Ext.define('Admin.store.archivesapprove.ArchivesApproveStore', {
         url: '/archives/approve',	//mvc url  xxx.json
 	  reader: new Ext.data.JsonReader({
 	    	type:'json',
-	    	rootProperty:'data',
-	    	totalProperty: 'totalElements'
+	    	rootProperty:'data.content',
+	    	totalProperty: 'data.totalElements'
 	    }),
 	    	
 	    	simpleSortMode: true

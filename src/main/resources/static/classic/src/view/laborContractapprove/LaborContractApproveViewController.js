@@ -8,6 +8,17 @@
 			var win = grid.up('container').add(Ext.widget('laborContractApproveWindow'));
 	             win.show();	      
 		      win.down('form').getForm().loadRecord(record);
+			  Ext.Ajax.request(
+			{
+				url:'/employee/getEmployeeNameById', 
+				method:'get', 
+				params:{id:record.get('employeeId')}, 
+				success: function(response) {
+					var jsonResult = Ext.util.JSON.decode(response.responseText);
+					win.down('form').getForm().findField('employeeId').setValue(jsonResult.data);
+					
+				}
+			});
 	      }
 	},
 	passApproveButton:function(button){

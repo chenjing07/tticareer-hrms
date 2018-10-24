@@ -7,8 +7,33 @@ Ext.define('Admin.view.position.PositionViewController', {
 		var record = grid.getStore().getAt(rowIndex);
 		if (record ) {
 			var win = grid.up('container').add(Ext.widget('positionEditWindow'));
-	             win.show();	      
-		      win.down('form').getForm().loadRecord(record);
+			//console.log(record.get('departmentId'));
+	         Ext.Ajax.request(
+			{
+				url:'/department/getDepartmentNameById', 
+				method:'get', 
+				params:{id:record.get('departmentId')}, 
+				success: function(response) {
+					var jsonResult = Ext.util.JSON.decode(response.responseText);
+					win.show();	
+					win.down('form').getForm().loadRecord(record);
+					win.down('form').getForm().findField('departmentId').setValue(jsonResult.data);
+					
+				}
+			});
+			Ext.Ajax.request(
+			{
+				url:'/position/getPositionNameById', 
+				method:'get', 
+				params:{id:record.get('superiorPositionid')}, 
+				success: function(response) {
+					var jsonResult = Ext.util.JSON.decode(response.responseText);
+					win.show();	
+					win.down('form').getForm().loadRecord(record);
+					win.down('form').getForm().findField('superiorPositionid').setValue(jsonResult.data);
+					
+				}
+			})
 	      }
 	},
 	/*多条件查询弹窗按钮*/	
@@ -129,3 +154,4 @@ Ext.define('Admin.view.position.PositionViewController', {
 		win.close();
 	}
 });
+

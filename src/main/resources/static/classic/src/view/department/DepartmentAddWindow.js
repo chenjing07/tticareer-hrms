@@ -2,10 +2,10 @@ Ext.define('Admin.view.department.DepartmentAddWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.departmentAddWindow',
 
-	
-    height: 300,
-    minHeight: 10,
-    minWidth: 300,
+	y:10,
+    height: 380,
+    //minHeight: 10,
+    //minWidth: 300,
     width: 500,
     scrollable: true,
     title: 'Department Add Window',
@@ -27,38 +27,69 @@ Ext.define('Admin.view.department.DepartmentAddWindow', {
             hidden: true,
             readOnly: true
         }, {
-            xtype: 'textfield',
-            fieldLabel: 'SuperiorDepartmentId',
-            name:'superiorDepartmentId'
+			xtype : 'combo',
+			fieldLabel : '上级部门id',
+			name:'superiorDepartmentId',
+			//id:'departmentSuperior',
+			
+			store : Ext.create('Ext.data.Store',{
+				fields:[
+					{type:'int',name:'departmentId'},
+					{type:'string',name:'departmentName'}
+				],
+				 proxy: {
+					type: 'rest',
+					url: '/department/getDepartmentIdAndName',	//mvc url  xxx.json
+					reader:{
+						type:'json',
+						rootProperty:'data',
+						totalProperty: 'totalElements'
+					},
+						writer: {
+						type: 'json'
+					},
+						simpleSortMode: true
+				},
+				autoLoad:true,
+				autoSync:true
+			}),
+			
+        mode : 'local',
+        allowBlank : false,
+		editable : false, 
+		valueField : 'departmentId',
+        displayField : 'departmentName'
+
+			
         }, {
             xtype: 'textfield',
-            fieldLabel: 'DepartmentNumber',
+            fieldLabel: '<span style="color:red;">*</span>部门编号',
             name:'departmentNumber'
         }, {
             xtype: 'textfield',
-            fieldLabel: 'DepartmentName',
+            fieldLabel: '<span style="color:red;">*</span>部门名称',
             name:'departmentName'
         },
         {
             xtype: 'textfield',
-            fieldLabel: 'DepartmentIntroduction',
+            fieldLabel: '<span style="color:red;">*</span>部门简介',
             name:'departmentIntroduction'
-        }, {
+        }, /*{
             xtype: 'textfield',
-            fieldLabel: 'State',
+            fieldLabel: '状态',
             name:'state'
-        }, {
+        },*/ {
             xtype: 'datefield',
-            fieldLabel: 'Create Time',
+            fieldLabel: '<span style="color:red;">*</span>录入时间',
             name:'createTime',
             format: 'Y/m/d H:i:s'
-        }, {
+        }, /*{
             xtype: 'textfield',
-            fieldLabel: 'Check Satus',
+            fieldLabel: '审核状态',
             name:'checkStatus'
-        }, {
+        }, */{
             xtype: 'textfield',
-            fieldLabel: 'Note',
+            fieldLabel: '备注',
             name:'note'
         }
 	]
@@ -74,4 +105,5 @@ Ext.define('Admin.view.department.DepartmentAddWindow', {
             button.up('window').close();
         }
     }]
+
 });

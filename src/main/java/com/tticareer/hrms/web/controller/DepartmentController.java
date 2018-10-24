@@ -1,7 +1,10 @@
 package com.tticareer.hrms.web.controller;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageInfo;
 import com.tticareer.hrms.pojo.Department;
 import com.tticareer.hrms.service.DepartmentService;
 import com.tticareer.hrms.util.BeanUtils;
@@ -40,6 +44,8 @@ public class DepartmentController {
 	 */
 	@PostMapping("/save")
 	public JSONResult saveDepartment(@RequestBody Department department) {
+		department.setState(1);
+		department.setCheckStatus(0);
 		departmentService.saveDepartment(department);
 		/*Department emp = departmentService.queryDepartmentById(department.getId());
 		if (emp!=null) {
@@ -60,21 +66,37 @@ public class DepartmentController {
 	/*public JSONResult queryRealAllDepartment() {
 		return JSONResult.ok(departmentService.queryAllDepartment());
 	}*/
-	public JSONResult getPage(@Param("departmentNumber") String departmentNumber,@Param("departmentName") String departmentName) 
-	{
+	public JSONResult getPage(@Param("departmentNumber") String departmentNumber,@Param("departmentName") String departmentName,
+			ExtjsPageRequest pageRequest) {
 		//System.out.println(userName + "********" +realName);
 		
 		if(departmentNumber!=null && departmentName==null) {
 			//System.out.println(userName);
-			return JSONResult.ok(departmentService.queryDepartmentListByDepartmentNumber(departmentNumber));
+			//return JSONResult.ok(departmentService.queryDepartmentListByDepartmentNumber(departmentNumber));
+			List<Department> rdList=departmentService.queryDepartmentListByDepartmentNumber(departmentNumber,pageRequest.getPage(), pageRequest.getLimit(),"id DESC");
+			PageInfo<Department> p=new PageInfo<Department>(rdList);
+			PageImpl<Department> rdPage=new PageImpl<Department>(rdList,pageRequest.getPageable(),p.getTotal());
+			return JSONResult.ok(rdPage);
 		}else if(departmentNumber==null && departmentName!=null) {
-			return JSONResult.ok(departmentService.queryDepartmentListByDepartmentName(departmentName));
+			//return JSONResult.ok(departmentService.queryDepartmentListByDepartmentName(departmentName));
+			List<Department> rdList=departmentService.queryDepartmentListByDepartmentName(departmentName,pageRequest.getPage(), pageRequest.getLimit(),"id DESC");
+			PageInfo<Department> p=new PageInfo<Department>(rdList);
+			PageImpl<Department> rdPage=new PageImpl<Department>(rdList,pageRequest.getPageable(),p.getTotal());
+			return JSONResult.ok(rdPage);
 		}else if(departmentNumber!=null && departmentName!=null) {
 			//System.out.println(userName + "&&&&&&" +realName);
-			return JSONResult.ok(departmentService.queryDepartmentListByDepartmentNumberAndDepartmentName(departmentNumber,departmentName));
+			//return JSONResult.ok(departmentService.queryDepartmentListByDepartmentNumberAndDepartmentName(departmentNumber,departmentName));
+			List<Department> rdList=departmentService.queryDepartmentListByDepartmentNumberAndDepartmentName(departmentNumber,departmentName,pageRequest.getPage(), pageRequest.getLimit(),"id DESC");
+			PageInfo<Department> p=new PageInfo<Department>(rdList);
+			PageImpl<Department> rdPage=new PageImpl<Department>(rdList,pageRequest.getPageable(),p.getTotal());
+			return JSONResult.ok(rdPage);
 		}
 		else {
-			return JSONResult.ok(departmentService.queryAllDepartment());
+			//return JSONResult.ok(departmentService.queryAllDepartment());
+			List<Department> rdList=departmentService.queryDepartmentWhoIsNotDelete(pageRequest.getPage(), pageRequest.getLimit(),"id DESC");
+			PageInfo<Department> p=new PageInfo<Department>(rdList);
+			PageImpl<Department> rdPage=new PageImpl<Department>(rdList,pageRequest.getPageable(),p.getTotal());
+			return JSONResult.ok(rdPage);	
 		}
 		
 	}
@@ -92,10 +114,10 @@ public class DepartmentController {
 	 * 查询未被删除的部门
 	 * @return
 	 */
-	@GetMapping("/mockall")
+	/*@GetMapping("/mockall")
 	public JSONResult queryDepartmentWhoIsNotDelete() {
 		return JSONResult.ok(departmentService.queryDepartmentWhoIsNotDelete());
-	}
+	}*/
 	
 	
 	
@@ -148,9 +170,13 @@ public class DepartmentController {
 	}
 	
 	@GetMapping("/approve")
-	public JSONResult queryApprove() {
+	public JSONResult queryApprove(ExtjsPageRequest pageRequest) {
 		//return JSONResult.ok(departmentService.queryAllDepartment());
-		return JSONResult.ok(departmentService.queryWaitApprove());
+		//return JSONResult.ok(departmentService.queryWaitApprove());
+		List<Department> rdList=departmentService.queryWaitApprove(pageRequest.getPage(), pageRequest.getLimit(),"id DESC");
+		PageInfo<Department> p=new PageInfo<Department>(rdList);
+		PageImpl<Department> rdPage=new PageImpl<Department>(rdList,pageRequest.getPageable(),p.getTotal());
+		return JSONResult.ok(rdPage);
 	}
 	
 	@PostMapping("/approvePass")
@@ -165,6 +191,7 @@ public class DepartmentController {
 				departmentService.updateDepartment(entity);
 			}else if(pass.equals("nopass"))  {
 				//System.out.println("nopass");
+				entity.setState(0);
 				entity.setCheckStatus(2);
 				departmentService.updateDepartment(entity);
 			}
@@ -172,4 +199,27 @@ public class DepartmentController {
 		
 		return JSONResult.ok(1);
 	}
+
+	
+	
+	@GetMapping("/getDepartmentIdAndName")
+	public JSONResult getSuperior() {
+		//return JSONResult.ok(departmentService.queryAllDepartment());
+		return JSONResult.ok(departmentService.getDepartmentIdAndName());
+	}
+
+	@GetMapping("/getDepartmentNameById")
+	public JSONResult getDepartmentNameById(@Param("id") Long id) {
+		//return JSONResult.ok(departmentService.queryAllDepartment());
+		if(id!=0) {
+			String departmentName = (departmentService.queryDepartmentById(id)).getDepartmentName();
+			//System.out.println(departmentName);
+			return JSONResult.ok(departmentName);
+		}else
+			return JSONResult.ok("");
+	}
+
 }
+
+
+

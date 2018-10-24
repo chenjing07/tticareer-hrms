@@ -28,15 +28,15 @@ Ext.define('Admin.view.employeePositionInfo.EmployeePositionInfoViewController',
 		var searchDateFieldValue2 = this.lookupReference('searchDateFieldValue2').getValue();
 		var store =	button.up('gridpanel').getStore();
 		//var store = Ext.getCmp('userGridPanel').getStore();// Ext.getCmp(）需要在OrderPanel设置id属性
-		Ext.apply(store.proxy.extraParams, {employeeId:"",createTimeStart:"",createTimeEnd:""});
+		Ext.apply(store.proxy.extraParams, {userName:"",createTimeStart:"",createTimeEnd:""});
 		
-		if(searchField==='employeeId'){
-			Ext.apply(store.proxy.extraParams, {employeeId:searchFieldValue});
+		if(searchField==='userName'){
+			Ext.apply(store.proxy.extraParams, {userName:searchFieldValue});
 		}
 		if(searchField==='createTime'){
 			Ext.apply(store.proxy.extraParams, {createTimeStart:Ext.util.Format.date(searchDateFieldValue1, 'Y/m/d H:i:s'),createTimeEnd:Ext.util.Format.date(searchDateFieldValue2, 'Y/m/d H:i:s')});
 		}
-		store.load({params:{start:0, limit:20, page:1}});
+		store.load({params:{start:0, limit:10, page:1}});
 	},
 	/*删除多行按钮*/
 	deleteMoreRows:function(button, rowIndex, colIndex){
@@ -125,9 +125,9 @@ Ext.define('Admin.view.employeePositionInfo.EmployeePositionInfoViewController',
 		var win=button.up('window');
 		var form=win.down('form');
 		var values = form.getValues();
-		Ext.apply(store.proxy.extraParams, {employeeId:'', createTimeStart:'', createTimeEnd:''});
-		Ext.apply(store.proxy.extraParams, {employeeId:values.employeeId, createTimeStart:Ext.util.Format.date(values.createTimeStart, 'Y/m/d H:i:s'), createTimeEnd:Ext.util.Format.date(values.createTimeEnd, 'Y/m/d H:i:s')});
-		store.load({params:{start:0, limit:20, page:1}});
+		Ext.apply(store.proxy.extraParams, {userName:'', createTimeStart:'', createTimeEnd:''});
+		Ext.apply(store.proxy.extraParams, {userName:values.userName, createTimeStart:Ext.util.Format.date(values.createTimeStart, 'Y/m/d H:i:s'), createTimeEnd:Ext.util.Format.date(values.createTimeEnd, 'Y/m/d H:i:s')});
+		store.load({params:{start:0, limit:10, page:1}});
 		win.close();
 	}
 });

@@ -2,12 +2,13 @@ Ext.define('Admin.view.employeePositionInfo.EmployeePositionInfoSearchWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.employeePositionInfoSearchWindow',
 
-    height: 200,
-    minHeight: 100,
-    minWidth: 300,
+   y:10,
+    height: 240,
+   // minHeight: 100,
+    //minWidth: 300,
     width: 500,
     scrollable: true,
-    title: 'EmployeePositionInfo Search Window',
+    title: '搜索人员调动',
     closable: true,
     modal:true, //打开窗口后 不能操作其他模块
     
@@ -26,8 +27,8 @@ Ext.define('Admin.view.employeePositionInfo.EmployeePositionInfoSearchWindow', {
             readOnly: true
         },{
             xtype: 'textfield',
-            fieldLabel: '员工Id',
-            name:'employeeId'
+            fieldLabel: '员工工号',
+            name:'userName'
         },{
             xtype: 'datefield',
             fieldLabel: 'From',

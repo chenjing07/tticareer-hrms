@@ -2,9 +2,10 @@ Ext.define('Admin.view.position.PositionEditWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.positionEditWindow',
 
-    height: 200,
-    minHeight: 100,
-    minWidth: 300,
+     y:10,
+    height: 400,
+    //minHeight: 10,
+    //minWidth: 300,
     width: 500,
     scrollable: true,
     title: 'Position Edit Window',
@@ -25,182 +26,94 @@ Ext.define('Admin.view.position.PositionEditWindow', {
             hidden: true,
             readOnly: true
         }, {
-            xtype: 'textfield',
-            fieldLabel: 'Position Number',
-            name:'position_number'
+            xtype: 'combo',
+            fieldLabel: '部门Id',
+            name:'departmentId',
+			store : Ext.create('Ext.data.Store',{
+				fields:[
+					{type:'int',name:'departmentId'},
+					{type:'string',name:'departmentName'}
+				],
+				 proxy: {
+					type: 'rest',
+					url: '/department/getDepartmentIdAndName',	//mvc url  xxx.json
+					reader:{
+						type:'json',
+						rootProperty:'data',
+						totalProperty: 'totalElements'
+					},
+						writer: {
+						type: 'json'
+					},
+						simpleSortMode: true
+				},
+				autoLoad:true,
+				autoSync:true
+			}),
+			mode : 'local',
+			allowBlank : false,
+			editable : false, 
+			valueField : 'departmentId',
+			displayField : 'departmentName'
         }, {
             xtype: 'textfield',
-            fieldLabel: 'Password',
-            name:'password'
-        },
+            fieldLabel: '岗位编号',
+            name:'positionNumber'
+        }, {
+            xtype: 'textfield',
+            fieldLabel: '岗位名称',
+            name:'positionName'
+        },{
+            xtype: 'combo',
+            fieldLabel: '上级岗位Id',
+            name:'superiorPositionid',
+			store : Ext.create('Ext.data.Store',{
+				fields:[
+					{type:'int',name:'positionId'},
+					{type:'string',name:'positionName'}
+				],
+				 proxy: {
+					type: 'rest',
+					url: '/position/getPositionIdAndName',	//mvc url  xxx.json
+					reader:{
+						type:'json',
+						rootProperty:'data',
+						totalProperty: 'totalElements'
+					},
+						writer: {
+						type: 'json'
+					},
+						simpleSortMode: true
+				},
+				autoLoad:true,
+				autoSync:true
+			}),
+			mode : 'local',
+			allowBlank : false,
+			editable : false, 
+			valueField : 'positionId',
+			displayField : 'positionName'
+        }, 
         {
             xtype: 'textfield',
-            fieldLabel: 'Real Name',
-            name:'real_name'
-        }, {
-            xtype: 'textfield',
-            fieldLabel: 'id Card Number',
-            name:'id_card_number'
-        }, {
-            xtype: 'textfield',
-            fieldLabel: 'id Card Picture',
-            name:'id_card_picture'
-        },
-        {
-            xtype: 'datefield',
-            fieldLabel: 'Birthday',
-            name:'birthday',
-            format: 'Y/m/d H:i:s'
-        }, {
-            xtype: 'textfield',
-            fieldLabel: 'Gender',
-            name:'gender'
-        }, {
-            xtype: 'textfield',
-            fieldLabel: 'Nation',
-            name:'nation'
-        },
-        {
-            xtype: 'textfield',
-            fieldLabel: 'Native Place',
-            name:'native_place'
-        }, {
-            xtype: 'textfield',
-            fieldLabel: 'Registered Address',
-            name:'registered_address'
-        }, {
-            xtype: 'textfield',
-            fieldLabel: 'House Address',
-            name:'house_address'
-        },
-        {
-            xtype: 'textfield',
-            fieldLabel: 'Education',
-            name:'education'
-        }, {
-            xtype: 'textfield',
-            fieldLabel: 'Academic Degree',
-            name:'academic_degree'
-        }, {
-            xtype: 'textfield',
-            fieldLabel: 'Major',
-            name:'major'
-        },
-        {
-            xtype: 'textfield',
-            fieldLabel: 'Tie',
-            name:'tie'
-        }, {
-            xtype: 'textfield',
-            fieldLabel: 'Graduated School',
-            name:'graduated_school'
-        },
-        {
-            xtype: 'datefield',
-            fieldLabel: 'Graduated Time',
-            name:'graduated_time',
-            format: 'Y/m/d H:i:s'
-        }, {
-            xtype: 'textfield',
-            fieldLabel: 'Political Status',
-            name:'political_status'
-        }, {
-            xtype: 'textfield',
-            fieldLabel: 'Marital Status',
-            name:'marital_status'
-        },
-        {
-            xtype: 'textfield',
-            fieldLabel: 'Recruitment Source',
-            name:'recruitment_source'
-        }, {
-            xtype: 'textfield',
-            fieldLabel: 'Account Bank',
-            name:'account_bank'
-        }, {
-            xtype: 'textfield',
-            fieldLabel: 'Account Number',
-            name:'account_number'
-        },
-        {
-            xtype: 'textfield',
-            fieldLabel: 'Phone Number',
-            name:'phone_number'
-        }, {
-            xtype: 'textfield',
-            fieldLabel: 'Email',
-            name:'email'
-        }, {
-            xtype: 'textfield',
-            fieldLabel: 'QQ',
-            name:'qq'
-        },
-        {
-            xtype: 'textfield',
-            fieldLabel: 'Wechat',
-            name:'wechat'
-        }, {
-            xtype: 'textfield',
-            fieldLabel: 'MSN',
-            name:'msn'
-        }, {
-            xtype: 'textfield',
-            fieldLabel: 'Emergency Contact Name',
-            name:'emergency_contact_name'
-        },
-        {
-            xtype: 'textfield',
-            fieldLabel: 'Emergency Contact Relationship',
-            name:'emergency_contact_relationship'
-        }, {
-            xtype: 'textfield',
-            fieldLabel: 'Emergency Contact Numbe',
-            name:'emergency_contact_numbe'
-        }, {
-            xtype: 'textfield',
-            fieldLabel: 'Emergency Contact Name',
-            name:'emergency_contact_name'
-        },
-        {
-            xtype: 'textfield',
-            fieldLabel: 'Iswork',
-            name:'iswork'
-        }, {
-            xtype: 'datefield',
-            fieldLabel: 'Work Start',
-            name:'work_start',
-            format: 'Y/m/d H:i:s'
-        }, {
-            xtype: 'datefield',
-            fieldLabel: 'Work End',
-            name:'work_end',
-            format: 'Y/m/d H:i:s'
-        }, {
-            xtype: 'datefield',
-            fieldLabel: 'Practice Start',
-            name:'practice_start',
-            format: 'Y/m/d H:i:s'
-        }, {
-            xtype: 'datefield',
-            fieldLabel: 'Practice End',
-            name:'practice_end',
-            format: 'Y/m/d H:i:s'
-        }, {
+            fieldLabel: '岗位简介',
+            name:'positionIntroduction'
+        },/* {
             xtype: 'textfield',
             fieldLabel: 'State',
             name:'state'
-        }, {
+        },*/ {
             xtype: 'datefield',
-            fieldLabel: 'Create Time',
-            name:'create_time',
+            fieldLabel: '创建时间',
+            name:'createTime',
             format: 'Y/m/d H:i:s'
-        }, {
+        }, /*{
             xtype: 'textfield',
             fieldLabel: 'Check Satus',
-            name:'check_satus'
-        }, {
+            name:'checkStatus'
+        }, */{
             xtype: 'textfield',
-            fieldLabel: 'Note',
+            fieldLabel: '备注',
             name:'note'
         }
 	]

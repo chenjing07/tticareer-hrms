@@ -7,8 +7,19 @@ Ext.define('Admin.view.archives.ArchivesViewController', {
 		var record = grid.getStore().getAt(rowIndex);
 		if (record ) {
 			var win = grid.up('container').add(Ext.widget('archivesEditWindow'));
-	             win.show();	      
-		      win.down('form').getForm().loadRecord(record);
+	        Ext.Ajax.request(
+			{
+				url:'/employee/getEmployeeNameById', 
+				method:'get', 
+				params:{id:record.get('employeeId')}, 
+				success: function(response) {
+					var jsonResult = Ext.util.JSON.decode(response.responseText);
+					win.show();	
+					win.down('form').getForm().loadRecord(record);
+					win.down('form').getForm().findField('employeeId').setValue(jsonResult.data);
+					
+				}
+			});
 	      }
 	},
 	/*多条件查询弹窗按钮*/	
@@ -28,15 +39,15 @@ Ext.define('Admin.view.archives.ArchivesViewController', {
 		var searchDateFieldValue2 = this.lookupReference('searchDateFieldValue2').getValue();
 		var store =	button.up('gridpanel').getStore();
 		//var store = Ext.getCmp('userGridPanel').getStore();// Ext.getCmp(）需要在OrderPanel设置id属性
-		Ext.apply(store.proxy.extraParams, {employeeId:"",createTimeStart:"",createTimeEnd:""});
+		Ext.apply(store.proxy.extraParams, {userName:"",createTimeStart:"",createTimeEnd:""});
 		
-		if(searchField==='employeeId'){
-			Ext.apply(store.proxy.extraParams, {employeeId:searchFieldValue});
+		if(searchField==='userName'){
+			Ext.apply(store.proxy.extraParams, {userName:searchFieldValue});
 		}
 		if(searchField==='createTime'){
 			Ext.apply(store.proxy.extraParams, {createTimeStart:Ext.util.Format.date(searchDateFieldValue1, 'Y/m/d H:i:s'),createTimeEnd:Ext.util.Format.date(searchDateFieldValue2, 'Y/m/d H:i:s')});
 		}
-		store.load({params:{start:0, limit:20, page:1}});
+		store.load({params:{start:0, limit:10, page:1}});
 	},
 	/*删除多行按钮*/
 	deleteMoreRows:function(button, rowIndex, colIndex){
@@ -125,9 +136,9 @@ Ext.define('Admin.view.archives.ArchivesViewController', {
 		var win=button.up('window');
 		var form=win.down('form');
 		var values = form.getValues();
-		Ext.apply(store.proxy.extraParams, {employeeId:'', createTimeStart:'', createTimeEnd:''});
-		Ext.apply(store.proxy.extraParams, {employeeId:values.employeeId,createTimeStart:Ext.util.Format.date(values.createTimeStart, 'Y/m/d H:i:s'), createTimeEnd:Ext.util.Format.date(values.createTimeEnd, 'Y/m/d H:i:s')});
-		store.load({params:{start:0, limit:20, page:1}});
+		Ext.apply(store.proxy.extraParams, {userName:'', createTimeStart:'', createTimeEnd:''});
+		Ext.apply(store.proxy.extraParams, {userName:values.userName,createTimeStart:Ext.util.Format.date(values.createTimeStart, 'Y/m/d H:i:s'), createTimeEnd:Ext.util.Format.date(values.createTimeEnd, 'Y/m/d H:i:s')});
+		store.load({params:{start:0, limit:10, page:1}});
 		win.close();
 	}
 });

@@ -3,6 +3,7 @@ package com.tticareer.hrms.service;
 import java.util.List;
 
 import com.tticareer.hrms.pojo.Employee;
+import com.tticareer.hrms.pojo.dto.EmployeeIdAndName;
 
 /**
  * <p>CreateTime: 2018年9月21日 下午3:39:03 </p>
@@ -62,7 +63,7 @@ public interface EmployeeService {
 	 * 查询没有被删除即状态不为0的员工
 	 * @return
 	 */
-	public List<Employee> queryEmployeeWhoIsNotDelete();
+	public List<Employee> queryEmployeeWhoIsNotDelete(Integer pageNum,Integer pageSize,String orderBy);
 	
 	/**
 	 * 查询状态为1，即其他员工
@@ -87,12 +88,14 @@ public interface EmployeeService {
 	 * @param employee
 	 * @return
 	 */
-	public List<Employee> queryEmployeeListByUserName(String userName);
-	public List<Employee> queryEmployeeListByRealName(String realName);
-	public List<Employee> queryEmployeeListByUserNameAndRealName(String userName,String realName);
+	public List<Employee> queryEmployeeListByUserName(String userName,Integer pageNum,Integer pageSize,String orderBy);
+	public List<Employee> queryEmployeeListByRealName(String realName,Integer pageNum,Integer pageSize,String orderBy);
+	public List<Employee> queryEmployeeListByUserNameAndRealName(String userName,String realName,Integer pageNum,Integer pageSize,String orderBy);
 	
 	
 	public void deleteAll(Long[] ids);
 	
-	public List<Employee> queryWaitApprove();
+	public List<Employee> queryWaitApprove(Integer pageNum,Integer pageSize,String orderBy);
+	
+	public List<EmployeeIdAndName> getEmployeeIdAndName();
 }

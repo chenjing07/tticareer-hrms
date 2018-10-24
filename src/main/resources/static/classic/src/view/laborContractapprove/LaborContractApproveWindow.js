@@ -2,10 +2,11 @@ Ext.define('Admin.view.laborContractapprove.LaborContractApproveWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.laborContractApproveWindow',
 
-    height: 300,
-    minHeight: 10,
-    minWidth: 300,
-    width: 500,
+	y:10, 
+	height:400, 
+	width:500,
+    //minHeight: 10,
+    //minWidth: 300,
     scrollable: true,
     title: '审批窗口',
     closable: true,
@@ -27,7 +28,7 @@ Ext.define('Admin.view.laborContractapprove.LaborContractApproveWindow', {
             readOnly: true
         }, {
             xtype: 'textfield',
-            fieldLabel: '工号',
+            fieldLabel: '甲方名称',
             name:'employerName',
 			readOnly: true
         }, {
@@ -42,20 +43,20 @@ Ext.define('Admin.view.laborContractapprove.LaborContractApproveWindow', {
             name:'contractTimeLimit',
 			readOnly: true
         }, {
-            xtype: 'textfield',
+            xtype: 'datefield',
             fieldLabel: '生效日期',
             name:'contractStart',
 			format: 'Y/m/d H:i:s',
 			readOnly: true
         }, {
-            xtype: 'textfield',
+            xtype: 'datefield',
             fieldLabel: '终止日期',
             name:'contractEnd',
 			format: 'Y/m/d H:i:s',
 			readOnly: true
         },
         {
-            xtype: 'datefield',
+            xtype: 'textfield',
             fieldLabel: '工作内容',
             name:'workContent',
 			readOnly: true
@@ -97,12 +98,12 @@ Ext.define('Admin.view.laborContractapprove.LaborContractApproveWindow', {
             name:'contractChange',
 			readOnly: true
         }, {
-            xtype: 'textfield',
+            xtype: 'datefield',
             fieldLabel: '创建日期',
             name:'createTime',
 			format: 'Y/m/d H:i:s',
 			readOnly: true
-        }, {
+        }, /*{
             xtype: 'textfield',
             fieldLabel: '状态',
             name:'state',
@@ -113,7 +114,7 @@ Ext.define('Admin.view.laborContractapprove.LaborContractApproveWindow', {
             fieldLabel: '审查状态',
             name:'checkStatus',
 			readOnly: true
-        }, {
+        }, */{
             xtype: 'textfield',
             fieldLabel: '备注',
             name:'note',
@@ -136,4 +137,3 @@ Ext.define('Admin.view.laborContractapprove.LaborContractApproveWindow', {
         }
     }]
 });
-

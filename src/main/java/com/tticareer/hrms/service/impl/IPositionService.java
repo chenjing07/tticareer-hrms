@@ -1,5 +1,6 @@
 package com.tticareer.hrms.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,11 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
 import com.tticareer.hrms.mapper.PositionMapper;
+import com.tticareer.hrms.pojo.LaborContract;
 import com.tticareer.hrms.pojo.Position;
+import com.tticareer.hrms.pojo.dto.PositionIdAndName;
 import com.tticareer.hrms.service.PositionService;
 
 import tk.mybatis.mapper.entity.Example;
@@ -68,7 +72,7 @@ public class IPositionService implements PositionService {
 		// TODO Auto-generated method stub
 		Example example = new Example(Position.class);
 		Example.Criteria criteria = example.createCriteria();
-		criteria.andLike("positionName", "%" + positionName + "%");
+		criteria.andEqualTo("positionName", positionName);
 		return positionMapper.selectOneByExample(example);
 	}
 
@@ -88,8 +92,9 @@ public class IPositionService implements PositionService {
 	}
 
 	@Override
-	public List<Position> queryPositionWhoIsNotDelete() {
+	public List<Position> queryPositionWhoIsNotDelete(Integer pageNum,Integer pageSize,String orderBy) {
 		// TODO Auto-generated method stub
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(Position.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andNotEqualTo("state", 0);
@@ -108,7 +113,7 @@ public class IPositionService implements PositionService {
 
 	
 	@Override
-	public List<Position> queryPositionListByPositionNumber(String positionNumber) {
+	public List<Position> queryPositionListByPositionNumber(String positionNumber,Integer pageNum,Integer pageSize,String orderBy) {
 		Example example = new Example(Position.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andLike("positionNumber", "%"+ positionNumber+"%");
@@ -118,7 +123,7 @@ public class IPositionService implements PositionService {
 	}
 
 	@Override
-	public List<Position> queryPositionListByPositionName(String positionName) {
+	public List<Position> queryPositionListByPositionName(String positionName,Integer pageNum,Integer pageSize,String orderBy) {
 		Example example = new Example(Position.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andLike("positionName", "%"+ positionName+"%");
@@ -128,7 +133,7 @@ public class IPositionService implements PositionService {
 	}
 	
 	@Override
-	public List<Position> queryPositionListByPositionNumberAndPositionName(String positionNumber,String positionName){
+	public List<Position> queryPositionListByPositionNumberAndPositionName(String positionNumber,String positionName,Integer pageNum,Integer pageSize,String orderBy){
 		Example example = new Example(Position.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andLike("positionNumber", "%"+ positionNumber+"%");
@@ -156,7 +161,8 @@ public class IPositionService implements PositionService {
 	
 
 	@Override
-	public List<Position> queryWaitApprove() {
+	public List<Position> queryWaitApprove(Integer pageNum,Integer pageSize,String orderBy) {
+		PageHelper.startPage(pageNum, pageSize,orderBy);
 		Example example = new Example(Position.class);
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo("checkStatus", 0);
@@ -164,5 +170,31 @@ public class IPositionService implements PositionService {
 	}
 
 
+	@Override
+	public List<PositionIdAndName> getPositionIdAndName(){
+		
+		Example example = new Example(Position.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("state", 1);
+		criteria.andEqualTo("checkStatus", 1);
+		List<Position> positions = positionMapper.selectByExample(example);
+		
+		
+		List<PositionIdAndName> positionIdAndNames = new ArrayList<PositionIdAndName>();
+		
+		for( int i = 0 ; i < positions.size() ; i++) {//内部不锁定，效率最高，但在多线程要考虑并发操作的问题。
+		    //System.out.println(positions.get(i).get);
+			PositionIdAndName positionIdAndName = new PositionIdAndName();
+			positionIdAndName.setPositionId(positions.get(i).getId());
+			positionIdAndName.setPositionName(positions.get(i).getPositionName());
+			positionIdAndNames.add(positionIdAndName);
+			//System.out.println(i+"*********"+positionSuperiors.get(i).getSuperiorPositionId()+"**********"+
+			//		positionSuperiors.get(i).getPositionName());
+		}
+		/*System.out.println(0+"*********"+positionSuperiors.get(0).getSuperiorPositionId()+"**********"+
+				positionSuperiors.get(0).getPositionName());*/
+		return positionIdAndNames;
+	}
+	
 	
 }

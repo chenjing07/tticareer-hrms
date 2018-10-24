@@ -9,8 +9,8 @@ Ext.define('Admin.store.laborContract.LaborContractGridStore', {
         url: '/laborContract',	//mvc url  xxx.json
 	  reader:{
 	    	type:'json',
-	    	rootProperty:'data',
-	    	totalProperty: 'totalElements'
+	    	rootProperty:'data.content',
+	    	totalProperty: 'data.totalElements'
 	    },
 	    	writer: {
 			type: 'json'

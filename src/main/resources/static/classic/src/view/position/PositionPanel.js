@@ -23,17 +23,69 @@ Ext.define('Admin.view.position.PositionPanel', {
             scrollable: false,
             columns: [
            {xtype: 'gridcolumn',width: 40,dataIndex: 'id',text: 'id',hidden:true},
-       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'departmentId',text: '部门Id',flex:1},
-		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'positionNumber',text: '岗位编号',flex:1},
+       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'departmentId',text: '部门Id',
+				renderer: function(val) {
+				   var result;
+		           Ext.Ajax.request({
+					   url:'/department/getDepartmentNameById', 
+					   method:'get', 
+					   params:{id:val}, 
+					  async: false,
+					   success:function(response, options) {
+          					var json = Ext.util.JSON.decode(response.responseText);
+          					if (json.data) {
+            					result = json.data;
+								//console.log(result);
+         				 	}
+						}
+					});
+					return result;
+			    }
+		},
+		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'positionNumber',text: '岗位编号'},
 		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'positionName',text: '岗位名称',flex:1},
-		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'superiorPositionid',text: '上级Id',flex:1},
-                {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: 'Actions',tooltip: 'edit ',
-                    items: [
-                        {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'openEditWindow'},
-                        {xtype: 'button',iconCls: 'x-fa fa-close',handler: 'deleteOneRow'},
-                        {xtype: 'button',iconCls: 'x-fa fa-ban',handler: 'onDisableButton'}
-                    ]
-                }
+		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'superiorPositionid',text: '上级岗位Id',
+				renderer: function(val) {
+				   var result;
+		           Ext.Ajax.request({
+					   url:'/position/getPositionNameById', 
+					   method:'get', 
+					   params:{id:val}, 
+					  async: false,
+					   success:function(response, options) {
+          					var json = Ext.util.JSON.decode(response.responseText);
+          					if (json.data) {
+            					result = json.data;
+								//console.log(result);
+         				 	}
+						}
+					});
+					return result;
+			    }
+		},
+		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'checkStatus',text: '审查状态' ,
+				renderer: function(val) {
+		            if (val =='1') {
+			            return '<span style="color:green;">已通过审查</span>';
+			        } else if (val =='0') {
+			            return '<span style="color:blue;">待审查</span>';
+			        } else{
+			            return '<span style="color:red;">未通过审查</span>';
+			        }
+			        return val;}
+			},
+			{xtype: 'gridcolumn',cls:'content-column',dataIndex: 'positionIntroduction',text: '岗位简介',hidden:true},
+		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'state',text: ' 状态',hidden:true},
+		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'note',text: ' 备注',hidden:true},
+		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'createTime',text: '创建时间',renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s'),hidden:true},
+           
+			{xtype: 'actioncolumn',cls: 'content-column', width: 120,text: 'Actions',tooltip: 'edit ',
+				items: [
+					{xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'openEditWindow'},
+					{xtype: 'button',iconCls: 'x-fa fa-close',handler: 'deleteOneRow'},
+					{xtype: 'button',iconCls: 'x-fa fa-ban',handler: 'onDisableButton'}
+				]
+			}
             ],
             tbar: [{ 
 		                    xtype: 'combobox',

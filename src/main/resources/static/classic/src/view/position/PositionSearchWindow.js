@@ -2,12 +2,13 @@ Ext.define('Admin.view.position.PositionSearchWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.positionSearchWindow',
 
+    y:10,
     height: 200,
-    minHeight: 100,
-    minWidth: 300,
+   // minHeight: 100,
+    //minWidth: 300,
     width: 500,
     scrollable: true,
-    title: 'Position Search Window',
+    title: '搜索岗位',
     closable: true,
     modal:true, //打开窗口后 不能操作其他模块
     
@@ -26,11 +27,11 @@ Ext.define('Admin.view.position.PositionSearchWindow', {
             readOnly: true
         },{
             xtype: 'textfield',
-            fieldLabel: 'Position Number',
+            fieldLabel: '岗位编号',
             name:'positionNumber'
         }, {
             xtype: 'textfield',
-            fieldLabel: 'Position Name',
+            fieldLabel: '岗位名称',
             name:'positionName'
         }
 	]

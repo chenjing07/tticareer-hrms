@@ -9,8 +9,8 @@ Ext.define('Admin.store.department.DepartmentGridStore', {
         url: '/department',	//mvc url  xxx.json
 	  reader:{
 	    	type:'json',
-	    	rootProperty:'data',
-	    	totalProperty: 'totalElements'
+	    	rootProperty:'data.content',
+	    	totalProperty: 'data.totalElements'
 	    },
 	    	writer: {
 			type: 'json'

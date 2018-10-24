@@ -17,7 +17,10 @@ Ext.define('Admin.view.employee.EmployeeViewController', {
 	},
 	/*添加记录弹窗按钮*/	
 	openAddWindow:function(grid, rowIndex, colIndex){
-		grid.up('container').add(Ext.widget('employeeAddWindow')).show();
+		var win = grid.up('container').add(Ext.widget('employeeAddWindow'));
+		win.show();
+		//Ext.getCmp('employeeAddSubmit').disable();
+		//win.down('form').getForm().findField('employeeId').setValue(jsonResult.data);
 	},
  /*******************************点击按钮***********************************/
 	/*分类单条件查询（快速查询）按钮*/

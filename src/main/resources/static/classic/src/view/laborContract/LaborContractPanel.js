@@ -16,25 +16,67 @@ Ext.define('Admin.view.laborContract.LaborContractPanel', {
     items: [{
             xtype: 'gridpanel',
             cls: 'user-grid',
-            title: 'LaborContract Grid Results',
+            title: '合同管理',
             selModel: {type: 'checkboxmodel',checkOnly: true},
             //routeId: 'user',
             bind: '{laborContractLists}',
             scrollable: false,
             columns: [
            {xtype: 'gridcolumn',width: 40,dataIndex: 'id',text: 'id',hidden:true},
-       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'employerName',text: '甲方',flex:1},
-       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'employeeId',text: '员工Id',flex:1},
-       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'contractTimeLimit',text: '合同期限',flex:1},
+       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'employerName',text: '甲方名称',flex:1},
+       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'employeeId',text: '员工Id',
+				renderer: function(val) {
+				   var result;
+		           Ext.Ajax.request({
+					   url:'/employee/getEmployeeNameById', 
+					   method:'get', 
+					   params:{id:val}, 
+					   async: false,
+					   success:function(response, options) {
+          					var json = Ext.util.JSON.decode(response.responseText);
+          					if (json.data) {
+            					result = json.data;
+								//console.log(result);
+         				 	}
+						}
+					});
+					return result;
+			    }
+			},
+       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'contractTimeLimit',text: '合同期限'},
 		   {xtype: 'datecolumn',cls: 'content-column', width: 160,dataIndex: 'contractStart',text: '开始时间',renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s')},
-		   {xtype: 'datecolumn',cls: 'content-column', width: 160,dataIndex: 'contractEnd',text: '终止时间',renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s')},
-                {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: 'Actions',tooltip: 'edit ',
-                    items: [
-                        {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'openEditWindow'},
-                        {xtype: 'button',iconCls: 'x-fa fa-close',handler: 'deleteOneRow'},
-                        {xtype: 'button',iconCls: 'x-fa fa-ban',handler: 'onDisableButton'}
-                    ]
-                }
+		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'checkStatus',text: '审查状态' ,
+				renderer: function(val) {
+		            if (val =='1') {
+			            return '<span style="color:green;">已通过审查</span>';
+			        } else if (val =='0') {
+			            return '<span style="color:blue;">待审查</span>';
+			        } else{
+			            return '<span style="color:red;">未通过审查</span>';
+			        }
+			        return val;}
+			},
+		   {xtype: 'datecolumn',cls: 'content-column', width: 160,dataIndex: 'contractEnd',text: '终止时间',renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s'),hidden:true},
+		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'workContent',text: '工作内容',hidden:true},
+       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'workPlace',text: '工作地点',hidden:true},
+       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'laborProtection',text: '劳动保护',hidden:true},
+		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'laborReward',text: '劳动报酬',hidden:true},
+       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'laborConditions',text: '劳动条件',hidden:true},
+       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'defaultResponsibility',text: '违约责任',hidden:true},
+		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'socialInsurance',text: '社会保险',hidden:true},
+       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'contractChange',text: '合同变更',hidden:true},
+		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'state',text: ' 状态',hidden:true},
+		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'note',text: ' 备注',hidden:true},
+		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'createTime',text: '创建时间',renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s'),hidden:true},
+           
+			
+			{xtype: 'actioncolumn',cls: 'content-column', width: 120,text: 'Actions',tooltip: 'edit ',
+				items: [
+					{xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'openEditWindow'},
+					{xtype: 'button',iconCls: 'x-fa fa-close',handler: 'deleteOneRow'},
+					{xtype: 'button',iconCls: 'x-fa fa-ban',handler: 'onDisableButton'}
+				]
+			}
             ],
 		tbar: [		{ 
 						xtype: 'combobox',
@@ -44,7 +86,7 @@ Ext.define('Admin.view.laborContract.LaborContractPanel', {
 						fields: ["name", "value"],
 							data: [
 								{ name: '甲方', value: 'employerName' },
-								{ name: '员工Id', value: 'employeeId' },
+								{ name: '员工工号', value: 'userName' },
 								{ name: '合同创建时间', value: 'createTime' }
 							]
 						}),     

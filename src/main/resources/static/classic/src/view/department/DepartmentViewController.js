@@ -7,18 +7,65 @@ Ext.define('Admin.view.department.DepartmentViewController', {
 		var record = grid.getStore().getAt(rowIndex);
 		if (record ) {
 			var win = grid.up('container').add(Ext.widget('departmentEditWindow'));
-	             win.show();	      
-		      win.down('form').getForm().loadRecord(record);
+			Ext.Ajax.request(
+			{
+				url:'/department/getDepartmentNameById', 
+				method:'get', 
+				params:{id:record.get('superiorDepartmentId')}, 
+				success: function(response) {
+					//var data =response.responseText;
+					var jsonResult = Ext.util.JSON.decode(response.responseText);
+					//console.log(jsonResult.data);
+					win.show();	
+					win.down('form').getForm().loadRecord(record);
+					win.down('form').getForm().findField('superiorDepartmentId').setValue(jsonResult.data);
+					
+				}
+			})
+	        
 	      }
 	},
 	/*多条件查询弹窗按钮*/	
 	openSearchWindow:function(toolbar, rowIndex, colIndex){
 		toolbar.up('grid').up('container').add(Ext.widget('departmentSearchWindow')).show();		
 	},
+	
+	
+	
 	/*添加记录弹窗按钮*/	
 	openAddWindow:function(grid, rowIndex, colIndex){
-		grid.up('container').add(Ext.widget('departmentAddWindow')).show();
-	},
+		var win = grid.up('container').add(Ext.widget('departmentAddWindow'));
+		
+		
+				//tableComboStore = staff.getStore();
+				/*var staffStore = new Ext.data.JsonStore({
+						url:'/department/getSuperior',  
+						root:'',
+						idProperty: 'superiorDepartmentId',
+						fields: ['status','msg','superiorDepartmentId','departmentName']
+				}); */
+						
+				/*var staff = Ext.getCmp('departmentSuperior');		
+				var staffStore = new Ext.data.Store({ 
+					proxy: new Ext.data.HttpProxy({
+						url: "/department/getSuperior" 
+					}), 
+					reader: new Ext.data.JsonReader( 
+						{rootProperty: 'data'}, 
+						[{name:'superiorDepartmentId'},{name: 'departmentName'}] 
+					) 
+				}); */
+					/*var tableComboStore = new Ext.data.SimpleStore({
+							fields : [ 'superiorDepartmentId', 'departmentName' ],
+							data : [  [ 'ID', 'Modifier' ], [ 'T', 'Temp' ] ]
+							
+						});*/
+				/*staff.store = staffStore;
+				staff.bindStore(staffStore);*/
+				
+						
+	win.show();
+},
  /*******************************点击按钮***********************************/
 	/*分类单条件查询（快速查询）按钮*/
 	quickSearch:function(button){

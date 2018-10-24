@@ -3,6 +3,7 @@ package com.tticareer.hrms.service;
 import java.util.List;
 
 import com.tticareer.hrms.pojo.Department;
+import com.tticareer.hrms.pojo.dto.DepartmentIdAndName;
 
 
 
@@ -37,8 +38,6 @@ public interface DepartmentService {
 	 */
 	public Department queryDepartmentById(Long id);
 	
-	public Department queryDepartmentByDepartmentNumber(String departmentNumber);
-	
 	/**
 	 * 根据  departmentName 搜索部门
 	 * @param departmentName
@@ -62,7 +61,7 @@ public interface DepartmentService {
 	 * 查询没有被删除即状态不为0的部门
 	 * @return
 	 */
-	public List<Department> queryDepartmentWhoIsNotDelete();
+	public List<Department> queryDepartmentWhoIsNotDelete(Integer pageNum,Integer pageSize,String orderBy);
 	
 	
 	/**
@@ -72,11 +71,14 @@ public interface DepartmentService {
 	 */
 	public List<Department> queryDepartmentList(Department department);
 	
-	public List<Department> queryDepartmentListByDepartmentNumber(String departmentNumber);
-	public List<Department> queryDepartmentListByDepartmentName(String departmentName);
-	public List<Department> queryDepartmentListByDepartmentNumberAndDepartmentName(String departmentNumber,String departmentName);
+	public List<Department> queryDepartmentListByDepartmentNumber(String departmentNumber,Integer pageNum,Integer pageSize,String orderBy);
+	public List<Department> queryDepartmentListByDepartmentName(String departmentName,Integer pageNum,Integer pageSize,String orderBy);
+	public List<Department> queryDepartmentListByDepartmentNumberAndDepartmentName(String departmentNumber,String departmentName,Integer pageNum,Integer pageSize,String orderBy);
 
 	public void deleteAll(Long[] ids);
-	public List<Department> queryWaitApprove();
+	public List<Department> queryWaitApprove(Integer pageNum,Integer pageSize,String orderBy);
 
+	
+	public List<DepartmentIdAndName> getDepartmentIdAndName();
+	
 }

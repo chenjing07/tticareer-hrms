@@ -53,10 +53,17 @@ public interface SalaryDetailService {
    /*
   	 * 通过员工id以及年月查找薪酬信息
   	 */
-   public SalaryDetail querySalaryDetailByEmpIdAndNowYearMonth(Long employeeId,Date nowYearMonth);
+   public List<SalaryDetail> querySalaryDetailByEmpIdAndNowYearMonth(Long employeeId,Date nowYearMonth);
    /*
  	 * 通过年月查找薪酬信息
  	 */
    public List<SalaryDetail> querySalaryDetailByNowYearMonth(Date nowYearMonth,Integer page,Integer pageSize);
-   
+   /*
+	 * 通过分页年月查找薪酬信息
+	 */
+   public List<SalaryDetail> querySalaryDetailByEmpIdAndNowYearMonth(Integer page,Integer pageSize,Long employeeId, Date nowYearMonth);
+   /*
+	 * 查找未审核的薪酬信息
+	 */
+   public List<SalaryDetail> querySalaryDetailWhoIsNotCheckStatus(Integer page,Integer pageSize,Integer checkStatus);
 }

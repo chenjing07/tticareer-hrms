@@ -7,7 +7,7 @@ Ext.define('Admin.view.salarydetail.SalaryDetailSearchWindow', {
     minWidth: 300,
     width: 500,
     scrollable: true,
-    title: 'SalaryDetail Search Window',
+    title: '薪酬搜索',
     closable: true,
     modal:true, //打开窗口后 不能操作其他模块
     layout: {  

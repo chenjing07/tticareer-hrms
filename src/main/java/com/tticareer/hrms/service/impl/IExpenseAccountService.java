@@ -117,4 +117,14 @@ public class IExpenseAccountService implements ExpenseAccountService {
 		return expenseAccountMapper.selectByExample(example);
 	}
 
+	@Override
+	public List<ExpenseAccount> queryExpenseAccountWhoIsNotCheckStatus(Integer page, Integer pageSize,
+			Integer checkStatus) {
+		Example example=new Example(ExpenseAccount.class);
+		Example.Criteria criteria=example.createCriteria();
+		criteria.andEqualTo("checkStatus", checkStatus);
+		PageHelper.startPage(page, pageSize);
+		return expenseAccountMapper.selectByExample(example);
+	}
+
 }

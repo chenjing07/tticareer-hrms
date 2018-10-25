@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.BeanUtils;
@@ -66,7 +68,7 @@ public class ExpenseAccountController {
 	 * @return
 	 */
 	@GetMapping
-	public JSONResult queryRealAllExpenseAccount(Integer page,String userName,String timeStart,String timeEnd,ExtjsPageRequest pageRequest) {
+	public JSONResult queryRealAllExpenseAccount(Integer page,String userName,String timeStart,String timeEnd,String checkStatus,ExtjsPageRequest pageRequest) {
 		List<ExpenseAccount> expenseAccountList=new ArrayList<ExpenseAccount>();
 		Date dateStart = null;
 		Date dateEnd=null;
@@ -88,6 +90,9 @@ public class ExpenseAccountController {
 			if(employee!=null) {
 				expenseAccountList=expenseAccountService.queryExpenseAccountByEmployeeIdAndTime(page,15, employee.getId(), dateStart, dateEnd);
 			}
+		}else if(StringUtils.isNotBlank(checkStatus)) {
+			Integer cs=Integer.valueOf(checkStatus);
+			expenseAccountList=expenseAccountService.queryExpenseAccountWhoIsNotCheckStatus(page, 15, cs);
 		}else {
 		expenseAccountList=expenseAccountService.queryExpenseAccountWhoIsNotDelete(page, 15);
 		}
@@ -157,15 +162,23 @@ public class ExpenseAccountController {
 	 * @param id
 	 * @return
 	 */
-	@PutMapping("/checkExpenseAccount")
-	public JSONResult checkExpenseAccount(@Param("id")Long id) {
+	@PutMapping("/checkstatus")
+	public JSONResult checkExpenseAccount(@RequestParam(name="id") Long id,HttpSession session) {
+		String ssessionState=SessionUtil.getState(session);
+		int state=Integer.parseInt(ssessionState);
+		if(state==3) {
 		ExpenseAccount data=expenseAccountService.queryExpenseAccoutById(id);
 		if(data.getCheckStatus()==0) {
 			expenseAccountService.checkExpenseAccount(id);
 			return JSONResult.ok(1);
 		}else {
-			return JSONResult.ok(0);
-		}		
+			String msg="操作失败";
+	    	return JSONResult.errorMsg(msg);
+		}
+		}else {
+			   String msg="该用户没有操作权限";
+			   return JSONResult.errorMsg(msg);
+		   }
 	}
 	/**
 	 * 删除多条报销信息，状态设置为0冻结
@@ -184,5 +197,4 @@ public class ExpenseAccountController {
 	}
 		return JSONResult.ok(0);
 	}
-		
 }

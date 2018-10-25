@@ -9,12 +9,14 @@
         reader:{
 	    	type:'json',
 	    	rootProperty:'data.content',
-	    	totalProperty: 'data.totalElements'
+	    	totalProperty: 'data.totalElements',
+	    	status:'status'
 	    },
 	    	writer: {
 			type: 'json'
 		},
-	    	simpleSortMode: true
+	    	simpleSortMode: true,
+    	
     },
     autoSync: true,
     pageSize:15,
@@ -22,5 +24,6 @@
     sorters: [
     	{ property: 'id',
     	  direction: 'desc'}],
-    autoLoad: true
+    autoLoad: true,
+    
 });	

@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +51,14 @@ public class SalaryDeatilController {
 	 */
 	@PostMapping("/save")
 	public JSONResult saveSalaryDetail(@RequestBody SalaryDetailDTO dto) {
-		 SalaryDetail check=salaryDetailService.querySalaryDetailByEmpIdAndNowYearMonth(dto.getEmployeeId(),dto.getNowYearMonth());
-		if(check!=null||check.getState()==0) {
+		List<SalaryDetail> checkList=salaryDetailService.querySalaryDetailByEmpIdAndNowYearMonth(dto.getEmployeeId(),dto.getNowYearMonth());
+		 int i = 0;
+		 for(SalaryDetail check : checkList ) {
+			 if(check.getState()!=0) {
+				 i=1;
+			 }
+		 }
+		 if(i==0) {
 			SalaryDetail salaryDetail=new SalaryDetail();
 			BeanUtils.copyProperties(dto,salaryDetail);
 			salaryDetail.setCheckStatus(0);
@@ -59,16 +67,10 @@ public class SalaryDeatilController {
 			salaryDetail.setSalaryTotal(dto.getBasicSalary()+dto.getBonus()+dto.getSubsidy()+dto.getOverWorkSalary()-dto.getAttendanceDeduction());
 			salaryDetail.setEmployeeId(employeeService.queryEmployeeByUserName(dto.getUserName()).getId());
 			salaryDetailService.saveSalaryDetail(salaryDetail);
-			SalaryDetail s=salaryDetailService.querySalaryDetailByEmpIdAndNowYearMonth(salaryDetail.getEmployeeId(),salaryDetail.getNowYearMonth());
-		    if(s!=null) { 
-		    	String data=s.getId()+"";
-		    	return JSONResult.ok(data);
-		    }else {
-		    	String msg = "未知错误，数据未录入";
-				return JSONResult.errorMsg(msg);
-		    }
+		    	return JSONResult.ok(1);
 		}else {
-			return JSONResult.ok(0);
+			String msg = "该员工此月数据已存在";
+			return JSONResult.errorMsg(msg);
 		}
 	}
 	/**
@@ -76,7 +78,7 @@ public class SalaryDeatilController {
 	 * @return
 	 */
 	@GetMapping
-	public JSONResult queryRealAllSalaryDetail(Integer page,String userName,String nowYearMonth,ExtjsPageRequest pageRequest) {		
+	public JSONResult queryRealAllSalaryDetail(Integer page,String userName,String nowYearMonth,String checkStatus,ExtjsPageRequest pageRequest) {		
 		List<SalaryDetail> salaryDetailList=new ArrayList<SalaryDetail>();
 		if(StringUtils.isNotBlank(userName)&&StringUtils.isBlank(nowYearMonth)) {
 			Employee e=employeeService.queryEmployeeByUserName(userName);
@@ -102,9 +104,11 @@ public class SalaryDeatilController {
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-				SalaryDetail salaryDetail=salaryDetailService.querySalaryDetailByEmpIdAndNowYearMonth(m.getId(), date);
-				salaryDetailList.add(salaryDetail);
+                      salaryDetailList=salaryDetailService.querySalaryDetailByEmpIdAndNowYearMonth(page,15,m.getId(), date);
 				}
+		}else if(StringUtils.isNotBlank(checkStatus)) {
+			 Integer cs=Integer.valueOf(checkStatus);
+			 salaryDetailList=salaryDetailService.querySalaryDetailWhoIsNotCheckStatus(page, 15, cs);
 		}else {
 		     salaryDetailList=salaryDetailService.querySalaryDetailWhoIsNotDelete(page, 15);
 		}
@@ -188,19 +192,28 @@ public class SalaryDeatilController {
 	}
 	/**
 	 * 审查薪酬信息，状态设置为1
-	 * 成功返回1
+	 * 成功返回 1
 	 * 失败返回0 已通过审核
 	 * @param id
 	 * @return
 	 */
-	@PutMapping("/checkstatus")
-	public JSONResult checkSalaryDetail(@Param("id") Long id) {
+	@PostMapping("/checkstatus")
+	public JSONResult checkSalaryDetail(@RequestParam(name="id") Long id,HttpSession session) {
+		String ssessionState=SessionUtil.getState(session);
+		int state=Integer.parseInt(ssessionState);
+		if(state==3) {
 		SalaryDetail s=salaryDetailService.querySalaryDetailById(id);
 		if(s.getCheckStatus()==0) {
 		salaryDetailService.checkSalaryDetail(id);
-		return JSONResult.ok(1);
+		return JSONResult.ok(s);
 	    }else {
-	    	return JSONResult.ok(0);
+	    	String msg="操作失败";
+	    	return JSONResult.ok(msg);
 	    }
+	   }else {
+		   String msg="该用户没有操作权限";
+		   return JSONResult.ok(msg);
+	   }
+		
 	}
 }

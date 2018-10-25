@@ -8,7 +8,7 @@ Ext.define('Admin.view.rewardpunishment.RewardPunishmentAddWindow', {
     minWidth: 300,
     width: 500,
     scrollable: true,
-    title: 'RewardPunishment Add Window',
+    title: '奖惩信息添加',
     closable: true,
     modal:true, //打开窗口后 不能操作其他模块
     layout: {  

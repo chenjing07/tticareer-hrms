@@ -16,7 +16,7 @@ Ext.define('Admin.view.rewardpunishment.RewardPunishmentPanel', {
     items: [{
             xtype: 'gridpanel',
             cls: 'rewardpunishment-grid',
-            title: 'RewardPunishment Grid Results',
+            title: '奖惩信息',
             selModel: {type: 'checkboxmodel',checkOnly: true},
             //routeId: 'user',
             bind: '{rewardPunishmentLists}',
@@ -37,7 +37,7 @@ Ext.define('Admin.view.rewardpunishment.RewardPunishmentPanel', {
                     items: [
                         {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'openEditWindow'},
                         {xtype: 'button',iconCls: 'x-fa fa-close',handler: 'deleteOneRow'},
-                        {xtype: 'button',iconCls: 'x-fa fa-ban',handler: 'onDisableButton'}
+                        {xtype: 'button',iconCls: 'x-fa fa-check',handler: 'openCheckWindow'}
                     ]
                 }
             ],
@@ -50,6 +50,7 @@ Ext.define('Admin.view.rewardpunishment.RewardPunishmentPanel', {
 						    data: [
 						      	{ name: '工号', value: 'employee_number' },
 								{ name: '创建时间', value: 'create_time' },
+								{ name: '未审查', value: 'check_status' },
 						    ]
 						}),     
 		                    displayField: 'name',

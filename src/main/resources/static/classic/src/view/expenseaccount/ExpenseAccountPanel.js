@@ -15,7 +15,7 @@ Ext.define('Admin.view.expenseaccount.ExpenseAccountPanel', {
     items: [{
             xtype: 'gridpanel',
             cls: 'expenseaccount-grid',
-            title: 'ExpenseAccount Grid Results',
+            title: '报销信息',
             selModel: {type: 'checkboxmodel',checkOnly: true},
             //routeId: 'user',
             bind: '{expenseAccountLists}',
@@ -38,7 +38,7 @@ Ext.define('Admin.view.expenseaccount.ExpenseAccountPanel', {
                     items: [
                         {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'openEditWindow'},
                         {xtype: 'button',iconCls: 'x-fa fa-close',handler: 'deleteOneRow'},
-                        {xtype: 'button',iconCls: 'x-fa fa-ban',handler: 'onDisableButton'}
+                        {xtype: 'button',iconCls: 'x-fa fa-check',handler: 'openCheckWindow'}
                     ]
                 }
             ],
@@ -51,6 +51,7 @@ Ext.define('Admin.view.expenseaccount.ExpenseAccountPanel', {
 						    data: [
 						      	{ name: '工号', value: 'employee_number' },
 								{ name: '报销日期', value: 'time' },
+								{ name: '未审核', value: 'check_status' },
 						    ]
 						}),     
 		                    displayField: 'name',

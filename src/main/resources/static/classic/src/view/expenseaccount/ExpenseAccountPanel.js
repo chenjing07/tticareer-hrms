@@ -30,8 +30,16 @@ Ext.define('Admin.view.expenseaccount.ExpenseAccountPanel', {
        	{xtype: 'gridcolumn',cls:'content-column',dataIndex: 'content',text: '报销说明',flex:2},
            {xtype: 'datecolumn',cls: 'content-column',dataIndex: 'createTime',text: '创建时间',renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s')},
            {xtype: 'datecolumn',cls: 'content-column',dataIndex: 'time',text: '报销时间',renderer:Ext.util.Format.dateRenderer('Y/m/d')},
-           {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'statement',text: '状态',flex:1},
-		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'checkStatusment',text: '审查状态',flex:1},
+          {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'statement',text: '状态',flex:1,hidden:true},
+		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'checkStatu',text: '审查状态',flex:1,
+        	   renderer: function(val) {
+		            if (val =='1') {
+			            return '<span style="color:green;">已审查</span>';
+			        } else {
+			            return '<span style="color:blue;">待审查</span>';
+			        }
+        	   }
+        	   },
 		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'note',text: 'Note',flex:1},
 		   
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: 'Actions',tooltip: 'edit ',

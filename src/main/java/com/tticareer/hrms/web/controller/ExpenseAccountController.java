@@ -195,6 +195,7 @@ public class ExpenseAccountController {
 			}
 			return JSONResult.ok(1);
 	}
-		return JSONResult.ok(0);
+		String msg="操作失败";
+		return JSONResult.errorMsg(msg);
 	}
 }

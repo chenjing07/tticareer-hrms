@@ -64,12 +64,13 @@ Ext.define('Admin.view.rewardPunishment.RewardPunishmentViewController', {
         				});
         				Ext.Ajax.request({url:'/rewardpunishment/deletes', method:'post', params:{ids:selectIds}, success:function(response, options) {
           					var json = Ext.util.JSON.decode(response.responseText);
-          					if (json.success) {
+          					if (json.status==200) {
             					Ext.Msg.alert('操作成功', json.msg, function() {
-              						grid.getStore().reload();
+            						Ext.data.StoreManager.lookup('rewardPunishmentStore').load();
             					});
          				 	} else {
             					Ext.Msg.alert('操作失败', json.msg);
+            					Ext.data.StoreManager.lookup('rewardPunishmentStore').load();
           					}
        				 }});
       			}
@@ -156,11 +157,11 @@ Ext.define('Admin.view.rewardPunishment.RewardPunishmentViewController', {
 		store.load({params:{start:0, limit:20, page:1}});
 		win.close();
 	},
-	checkSalaryDetail:function(button){
+	checkRewardPunishment:function(button){
 		Ext.Msg.confirm('警告', '确定要审核吗？', function(btn) {
   			if (btn == 'yes') {
   			var win=button.up('window');
-  			var  store=Ext.data.StoreManager.lookup('salaryDetailStore');
+  			var  store=Ext.data.StoreManager.lookup('rewardPunishmentStore');
   			var values=win.down('form').getValues();//获得form数据
   		    var record=store.getById(values.id);//获取id获取store中的数据
 		Ext.Ajax.request({
@@ -170,9 +171,9 @@ Ext.define('Admin.view.rewardPunishment.RewardPunishmentViewController', {
             	id:record.id
             },success:function(response, options) {
 					var json = Ext.util.JSON.decode(response.responseText);
-  					if (json.success) {
+  					if (json.status==200) {
     					Ext.Msg.alert('操作结果', json.msg, function() {
-    						grid.getStore().reload();
+    						Store.reload();
     					});
  				 	} else {
     					Ext.Msg.alert('操作失败', json.msg);

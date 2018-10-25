@@ -151,9 +151,10 @@ public class RewardPunishmentController {
 		rewardPunishmentService.deleteRewardPunishment(id);
 		RewardPunishment data=rewardPunishmentService.queryRewardPunishmentById(id);
 		if(data.getState()!=0) {
-			return JSONResult.ok(0);
-		}else {
 			return JSONResult.ok(1);
+		}else {
+			String msg="操作失败";
+			return JSONResult.errorMsg(msg);
 		}
 	}
 	/**
@@ -196,7 +197,8 @@ public class RewardPunishmentController {
 			}
 			return JSONResult.ok(1);
 		}
-		return JSONResult.ok(0);
+		String msg="操作失败";
+		return JSONResult.errorMsg(msg);
 	}
 	
 }

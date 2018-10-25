@@ -64,12 +64,13 @@ Ext.define('Admin.view.salarydetail.SalaryDetailViewController', {
         				});
         				Ext.Ajax.request({url:'/salarydetail/deletes', method:'post', params:{ids:selectIds}, success:function(response, options) {
           					var json = Ext.util.JSON.decode(response.responseText);
-          					if (json.success) {
+          					if (json.status==200) {
             					Ext.Msg.alert('操作成功', json.msg, function() {
-            						grid.getStore().reload();
-            					});
+            						Ext.data.StoreManager.lookup('salaryDetailStore').load();
+            					})
          				 	} else {
             					Ext.Msg.alert('操作失败', json.msg);
+            					Ext.data.StoreManager.lookup('salaryDetailStore').load();
           					}
        				 }});
       			}
@@ -169,9 +170,10 @@ Ext.define('Admin.view.salarydetail.SalaryDetailViewController', {
             	id:record.id
             },success:function(response, options) {
 					var json = Ext.util.JSON.decode(response.responseText);
-  					if (json.success) {
+					Ext.Msg.alert('操作结果', json.status);
+  					if (json.status==200) {
     					Ext.Msg.alert('操作结果', json.msg, function() {
-    						grid.getStore().reload();
+    						store.load();
     					});
  				 	} else {
     					Ext.Msg.alert('操作失败', json.msg);

@@ -1,23 +1,26 @@
 package com.tticareer.hrms.web.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageInfo;
 import com.tticareer.hrms.pojo.Employee;
 import com.tticareer.hrms.pojo.dto.AuthenticationDto;
 import com.tticareer.hrms.service.EmployeeService;
 import com.tticareer.hrms.util.BeanUtils;
+import com.tticareer.hrms.util.JSONResult;
 
 @RestController
 @RequestMapping("/authentication")
@@ -57,10 +60,7 @@ public class AuthenticationController {
 						return new ExtAjaxResponse(false,"密码错误！");
 					}
 	}	
-
-	
-	
-	
+		
 	
 	/**
      * 退出登录
@@ -76,8 +76,7 @@ public class AuthenticationController {
 		}
     }
        
-   
-    
+       
     
     /**
      * 注册
@@ -165,40 +164,42 @@ public class AuthenticationController {
     	}
     }
     
-     
-    
-    
-    /**
-     * 能否审核
-     */
-    @PostMapping(value = "/clickapprove")
-    public  ExtAjaxResponse clickapprove(HttpSession session) {
-    	if(SessionUtil.getUserName(session)==null) {
-    		return new ExtAjaxResponse(false,"非本人操作，不能审核！");
-    	}else if(!SessionUtil.getState(session).equals("3")) {
-    		return new ExtAjaxResponse(false,"没有权限审核！");
-    	}else {
-    		 return new ExtAjaxResponse(true,"可以审核！");
-    	}   	
-    }
+   /**
+    * 审核数据获取
+    */
+    @GetMapping("/approvelist")
+	public JSONResult queryApproveList(ExtjsPageRequest pageRequest) {
+		//return JSONResult.ok(departmentService.queryAllDepartment());
+		//return JSONResult.ok(departmentService.queryWaitApprove());
+		List<Employee> employeeList=employeeService.queryEmployeeWhoIsNotPass(pageRequest.getPage(), pageRequest.getLimit(),"id DESC");
+		PageInfo<Employee> p=new PageInfo<Employee>(employeeList);
+		PageImpl<Employee> employeePage=new PageImpl<Employee>(employeeList,pageRequest.getPageable(),p.getTotal());
+		return JSONResult.ok(employeePage);
+	}
    
+    
     
     /**
      * 审核提交
+     */
     @PostMapping(value = "/approve")
-    public  ExtAjaxResponse approve(AuthenticationApproveDto authenticationApproveDto,HttpSession session) {
+    public  ExtAjaxResponse approve(@Param("pass") String pass,@Param("userName") String userName,HttpSession session) {
+    	Employee e=employeeService.queryEmployeeByUserName(userName);
     	if(SessionUtil.getUserName(session)==null) {
     		return new ExtAjaxResponse(false,"非本人操作，不能审核！");
     	}else if(!SessionUtil.getState(session).equals("3")) {
     		return new ExtAjaxResponse(false,"没有权限审核！");
-    	}else if(authenticationApproveDto.isPass()){
-    		System.out.println(authenticationApproveDto.getUserName());
-    		Employee e=employeeService.queryEmployeeByUserName(authenticationApproveDto.getUserName());
+	    }else if(e==null){
+	    	return new ExtAjaxResponse(false,"不存在该员工！");
+		}else if(pass.equals("pass")) {  		
     		e.setCheckSatus(3);
     		employeeService.updateEmployee(e);
     		return new ExtAjaxResponse(true,"审核通过！");
-    	}else {
+		}else if(pass.equals("nopass")) {
+    		e.setCheckSatus(2);
+    		employeeService.updateEmployee(e);
     		return new ExtAjaxResponse(false,"审核不通过！");
-    	}   	
-    } */
+		}else return new ExtAjaxResponse(false,"未知错误，不能审核！");
+			    			
+	}   	
 }

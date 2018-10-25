@@ -1,7 +1,6 @@
 package com.tticareer.hrms.service.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -203,5 +202,14 @@ public class IEmployeeService implements EmployeeService {
 		return employeeIdAndNames;
 	}
 	
+	/*查询未审核人事部人员*/
+	@Override
+	public List<Employee> queryEmployeeWhoIsNotPass(Integer pageNum,Integer pageSize,String orderBy){
+		PageHelper.startPage(pageNum, pageSize,orderBy);
+		Example example = new Example(Employee.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("checkSatus", 2);
+		return employeeMapper.selectByExample(example);
+	}
 	
 }

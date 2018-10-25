@@ -17,7 +17,7 @@
                 viewType: 'admindashboard',
                 routeId: 'dashboard', // routeId defaults to viewType
                 leaf: true
-            },{
+	            },{
                 text: '人事部人员信息审核',
                 iconCls: 'x-fa fa-street-view',
                 viewType: 'authenticationApproveGrid',
@@ -158,13 +158,13 @@
                 {
                         text: '部门培训管理',
                         iconCls: 'x-fa  fa-user-circle-o',
-                        viewType: 'departmentTraining',
+                        viewType: 'trainingInfo',
                         leaf: true
                 },
                 {
                         text: '员工培训管理',
                         iconCls: 'x-fa fa-male',
-                        viewType: 'employeeTraining',
+                        viewType: 'trainingInfo',
                         leaf: true
                 },
                 {
@@ -236,13 +236,13 @@
                         iconCls: 'x-fa fa-ticket',
                         viewType: 'expenseAccount',
                         leaf: true
-		}]},
+		}]}/*,
 		{
                 text: 'Login',
                 iconCls: 'x-fa fa-check',
                 viewType: 'login',
                 leaf: true
-           }
+           }*/
         ]
     }
 });

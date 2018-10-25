@@ -1,6 +1,6 @@
 Ext.define('Admin.store.training.TrainingFeedbackGridStore', {
     extend: 'Ext.data.Store',
-    storeId:'trainingFeedbackGridStroe',
+    storeId:'trainingFeedbackGridStore',
     alias: 'store.trainingFeedbackGridStore',
     model:'Admin.model.training.TrainingFeedbackModel',
     proxy: {

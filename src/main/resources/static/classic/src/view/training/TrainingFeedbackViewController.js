@@ -10,7 +10,7 @@ Ext.define('Admin.view.training.TrainingFeedbackViewController', {
 		var form = win.down('form');
 		var record = Ext.create('Admin.model.training.TrainingFeedbackModel');
 		var values  =form.getValues();//获取form数据
-		var store = Ext.data.StoreManager.lookup('trainingFeedbackGridStroe');
+		var store = Ext.data.StoreManager.lookup('trainingFeedbackGridStore');
         Ext.Ajax.request({
     		url: '/training/tfsave',
     		method: 'post',

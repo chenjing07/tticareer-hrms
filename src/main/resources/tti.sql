@@ -616,7 +616,7 @@ create table training_info
             {
             	0冻结 1未进行 2在进行
             }',
-   createTime           datetime not null comment '录入时间',
+   create_time          datetime not null comment '录入时间',
    note                 varchar(255) comment '备注',
    primary key (id)
 );

@@ -50,7 +50,8 @@ Ext.define('Admin.view.assessment.EmployeeAssessmentViewController', {
 		var form 	= win.down('form');
 		var record 	= Ext.create('Admin.model.assessment.EmployeeAssessmentModel');
 		var values  =form.getValues();//获取form数据
-		var store = Ext.data.StoreManager.lookup('employeeAssessmentGridStore');
+		var store1 = Ext.data.StoreManager.lookup('employeeAssessmentGridStore');
+		var store2 = Ext.data.StoreManager.lookup('employeeAssessmentCheckGridStore');
 		console.log(values.attitude)
 		Ext.Ajax.request({
     		url: '/assessment/easave',
@@ -74,7 +75,8 @@ Ext.define('Admin.view.assessment.EmployeeAssessmentViewController', {
                 console.log(json);
 	            if(json.data==1){
 	            	Ext.Msg.alert('操作成功', '考核标准信息录入成功', function() {
-	            		store.load();
+	            		store1.load();
+	            		store2.load();
 	        			win.close();
 	                });
 		        } else {

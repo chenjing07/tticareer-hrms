@@ -8,7 +8,7 @@ Ext.define('Admin.view.department.DepartmentEditWindow', {
     //minWidth: 300,
     width: 500,
     scrollable: true,
-    title: '修改部门信息',
+    title: 'Department Edit Window',
     closable: true,
     modal:true, //打开窗口后 不能操作其他模块
     

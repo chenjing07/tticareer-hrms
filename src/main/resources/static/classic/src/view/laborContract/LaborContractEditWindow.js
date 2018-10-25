@@ -8,14 +8,13 @@ Ext.define('Admin.view.laborContract.LaborContractEditWindow', {
     //minWidth: 300,
     width: 500,
     scrollable: true,
-    title: '修改劳动合同信息',
+    title: 'LaborContract Edit Window',
     closable: true,
     modal:true, //打开窗口后 不能操作其他模块
     
     layout: 'fit',
     
     items: [{
-		scrollable: true,
         xtype: 'form',
         layout: 'form',
         padding: '10px',

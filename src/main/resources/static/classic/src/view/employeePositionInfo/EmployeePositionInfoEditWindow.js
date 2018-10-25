@@ -15,6 +15,7 @@ Ext.define('Admin.view.employeePositionInfo.EmployeePositionInfoEditWindow', {
     layout: 'fit',
     
     items: [{
+		scrollable: true,
         xtype: 'form',
         layout: 'form',
         padding: '10px',

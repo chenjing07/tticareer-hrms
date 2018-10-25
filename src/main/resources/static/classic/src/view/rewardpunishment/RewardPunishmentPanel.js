@@ -24,14 +24,14 @@ Ext.define('Admin.view.rewardpunishment.RewardPunishmentPanel', {
             columns: [
            {xtype: 'gridcolumn',width: 40,dataIndex: 'id',text: 'id',hidden:true},
        	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'employeeId',text: 'employee Id',flex:1,hidden:true},
-       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'userName',text: 'employee Number',flex:2},
-       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'realName',text: 'Real Name',flex:1},
-           {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'rewardAndPunishmentState',text: 'reward And Punishment',flex:1},
-       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'content',text: 'Content',flex:3},
-           {xtype: 'datecolumn',cls: 'content-column',dataIndex: 'createTime',text: 'Create Time',renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s')},
-		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'statement',text: 'Statement',flex:1},
-		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'checkStatusment',text: 'Check Statusment',flex:1},
-		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'note',text: 'Note',flex:1},
+       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'userName',text: '员工编号',flex:2},
+       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'realName',text: '员工姓名',flex:1},
+           {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'rewardAndPunishmentState',text: '奖惩状态',flex:1},
+       	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'content',text: '奖惩说明',flex:3},
+           {xtype: 'datecolumn',cls: 'content-column',dataIndex: 'createTime',text: '创建时间',renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s')},
+		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'statement',text: '状态',flex:1},
+		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'checkStatusment',text: '审核状态',flex:1},
+		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'note',text: '备注',flex:1},
 		   
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: 'Actions',tooltip: 'edit ',
                     items: [

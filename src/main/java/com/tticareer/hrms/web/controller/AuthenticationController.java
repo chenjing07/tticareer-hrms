@@ -37,6 +37,7 @@ public class AuthenticationController {
 	 */
 	@PostMapping("/login")
 	public @ResponseBody ExtAjaxResponse login(@Param("userName") String userName, @Param("password") String password,HttpSession session) {
+		System.out.println(111);
 		Employee e=employeeService.queryEmployeeByUserName(userName);	
 		if(e==null) {
 			return new ExtAjaxResponse(false,"登录账号不存在！");

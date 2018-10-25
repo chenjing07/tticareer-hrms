@@ -236,13 +236,14 @@
                         iconCls: 'x-fa fa-ticket',
                         viewType: 'expenseAccount',
                         leaf: true
-		}]}/*,
-		{
+		}]},
+			{
                 text: 'Login',
                 iconCls: 'x-fa fa-check',
-                viewType: 'login',
+                //viewType: 'login',
+                html:'login.html',
                 leaf: true
-           }*/
+           }
         ]
     }
 });

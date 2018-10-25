@@ -198,14 +198,18 @@
  	/*修改个人信息按钮，保存成功待审核*/
     modifyInformationSubmitButton:function(btn){
 		var me = this;
+		var win    	= btn.up('window');
+		var form 	= win.down('form');
+		var values  =form.getValues();
+		console.log(values);
         	Ext.Ajax.request({
 	            url: 'authentication/modifyinformation',
 	            //contentType:'application/json',
 	            method: 'post',
 	            params: {
-	                realName: btn.up("form").getForm().findField("realName").getValue(),
-	                idCardNumber: btn.up("form").getForm().findField("idCardNumber").getValue(),
-	                idCardPicture: btn.up("form").getForm().findField("idCardPicture").getValue()
+	                realName: values.realName,
+	                idCardNumber: values.idCardNumber,
+	                idCardPicture: values.idCardPicture
 	            },
 	            success: function(response, options) {
 	            	var json = Ext.util.JSON.decode(response.responseText);

@@ -3,6 +3,6 @@
     xtype: 'authenticationApproveCenterPanel',
 	layout:'fit',
 	controller: 'authenticationApproveViewController',
-    	viewModel : { type: 'authenticationApproveViewModel'},
+    viewModel : { type: 'authenticationApproveViewModel'},
 	items: [{xtype:'authenticationApproveGrid'}]	//需要修改
 });

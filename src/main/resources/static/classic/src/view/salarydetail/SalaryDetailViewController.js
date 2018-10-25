@@ -11,6 +11,15 @@ Ext.define('Admin.view.salarydetail.SalaryDetailViewController', {
 		      win.down('form').getForm().loadRecord(record);
 	      }
 	},
+	/*审核修改弹窗按钮*/
+	openCheckWindow:function(grid, rowIndex, colIndex){
+		var record = grid.getStore().getAt(rowIndex);
+		if (record ) {
+			var win = grid.up('container').add(Ext.widget('salaryDetailCheckWindow'));
+	             win.show();	      
+		      win.down('form').getForm().loadRecord(record);
+	      }
+	},
 	/*多条件查询弹窗按钮*/	
 	openSearchWindow:function(toolbar, rowIndex, colIndex){
 		toolbar.up('grid').up('container').add(Ext.widget('salaryDetailSearchWindow')).show();		
@@ -25,15 +34,19 @@ Ext.define('Admin.view.salarydetail.SalaryDetailViewController', {
 		var searchField = this.lookupReference('searchFieldName').getValue();
 		var searchNumberFieldValue = this.lookupReference('searchNumberFieldValue').getValue();
 		var searchDateFieldValue = this.lookupReference('searchDateFieldValue').getValue();
+		var searchCheckFieldValue=0;
 		var store =	button.up('gridpanel').getStore();
 		//var store = Ext.getCmp('userGridPanel').getStore();// Ext.getCmp(）需要在OrderPanel设置id属性
-		Ext.apply(store.proxy.extraParams, {userName:"",nowYearMonth:""});
+		Ext.apply(store.proxy.extraParams, {userName:"",nowYearMonth:"",checkStatus:""});
 		
 		if(searchField==='employee_number'){
 			Ext.apply(store.proxy.extraParams, {userName:searchNumberFieldValue});
 		}
 		if(searchField==='now_year_month'){
 			Ext.apply(store.proxy.extraParams, {nowYearMonth:Ext.util.Format.date(searchDateFieldValue, 'Y/m/d H:i:s')});			
+		}
+		if(searchField==='check_status'){
+			Ext.apply(store.proxy.extraParams, {checkStatus:searchCheckFieldValue});
 		}
 		store.load({params:{start:0, limit:20, page:1}});
 	},
@@ -53,7 +66,7 @@ Ext.define('Admin.view.salarydetail.SalaryDetailViewController', {
           					var json = Ext.util.JSON.decode(response.responseText);
           					if (json.success) {
             					Ext.Msg.alert('操作成功', json.msg, function() {
-              						grid.getStore().reload();
+            						grid.getStore().reload();
             					});
          				 	} else {
             					Ext.Msg.alert('操作失败', json.msg);
@@ -87,10 +100,14 @@ Ext.define('Admin.view.salarydetail.SalaryDetailViewController', {
 		if(searchField==='employee_number'){
 			this.lookupReference('searchNumberFieldValue').show();
 			this.lookupReference('searchDateFieldValue').hide();
-		}else{
+		}else if(searchField==='now_year_month'){
 			this.lookupReference('searchNumberFieldValue').hide();
 			this.lookupReference('searchDateFieldValue').show();
+		}else{
+			this.lookupReference('searchNumberFieldValue').hide();
+			this.lookupReference('searchDateFieldValue').hide();
 		}
+		
 	},
 /*******************************提交按钮***********************************/
 	/*编辑一条记录保存按钮*/
@@ -99,21 +116,33 @@ Ext.define('Admin.view.salarydetail.SalaryDetailViewController', {
 		var  store=Ext.data.StoreManager.lookup('salaryDetailStore');
 	    var values=win.down('form').getValues();//获得form数据
 	    var record=store.getById(values.id);//获取id获取store中的数据
+	    if(record.isValid()){
 		record.set(values);
-		win.close();
-		//更新事件
-	},
+		Ext.Msg.alert('操作成功','修改薪酬成功！');
+		Ext.data.StoreManager.lookup('salaryDetailStore').load();
+	    }else{
+			Ext.Msg.Msg('操作失败','修改薪酬失败')
+			}
+	    win.close();
+},
+	
 	/*添加一条记录提交按钮*/
-	addSubmitButton:function(button){
+	addSubmitButton:function(button,response){
 		var win=button.up('window')
 		var form=win.down('form');
 		var record = Ext.create('Admin.model.salarydetail.SalaryDetailModel');
 		var values  =form.getValues();//获取form数据 
 			console.log(values);
            	record.set(values);
+           	if(record.isValid()){
            	record.save();
-           	Ext.data.StoreManager.lookup('salaryDetailStore').load();
+           	Ext.Msg.alert('操作成功','增加薪酬成功！');
+			Ext.data.StoreManager.lookup('salaryDetailStore').load(); 
+           	}else{
+           		Ext.Msg.alert('操作失败','增加薪酬失败！');
+           	}
              win.close();
+
 	},
 	/*查询多条记录条件提交按钮*/
 	searchSubmitButton:function(button){
@@ -127,10 +156,29 @@ Ext.define('Admin.view.salarydetail.SalaryDetailViewController', {
 		win.close();
 	},
 	checkSalaryDetail:function(button){
-		var userName =Ext.getCmp('UserName').getValue();
-		var state=Ext.getCmp('State').getValue();
-		if(state===3){
-			
-		}
+		Ext.Msg.confirm('警告', '确定要审核吗？', function(btn) {
+  			if (btn == 'yes') {
+  			var win=button.up('window');
+  			var  store=Ext.data.StoreManager.lookup('salaryDetailStore');
+  			var values=win.down('form').getValues();//获得form数据
+  		    var record=store.getById(values.id);//获取id获取store中的数据
+		Ext.Ajax.request({
+            url: '/salarydetail/checkstatus',
+            method: 'post',
+            params: {
+            	id:record.id
+            },success:function(response, options) {
+					var json = Ext.util.JSON.decode(response.responseText);
+  					if (json.success) {
+    					Ext.Msg.alert('操作结果', json.msg, function() {
+    						grid.getStore().reload();
+    					});
+ 				 	} else {
+    					Ext.Msg.alert('操作失败', json.msg);
+  					}
+            
+		}});
+		}},this);
 	}
+	
 });

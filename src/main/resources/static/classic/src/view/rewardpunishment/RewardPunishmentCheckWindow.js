@@ -1,6 +1,6 @@
-Ext.define('Admin.view.rewardpunishment.RewardPunishmentEditWindow', {
+Ext.define('Admin.view.rewardpunishment.RewardPunishmentCheckWindow', {
     extend: 'Ext.window.Window',
-    alias: 'widget.rewardPunishmentEditWindow',
+    alias: 'widget.rewardPunishmentCheckWindow',
 
 	autoShow:true,
     height: 500,
@@ -8,7 +8,7 @@ Ext.define('Admin.view.rewardpunishment.RewardPunishmentEditWindow', {
     minWidth: 300,
     width: 500,
     scrollable: true,
-    title: '奖惩信息编辑',
+    title: '奖惩信息审核',
     closable: true,
     modal:true, //打开窗口后 不能操作其他模块
     layout: {  
@@ -40,13 +40,15 @@ Ext.define('Admin.view.rewardpunishment.RewardPunishmentEditWindow', {
         },{
             xtype: 'textfield',
             fieldLabel: '员工编号',
-            name:'userName'
+            name:'userName',
+            readOnly: true
         },
         { 
             xtype: 'combobox',
             fieldLabel: '奖惩类型',
             width:50,
             name:'rewardAndPunishment',
+            readOnly: true,
             store:Ext.create("Ext.data.Store", {
 		    fields: ["name", "value"],
 		    data: [
@@ -63,18 +65,20 @@ Ext.define('Admin.view.rewardpunishment.RewardPunishmentEditWindow', {
          {
             xtype: 'textfield',
             fieldLabel: '奖罚说明',
-            name:'content'
+            name:'content',
+            readOnly: true
         },{
             xtype: 'textfield',
             fieldLabel: '备注',
-            name:'note'
+            name:'note',
+            readOnly: true
         }
 	]
     }],
     buttons:  [{
         xtype: 'button',
-        text: 'Submit',
-        handler: 'editSubmitButton'//预留提交事件，在ViewController中实现。
+        text: '审核',
+        handler: 'checkRewardPunishment'//预留提交事件，在ViewController中实现。
     },{
         xtype: 'button',
         text: 'Close',

@@ -1,6 +1,6 @@
-Ext.define('Admin.view.salarydetail.SalaryDetailAddWindow', {
+Ext.define('Admin.view.salarydetail.SalaryDetailCheckWindow', {
     extend: 'Ext.window.Window',
-    alias: 'widget.salaryDetailAddWindow',
+    alias: 'widget.salaryDetailCheckWindow',
 
 	autoShow:true,
     height: 500,
@@ -8,7 +8,7 @@ Ext.define('Admin.view.salarydetail.SalaryDetailAddWindow', {
     minWidth: 300,
     width: 500,
     scrollable: true,
-    title: '添加薪酬信息',
+    title: '薪酬审核',
     closable: true,
     modal:true, //打开窗口后 不能操作其他模块
     layout: {  
@@ -21,7 +21,7 @@ Ext.define('Admin.view.salarydetail.SalaryDetailAddWindow', {
         xtype: 'form',
         layout: {type:'vbox',align:'stretch'},
         padding: '10px',
-        ariaLabel: 'Add SalaryDetail Information',
+        ariaLabel: 'Check SalaryDetail Information',
         items: [{
         	field:'10px',
             xtype: 'textfield',
@@ -29,46 +29,61 @@ Ext.define('Admin.view.salarydetail.SalaryDetailAddWindow', {
             name:'id',
             hidden: true,
             readOnly: true
-        }, {
+        },{
+        	field:'10px',
+            xtype: 'textfield',
+            fieldLabel: 'employeeId',
+            name:'employeeId',
+            hidden: true,
+            readOnly: true
+        },{
             xtype: 'textfield',
             fieldLabel: '员工编号',
-            name:'userName'
+            name:'userName',
+            readOnly: true
         }, {
             xtype: 'monthfield',
             fieldLabel: '所属年月',
             name:'nowYearMonth',
-            format: 'Y/m/d H:i:s'	
+            format: 'Y/m/d H:m:i',	
+            readOnly: true
         },{
             xtype: 'textfield',
             fieldLabel: '基础工资',
-            name:'basicSalary'
+            name:'basicSalary',
+            readOnly: true
         },{
             xtype: 'textfield',
             fieldLabel: '奖金',
-            name:'bonus'
+            name:'bonus',
+            readOnly: true
         },{
             xtype: 'textfield',
             fieldLabel: '加班工资',
-            name:'overWorkSalary'
-        }, {
+            name:'overWorkSalary',
+            readOnly: true
+        },{
             xtype: 'textfield',
             fieldLabel: '补贴',
-            name:'subsidy'
+            name:'subsidy',
+            readOnly: true
         },{
             xtype: 'textfield',
             fieldLabel: '考勤需扣工资',
-            name:'attendanceDeduction',       
+            name:'attendanceDeduction', 
+            readOnly: true
         },{
             xtype: 'textfield',
             fieldLabel: '备注',
-            name:'note'
+            name:'note',
+            readOnly: true
         }
 	]
     }],
     buttons:  [{
         xtype: 'button',
-        text: 'Submit',
-        handler: 'addSubmitButton'//预留提交事件，在ViewController中实现。
+        text: '审核',
+        handler: 'checkSalaryDetail'//预留提交事件，在ViewController中实现。
     },{
         xtype: 'button',
         text: 'Close',

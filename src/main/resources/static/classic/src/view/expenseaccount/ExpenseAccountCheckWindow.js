@@ -1,6 +1,6 @@
-Ext.define('Admin.view.expenseaccount.ExpenseAccountAddWindow', {
+Ext.define('Admin.view.expenseaccount.ExpenseAccountCheckWindow', {
     extend: 'Ext.window.Window',
-    alias: 'widget.expenseAccountAddWindow',
+    alias: 'widget.expenseAccountCheckWindow',
 
 	autoShow:true,
     height: 500,
@@ -8,7 +8,7 @@ Ext.define('Admin.view.expenseaccount.ExpenseAccountAddWindow', {
     minWidth: 300,
     width: 500,
     scrollable: true,
-    title: '添加报销信息',
+    title: '审核报销信息',
     closable: true,
     modal:true, //打开窗口后 不能操作其他模块
     layout: {  
@@ -21,7 +21,7 @@ Ext.define('Admin.view.expenseaccount.ExpenseAccountAddWindow', {
         xtype: 'form',
         layout: {type:'vbox',align:'stretch'},
         padding: '10px',
-        ariaLabel: 'Add ExpenseAccount Information',
+        ariaLabel: 'Check ExpenseAccount Information',
         items: [{
         	field:'10px',
             xtype: 'textfield',
@@ -32,12 +32,14 @@ Ext.define('Admin.view.expenseaccount.ExpenseAccountAddWindow', {
         },{
             xtype: 'textfield',
             fieldLabel: '员工编号',
-            name:'userName'
+            name:'userName',
+            readOnly: true
         },{ 
         	xtype: 'datefield',
             fieldLabel: '报销日期',
             name:'time',
-            format: 'Y/m/d H:i:s'          	
+            format: 'Y/m/d H:i:s',
+            readOnly: true
          },{ 
         	xtype: 'textfield',
             fieldLabel: '报销金额',
@@ -45,22 +47,25 @@ Ext.define('Admin.view.expenseaccount.ExpenseAccountAddWindow', {
          },{
             xtype: 'textfield',
             fieldLabel: '报销原因',
-            name:'reason'
+            name:'reason',
+            readOnly: true
         },{
             xtype: 'textfield',
             fieldLabel: '报销内容',
-            name:'content'
+            name:'content',
+            readOnly: true
         },{
             xtype: 'textfield',
             fieldLabel: '备注',
-            name:'note'
+            name:'note',
+            readOnly: true
         }
 	]
     }],
     buttons:  [{
         xtype: 'button',
-        text: 'Submit',
-        handler: 'addSubmitButton'//预留提交事件，在ViewController中实现。
+        text: '审核',
+        handler: 'checkExpenseAccount'//预留提交事件，在ViewController中实现。
     },{
         xtype: 'button',
         text: 'Close',

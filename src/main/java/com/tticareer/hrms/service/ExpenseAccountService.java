@@ -63,4 +63,9 @@ public interface ExpenseAccountService {
 	 * @Param employeeId createTime
 	 */
 	public List<ExpenseAccount> queryExpenseAccountByEmployeeIdAndTime(Integer page,Integer pageSize,Long employeeId,Date dateStart,Date dateEnd);
+	/*
+	 * 根据未审核查询报销信息
+	 * @Param checkStatus
+	 */
+	public List<ExpenseAccount> queryExpenseAccountWhoIsNotCheckStatus(Integer page,Integer pageSize,Integer checkStatus);
 }

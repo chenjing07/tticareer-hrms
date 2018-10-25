@@ -133,6 +133,16 @@ public class IRewardPunishmentService implements RewardPunishmentService {
 		PageHelper.startPage(page, pageSize);
 		return rewardPunishmentMapper.selectByExample(example);
 	}
+
+	@Override
+	public List<RewardPunishment> queryRewardPunishmentWhoIsNotCheckStatus(Integer page, Integer pageSize,
+			Integer checkStatus) {
+		Example example=new Example(RewardPunishment.class);
+		Example.Criteria criteria=example.createCriteria();
+		criteria.andEqualTo("checkStatus",checkStatus);
+		PageHelper.startPage(page, pageSize);
+		return rewardPunishmentMapper.selectByExample(example);
+	}
    
 
 }

@@ -1,5 +1,8 @@
 package com.tticareer.hrms.service.impl;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -86,18 +89,36 @@ public  class ISalaryDetailService implements SalaryDetailService {
 		salaryDetailMapper.updateByPrimaryKey(salaryDetail);		
 	}
 	@Override
-	public SalaryDetail querySalaryDetailByEmpIdAndNowYearMonth(Long employeeId, Date nowYearMonth) {
+	public List<SalaryDetail> querySalaryDetailByEmpIdAndNowYearMonth(Long employeeId, Date nowYearMonth) {
 		Example example=new Example(SalaryDetail.class);
 		Example.Criteria criteria= example.createCriteria();
 		criteria.andEqualTo("employeeId", employeeId);
 		criteria.andEqualTo("nowYearMonth", nowYearMonth);
-		return salaryDetailMapper.selectOneByExample(example);
+		return salaryDetailMapper.selectByExample(example);
+	}
+	@Override
+	public List<SalaryDetail> querySalaryDetailByEmpIdAndNowYearMonth(Integer page,Integer pageSize,Long employeeId, Date nowYearMonth) {
+		Example example=new Example(SalaryDetail.class);
+		Example.Criteria criteria= example.createCriteria();
+		criteria.andEqualTo("employeeId", employeeId);
+		criteria.andEqualTo("nowYearMonth", nowYearMonth);
+		PageHelper.startPage(page, pageSize);
+		return salaryDetailMapper.selectByExample(example);
 	}
 	@Override
 	public List<SalaryDetail> querySalaryDetailByNowYearMonth(Date nowYearMonth, Integer page, Integer pageSize) {
 		Example example=new Example(SalaryDetail.class);
 		Example.Criteria criteria= example.createCriteria();
 		criteria.andEqualTo("nowYearMonth", nowYearMonth);
+		PageHelper.startPage(page, pageSize);
+		return salaryDetailMapper.selectByExample(example);
+	}
+	@Override
+	public List<SalaryDetail> querySalaryDetailWhoIsNotCheckStatus(Integer page, Integer pageSize,
+			Integer checkStatus) {
+		Example example=new Example(SalaryDetail.class);
+		Example.Criteria criteria= example.createCriteria();
+		criteria.andEqualTo("checkStatus", checkStatus);
 		PageHelper.startPage(page, pageSize);
 		return salaryDetailMapper.selectByExample(example);
 	}

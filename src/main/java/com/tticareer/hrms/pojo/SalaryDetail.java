@@ -330,4 +330,5 @@ public class SalaryDetail implements Serializable {
     public void setNote(String note) {
         this.note = note;
     }
+    
 }

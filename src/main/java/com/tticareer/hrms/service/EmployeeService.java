@@ -98,4 +98,6 @@ public interface EmployeeService {
 	public List<Employee> queryWaitApprove(Integer pageNum,Integer pageSize,String orderBy);
 	
 	public List<EmployeeIdAndName> getEmployeeIdAndName();
+	/*查询未审核人事部人员*/
+	public List<Employee> queryEmployeeWhoIsNotPass(Integer pageNum,Integer pageSize,String orderBy);
 }

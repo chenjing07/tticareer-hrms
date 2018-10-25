@@ -8,7 +8,7 @@ Ext.define('Admin.view.expenseaccount.ExpenseAccountEditWindow', {
     minWidth: 300,
     width: 500,
     scrollable: true,
-    title: 'ExpenseAccount Edit Window',
+    title: '修改报销信息',
     closable: true,
     modal:true, //打开窗口后 不能操作其他模块
     layout: {  

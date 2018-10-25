@@ -67,4 +67,8 @@ public interface RewardPunishmentService {
   	 * 通过员工id以及创建时间范围查找奖惩信息
   	 */
 	public List<RewardPunishment> queryRewardPunishmentByEmployeeIdAndTime(Integer page,Integer pageSize,Long employeeId,Date timeStart,Date timeEnd);
+	/*
+  	 * 通过未审查来查询奖惩信息
+  	 */
+	public List<RewardPunishment> queryRewardPunishmentWhoIsNotCheckStatus(Integer page,Integer pageSize,Integer checkStatus);
 }

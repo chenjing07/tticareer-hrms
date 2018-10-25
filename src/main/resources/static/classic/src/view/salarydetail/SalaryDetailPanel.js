@@ -17,7 +17,7 @@ Ext.define('Admin.view.salarydetail.SalaryDetailPanel', {
     items: [{
             xtype: 'gridpanel',
             cls: 'salarydetail-grid',
-            title: 'SalaryDetail Grid Results',
+            title: '薪酬信息',
             selModel: {type: 'checkboxmodel',checkOnly: true},
             //routeId: 'user',
             bind: '{salaryDetailLists}',
@@ -43,7 +43,7 @@ Ext.define('Admin.view.salarydetail.SalaryDetailPanel', {
                     items: [
                         {xtype: 'button', iconCls: 'x-fa fa-pencil' ,handler: 'openEditWindow'},
                         {xtype: 'button',iconCls: 'x-fa fa-close',handler: 'deleteOneRow'},
-                        {xtype: 'button',iconCls: 'x-fa fa-ban',handler: 'onDisableButton'}
+                        {xtype: 'button',iconCls: 'x-fa fa-check',handler: 'openCheckWindow'}
                     ]
                 }
             ],
@@ -56,6 +56,7 @@ Ext.define('Admin.view.salarydetail.SalaryDetailPanel', {
 						    data: [
 						      	{ name: '工号', value: 'employee_number' },
 								{ name: '年月', value: 'now_year_month' },
+								{ name: '未审查', value: 'check_status' },
 						    ]
 						}),     
 		                    displayField: 'name',
@@ -99,12 +100,7 @@ Ext.define('Admin.view.salarydetail.SalaryDetailPanel', {
 				        itemId:'salaryDetailGridPanelRemove', 
 				        disabled: true,
 				        handler: 'deleteMoreRows'	     			 
-		            },'-',{
-				        text: 'check',
-				        tooltip: '审核工资信息',
-				        iconCls: 'fa fa-plus',
-				        handler: 'checkSalaryDetail'	
-				    }
+		            }
 ],	
             dockedItems: [{
                 xtype: 'pagingtoolbar',

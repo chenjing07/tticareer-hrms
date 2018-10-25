@@ -82,11 +82,11 @@ Ext.define('Admin.view.expenseaccount.ExpenseAccountPanel', {
 	            	    name:'SearchDateEndField',
 	            		format: 'Y/m/d H:i:s'
 			        },'-',{
-				        text: 'Search',
+				        text: '快捷查询',
 				        iconCls: 'fa fa-search',
 				        handler: 'quickSearch'
 				    },'-',{
-				        text: 'Search More',
+				        text: '复杂查询',
 				        iconCls: 'fa fa-search-plus',
 				        handler: 'openSearchWindow'	
 				    },'->',{

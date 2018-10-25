@@ -264,7 +264,7 @@ create table examination_questions
    category             int not null comment '分类
    		{
    			1选择题 2填空题 3问答题 4计算题
-   		}'，
+   		}',
    explanation          varchar(255) not null comment '讲解',
    state                int not null comment '状态
             {

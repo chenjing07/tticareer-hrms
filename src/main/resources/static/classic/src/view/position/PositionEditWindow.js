@@ -8,7 +8,7 @@ Ext.define('Admin.view.position.PositionEditWindow', {
     //minWidth: 300,
     width: 500,
     scrollable: true,
-    title: 'Position Edit Window',
+    title: '修改岗位信息',
     closable: true,
     modal:true, //打开窗口后 不能操作其他模块
     

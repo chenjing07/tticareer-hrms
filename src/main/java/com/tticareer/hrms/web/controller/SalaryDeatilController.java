@@ -202,9 +202,9 @@ public class SalaryDeatilController {
 	 */
 	@PostMapping("/checkstatus")
 	public JSONResult checkSalaryDetail(@RequestParam(name="id") Long id,HttpSession session) {
-		String ssessionState=SessionUtil.getState(session);
-		int state=Integer.parseInt(ssessionState);
-		if(state==3) {
+//		String ssessionState=SessionUtil.getState(session);
+//		int state=Integer.parseInt(ssessionState);
+//		if(state==3) {
 		SalaryDetail s=salaryDetailService.querySalaryDetailById(id);
 		if(s.getCheckStatus()==0) {
 		salaryDetailService.checkSalaryDetail(id);
@@ -213,10 +213,10 @@ public class SalaryDeatilController {
 	    	String msg="操作失败";
 	    	return JSONResult.errorMsg(msg);
 	    }
-	   }else {
-		   String msg="该用户没有操作权限";
-		   return JSONResult.errorMsg(msg);
-	   }
+//	   }else {
+//		   String msg="该用户没有操作权限";
+//		   return JSONResult.errorMsg(msg);
+//	   }
 		
 	}
 }

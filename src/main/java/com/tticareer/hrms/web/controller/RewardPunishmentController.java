@@ -166,9 +166,9 @@ public class RewardPunishmentController {
 	 */
 	@PutMapping("/checkstatus")
 	public JSONResult checkRewardPunishment(@RequestParam(name="id") Long id,HttpSession session) {
-		String ssessionState=SessionUtil.getState(session);
-		int state=Integer.parseInt(ssessionState);
-		if(state==3) {
+//		String ssessionState=SessionUtil.getState(session);
+//		int state=Integer.parseInt(ssessionState);
+//		if(state==3) {
 		RewardPunishment data=rewardPunishmentService.queryRewardPunishmentById(id);
 		if(data.getCheckStatus()==0) {
 			rewardPunishmentService.checkRewardPunishment(id);
@@ -177,10 +177,10 @@ public class RewardPunishmentController {
 			String msg="操作失败";
 	    	return JSONResult.errorMsg(msg);
 		}
-		}else {
-			   String msg="该用户没有操作权限";
-			   return JSONResult.errorMsg(msg);
-		   }
+//		}else {
+//			   String msg="该用户没有操作权限";
+//			   return JSONResult.errorMsg(msg);
+//		   }
 	}
 	/**
 	 * 删除多条奖惩信息，状态设置为0冻结

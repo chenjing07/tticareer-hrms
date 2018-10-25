@@ -177,6 +177,7 @@ Ext.define('Admin.view.salarydetail.SalaryDetailViewController', {
     					});
  				 	} else {
     					Ext.Msg.alert('操作失败', json.msg);
+    					Store.load();
   					}
             
 		}});

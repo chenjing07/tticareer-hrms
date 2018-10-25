@@ -58,21 +58,7 @@
                     /*返回登录名*/
                     text:'用户名：Admin',
                     id:'UserName',
-                    cls: 'top-user-name',
-                    handle:function(){
-                    	Ext.Ajax.request({
-			            url: 'authentication/login',
-			            method: 'post',
-			            success: function(response, options) {
-				            	var json = Ext.util.JSON.decode(response.responseText);
-					            if(json.success){
-					            	Ext.getCmp('UserName').setText(json.map.userName);
-						        }else{
-						        	Ext.getCmp('UserName').setText('用户名：Admin');
-						        }
-			            	}
-                    	});
-                    }
+                    cls: 'top-user-name'
                 },{
                     xtype: 'image',
                     cls: 'header-right-profile-image',

@@ -37,7 +37,7 @@ $(function(){
 		    	success:function(json){
 		    		if(json.success){
 		    			//alert(msg);
-		    			window.location.href= 'index.html'; 
+		    			window.location.href= 'http://localhost/index.html#dashboard'; 
 		    		}else{
 		    			alert("登录失败，请重试!");
 		    		}

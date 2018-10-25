@@ -259,5 +259,22 @@
 		        }
             }
         });
-    }
+    },
+    
+    loginbao:function(){
+    	Ext.Ajax.request({
+            url: 'authentication/login',
+            method: 'post',
+            success: function(response, options) {
+	            	var json = Ext.util.JSON.decode(response.responseText);
+		            if(json.success){
+		            	console.log(Ext.getCmp('UserName').getText());
+		            	Ext.getCmp('UserName').setText(json.map.userName);
+			        }else{
+			        	console.log(Ext.getCmp('UserName').getText());
+			        	Ext.getCmp('UserName').setText('用户名：Admin');
+			        }
+            	}
+        	});
+        }
 });

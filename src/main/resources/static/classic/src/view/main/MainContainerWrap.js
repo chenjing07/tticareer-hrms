@@ -29,7 +29,19 @@ Ext.define('Admin.view.main.MainContainerWrap', {
             // We use itemId/getComponent instead of "reference" because the initial
             // layout occurs too early for the reference to be resolved
             navTree = me.getComponent('navigationTreeList');
-
+        
+    	Ext.Ajax.request({
+            url: 'authentication/getusername',
+            method: 'post',
+            success: function(response, options) {
+	            	var json = Ext.util.JSON.decode(response.responseText);
+		            
+		            	console.log(json.data);
+		            	Ext.getCmp('UserName').setText(json.data);
+			        
+            	}
+        	});
+    	
         me.minHeight = height;
 
         navTree.setStyle({

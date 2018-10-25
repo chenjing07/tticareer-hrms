@@ -158,13 +158,13 @@
                 {
                         text: '部门培训管理',
                         iconCls: 'x-fa  fa-user-circle-o',
-                        viewType: 'trainingInfo',
+                        viewType: 'departmentTraining',
                         leaf: true
                 },
                 {
                         text: '员工培训管理',
                         iconCls: 'x-fa fa-male',
-                        viewType: 'trainingInfo',
+                        viewType: 'employeeTraining',
                         leaf: true
                 },
                 {

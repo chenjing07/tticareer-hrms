@@ -16,7 +16,7 @@ Ext.define('Admin.view.assessment.AssessmentStandardPanel', {
     items: [
         {
             xtype: 'gridpanel',
-            cls: 'AssessmentStandard-grid',
+            cls: 'user-grid',
             title: '考核标准信息管理',
             //routeId: 'user',
             selModel: {type: 'checkboxmodel'},
@@ -35,7 +35,11 @@ Ext.define('Admin.view.assessment.AssessmentStandardPanel', {
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'assessmentType',text: '考核分类说明',flex: 1},
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'resultLevel',text: '结果级别划分说明',flex: 1},
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'state',text: '状态',flex: 1,hidden:true},
-                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'checkStatus',text: '审核情况',flex: 1},
+                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'checkStatus',text: '审核情况',
+                	renderer: function(val) {
+	        			return '<span style="color:green;">'+ val +'</span>';
+                	}
+                },
                 {xtype: 'datecolumn',cls: 'content-column',width: 180,dataIndex: 'createTime',text: '录入时间',formatter: 'date("Y/m/d H:i:s")'},
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'note',text: '备注',flex: 1},
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: '操作',tooltip: 'Action',
@@ -97,7 +101,7 @@ Ext.define('Admin.view.assessment.AssessmentStandardPanel', {
     	},
     	{
             xtype: 'gridpanel',
-            cls: 'AssessmentStandardCheck-grid',
+            cls: 'user-grid',
             title: '考核标准信息复核',
             //routeId: 'user',
             selModel: {type: 'checkboxmodel'},
@@ -116,7 +120,11 @@ Ext.define('Admin.view.assessment.AssessmentStandardPanel', {
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'assessmentType',text: '考核分类说明',flex: 1},
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'resultLevel',text: '结果级别划分说明',flex: 1},
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'state',text: '状态',flex: 1,hidden:true},
-                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'checkStatus',text: '审核情况',flex: 1},
+                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'checkStatus',text: '审核情况',
+                	renderer: function(val) {
+	        			return '<span style="color:red;">'+ val +'</span>';
+                	}
+                },
                 {xtype: 'datecolumn',cls: 'content-column',width: 180,dataIndex: 'createTime',text: '录入时间',formatter: 'date("Y/m/d H:i:s")'},
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'note',text: '备注',flex: 1},
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: '操作',tooltip: 'Action',

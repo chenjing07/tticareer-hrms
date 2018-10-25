@@ -16,7 +16,7 @@ Ext.define('Admin.view.assessment.EmployeeAssessmentPanel', {
     items: [
         {
             xtype: 'gridpanel',
-            cls: 'EmployeeAssessment-grid',
+            cls: 'user-grid',
             title: '员工考核信息管理',
             //routeId: 'user',
             selModel: {type: 'checkboxmodel'},
@@ -34,7 +34,11 @@ Ext.define('Admin.view.assessment.EmployeeAssessmentPanel', {
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'skill',text: '工作技能',flex: 1},
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'assessmentResult',text: '考核结果',flex: 1},
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'evaluate',text: '评价',flex: 1},
-                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'checkStatus',text: '审核情况',flex: 1},
+                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'checkStatus',text: '审核情况',
+                	renderer: function(val) {
+	        			return '<span style="color:green;">'+ val +'</span>';
+                	}
+                },
                 {xtype: 'datecolumn',cls: 'content-column',width: 180,dataIndex: 'createTime',text: '录入时间',formatter: 'date("Y/m/d H:i:s")'},
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'note',text: '备注',flex: 1},
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: '操作',tooltip: 'Action',
@@ -61,10 +65,7 @@ Ext.define('Admin.view.assessment.EmployeeAssessmentPanel', {
 	            queryMode: 'local',
 	            triggerAction: 'all',
 	            emptyText: 'Select a state...',
-	            width: 135,
-                listeners:{
-                    select: 'searchComboboxSelectChuang'
-                }
+	            width: 135
 	        }, '-',{
             	xtype:'textfield',
                 reference:'searchFieldValue',
@@ -99,7 +100,7 @@ Ext.define('Admin.view.assessment.EmployeeAssessmentPanel', {
     	},
     	{
             xtype: 'gridpanel',
-            cls: 'EmployeeAssessmentCheck-grid',
+            cls: 'user-grid',
             title: '员工考核信息复核',
             //routeId: 'user',
             selModel: {type: 'checkboxmodel'},
@@ -117,7 +118,11 @@ Ext.define('Admin.view.assessment.EmployeeAssessmentPanel', {
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'skill',text: '工作技能',flex: 1},
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'assessmentResult',text: '考核结果',flex: 1},
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'evaluate',text: '评价',flex: 1},
-                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'checkStatus',text: '审核情况',flex: 1},
+                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'checkStatus',text: '审核情况',
+                	renderer: function(val) {
+	        			return '<span style="color:green;">'+ val +'</span>';
+                	}
+                },
                 {xtype: 'datecolumn',cls: 'content-column',width: 180,dataIndex: 'createTime',text: '录入时间',formatter: 'date("Y/m/d H:i:s")'},
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'note',text: '备注',flex: 1},
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: '操作',tooltip: 'Action',
@@ -145,10 +150,7 @@ Ext.define('Admin.view.assessment.EmployeeAssessmentPanel', {
 	            queryMode: 'local',
 	            triggerAction: 'all',
 	            emptyText: 'Select a state...',
-	            width: 135,
-                listeners:{
-                    select: 'searchComboboxSelectChuang'
-                }
+	            width: 135
 	        }, '-',{
             	xtype:'textfield',
                 reference:'searchFieldValue',

@@ -16,7 +16,7 @@ Ext.define('Admin.view.attendance.LeaveDetailPanel', {
     items: [
         {
             xtype: 'gridpanel',
-            cls: 'LeaveDetail-grid',
+            cls: 'user-grid',
             title: '请假信息管理',
             //routeId: 'user',
             selModel: {type: 'checkboxmodel'},
@@ -34,7 +34,11 @@ Ext.define('Admin.view.attendance.LeaveDetailPanel', {
                 {xtype: 'datecolumn',cls: 'content-column',width: 180,dataIndex: 'realStart',text: '审核后假期开始时间',formatter: 'date("Y/m/d H:i:s")'},
                 {xtype: 'datecolumn',cls: 'content-column',width: 180,dataIndex: 'realEnd',text: '审核后假期结束时间（销假）',formatter: 'date("Y/m/d H:i:s")'},
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'state',text: '状态',flex: 1},
-                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'checkStatus',text: '审核情况',flex: 1},
+                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'checkStatus',text: '审核情况',
+                	renderer: function(val) {
+	        			return '<span style="color:green;">'+ val +'</span>';
+                	}
+                },
                 {xtype: 'datecolumn',cls: 'content-column',width: 180,dataIndex: 'createTime',text: '录入时间',formatter: 'date("Y/m/d H:i:s")'},
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'note',text: '备注',flex: 1},
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: '操作',tooltip: 'Action',
@@ -96,7 +100,7 @@ Ext.define('Admin.view.attendance.LeaveDetailPanel', {
     	},
     	{
             xtype: 'gridpanel',
-            cls: 'LeaveDetailCheck-grid',
+            cls: 'user-grid',
             title: '请假信息复核',
             //routeId: 'user',
             selModel: {type: 'checkboxmodel'},
@@ -113,11 +117,27 @@ Ext.define('Admin.view.attendance.LeaveDetailPanel', {
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'reason',text: '请假原因',flex: 1},
                 {xtype: 'datecolumn',cls: 'content-column',width: 180,dataIndex: 'realStart',text: '审核后假期开始时间',formatter: 'date("Y/m/d H:i:s")'},
                 {xtype: 'datecolumn',cls: 'content-column',width: 180,dataIndex: 'realEnd',text: '审核后假期结束时间（销假）',formatter: 'date("Y/m/d H:i:s")'},
-                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'state',text: '状态',flex: 1},
-                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'checkStatus',text: '审核情况',flex: 1},
+                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'state',text: '状态',
+                	renderer: function(val) {
+                		if (val == "激活") {
+                			return '<span style="color:green;">'+ val +'</span>';
+						} else if(val == "销假申请") {
+							return '<span style="color:yellow;">'+ val +'</span>';
+						} else if(val == "销假成功") {
+							return '<span style="color:green;">'+ val +'</span>';
+						} else {
+							return '<span style="color:red;">'+ val +'</span>';
+						}
+                	}
+                },
+                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'checkStatus',text: '审核情况',
+                	renderer: function(val) {
+	        			return '<span style="color:red;">'+ val +'</span>';
+                	}
+                },
                 {xtype: 'datecolumn',cls: 'content-column',width: 180,dataIndex: 'createTime',text: '录入时间',formatter: 'date("Y/m/d H:i:s")'},
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'note',text: '备注',flex: 1},
-                {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: '操作',tooltip: 'Action',
+                {xtype: 'actioncolumn',cls: 'content-column', width: 180,text: '操作',tooltip: 'Action',
                     items: [
                         {xtype: 'button', iconCls: 'x-fa fa-play' ,handler: 'checkStatusSuccess'},
                         {xtype: 'button', iconCls: 'x-fa fa-ban' ,handler: 'checkStatusFail'},

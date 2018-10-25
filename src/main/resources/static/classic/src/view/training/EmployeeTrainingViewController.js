@@ -49,7 +49,6 @@ Ext.define('Admin.view.training.EmployeeTrainingViewController', {
 	/* Clear Text */
 	clearText:function(btn){
 		this.lookupReference('searchFieldValue').setValue("");
-		this.lookupReference('searchDataFieldValue').setValue("");		
 	},
     /*Edit*/
 	openEditWindow:function(grid, rowIndex, colIndex){

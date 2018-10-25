@@ -16,7 +16,7 @@ Ext.define('Admin.view.attendance.AttendancePanel', {
     items: [
     	{
             xtype: 'gridpanel',
-            cls: 'clockDetail-grid',
+            cls: 'user-grid',
             title: '打卡签到信息管理',
             //routeId: 'user',
             selModel: {type: 'checkboxmodel'},
@@ -81,7 +81,7 @@ Ext.define('Admin.view.attendance.AttendancePanel', {
         },
         {
             xtype: 'gridpanel',
-            cls: 'lateEarly-grid',
+            cls: 'user-grid',
             title: '迟到早退信息管理',
             //routeId: 'user',
             selModel: {type: 'checkboxmodel'},
@@ -157,7 +157,7 @@ Ext.define('Admin.view.attendance.AttendancePanel', {
     	},
     	{
             xtype: 'gridpanel',
-            cls: 'overWork-grid',
+            cls: 'user-grid',
             title: '加班信息管理',
             //routeId: 'user',
             selModel: {type: 'checkboxmodel'},

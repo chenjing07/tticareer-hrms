@@ -15,7 +15,7 @@ Ext.define('Admin.view.training.TrainingFeedbackPanel', {
     layout: 'fit',
     items: [{
             xtype: 'gridpanel',
-            cls: 'training-feedback-grid',
+            cls: 'user-grid',
             title: '培训反馈信息管理',
             //routeId: 'user',
             selModel: {type: 'checkboxmodel'},

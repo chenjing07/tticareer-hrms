@@ -15,7 +15,7 @@ Ext.define('Admin.view.training.EmployeeTrainingPanel', {
     layout: 'fit',
     items: [{
             xtype: 'gridpanel',
-            cls: 'employee-training-grid',
+            cls: 'user-grid',
             title: '员工培训信息管理',
             //routeId: 'user',
             selModel: {type: 'checkboxmodel'},
@@ -33,7 +33,15 @@ Ext.define('Admin.view.training.EmployeeTrainingPanel', {
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'cost',text: '计划费用',flex: 1},
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'place',text: '培训地点',flex: 1},
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'content',text: '培训内容',flex: 1},
-                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'state',text: '状态',flex: 1},
+                {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'state',text: '状态',
+                	renderer: function(val) {
+	        			if (val == '未进行') {
+	        				return '<span style="color:red;">未进行</span>';
+						} else {
+							return '<span style="color:green;">正在进行</span>';
+						}
+                	}
+                },
                 {xtype: 'datecolumn',cls: 'content-column',width: 180,dataIndex: 'createTime',text: '录入时间',formatter: 'date("Y/m/d H:i:s")'},
                 {xtype: 'gridcolumn',cls: 'content-column',dataIndex: 'note',text: '备注',flex: 1},
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: '操作',tooltip: 'Action',

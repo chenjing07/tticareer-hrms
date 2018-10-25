@@ -135,7 +135,7 @@ public class ExpenseAccountDTO {
 			 dto.setStatement("未冻结");
 		 }
 		 if(dto.getCheckStatus()==0) {
-			 dto.setCheckStatusment("未审核");
+			 dto.setCheckStatusment("待审核");
 		 }else {
 			 dto.setCheckStatusment("已审核");
 		 }

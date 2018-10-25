@@ -15,7 +15,45 @@
     },
 
     lastView: null,
-
+    
+    clockIn:function(btn){
+    	var store = Ext.data.StoreManager.lookup('clockDetailGridStore');
+    	Ext.Ajax.request({ 
+			url : '/attendance/cd', 
+			method : 'post', 
+			success: function(response, options) {
+                var json = Ext.util.JSON.decode(response.responseText);
+	            if(json.data==1 || json.data==2){
+	            	Ext.Msg.alert('操作成功', '打卡成功', function() {
+	                    store.load();
+	                });
+		        }else{
+		        	 Ext.Msg.alert('操作失败', '打卡失败');
+		        }
+            }
+		});
+    },
+    
+    xiaojia:function(btn){
+    	var store1 = Ext.data.StoreManager.lookup('leaveDetailCheckGridStore');
+    	var store2 = Ext.data.StoreManager.lookup('leaveDetailGridStore');
+    	Ext.Ajax.request({ 
+			url : '/attendance/ldxiaojia', 
+			method : 'post', 
+			success: function(response, options) {
+                var json = Ext.util.JSON.decode(response.responseText);
+	            if(json.data==1){
+	            	Ext.Msg.alert('操作成功', '销假申请已提交', function() {
+	                    store1.load();
+	                    store2.load();
+	                });
+		        }else{
+		        	 Ext.Msg.alert('操作失败', '销假申请失败');
+		        }
+            }
+		});
+    },
+    
     setCurrentView: function(hashTag) {
         hashTag = (hashTag || '').toLowerCase();
 

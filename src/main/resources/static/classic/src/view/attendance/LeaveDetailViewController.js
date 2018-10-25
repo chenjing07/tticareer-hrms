@@ -50,7 +50,8 @@ Ext.define('Admin.view.attendance.LeaveDetailViewController', {
 		var form 	= win.down('form');
 		var record 	= Ext.create('Admin.model.attendance.LeaveDetailModel');
 		var values  =form.getValues();//获取form数据
-		var store = Ext.data.StoreManager.lookup('leaveDetailGridStore');
+		var store1 = Ext.data.StoreManager.lookup('leaveDetailGridStore');
+		var store2 = Ext.data.StoreManager.lookup('leaveDetailCheckGridStore');
 		Ext.Ajax.request({
     		url: '/attendance/ldsave',
     		method: 'post',
@@ -70,7 +71,8 @@ Ext.define('Admin.view.attendance.LeaveDetailViewController', {
                 console.log(json);
 	            if(json.data==1){
 	            	Ext.Msg.alert('操作成功', '请假信息录入成功', function() {
-	            		store.load();
+	            		store1.load();
+	            		store2.load();
 	        			win.close();
 	                });
 		        } else {

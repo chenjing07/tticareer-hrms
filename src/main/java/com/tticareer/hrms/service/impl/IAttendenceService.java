@@ -321,6 +321,15 @@ public class IAttendenceService implements AttendanceService {
 	public LeaveDetail queryLeaveDetailById(Long id) {
 		return ldMapper.selectByPrimaryKey(id);
 	}
+	
+	@Override
+	public LeaveDetail queryLeaveDetailXiao(Long employeeId) {
+		Example example = new Example(LeaveDetail.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("employeeId", employeeId);
+		criteria.andEqualTo("state", 1);
+		return ldMapper.selectOneByExample(example);
+	}
 
 	@Override
 	public List<LeaveDetail> queryLeaveDetailByEmployeeId(Long employeeId) {

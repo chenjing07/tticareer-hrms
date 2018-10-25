@@ -11,6 +11,8 @@ package com.tticareer.hrms.web.controller;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
@@ -298,7 +300,8 @@ public class AttendanceController {
 	 * @return
 	 */
 	@PostMapping("/cd")
-	public JSONResult clockDetail(ClockDetail cd, @Param("userName") String userName) {
+	public JSONResult clockDetail(ClockDetail cd, HttpSession session) {
+		String userName = SessionUtil.getUserName(session);
 		Employee emp = es.queryEmployeeByUserName(userName);
 		if (emp!=null && emp.getState()!=0) {
 			if (emp.getCheckSatus()!=0) {
@@ -510,8 +513,10 @@ public class AttendanceController {
 	 * @return
 	 */
 	@PostMapping("/ldxiaojia")
-	public JSONResult xiaoJia(@Param("id")Long id) {
-		LeaveDetail l = as.queryLeaveDetailById(id);
+	public JSONResult xiaoJia(HttpSession session) {
+		String userName = SessionUtil.getUserName(session);
+		Employee e = es.queryEmployeeByUserName(userName);
+		LeaveDetail l = as.queryLeaveDetailXiao(e.getId());
 		if (l!=null && l.getState()!=0) {
 			l.setState(2);
 			l.setCheckStatus(0);

@@ -64,6 +64,7 @@ public interface AttendanceService {
 	public void deleteLeaveDetailList(Long[] ids);
 	public LeaveDetail queryLeaveDetail(LeaveDetail ld);
 	public LeaveDetail queryLeaveDetailById(Long id);
+	public LeaveDetail queryLeaveDetailXiao(Long employeeId);
 	public List<LeaveDetail> queryLeaveDetailByEmployeeId(Long employeeId);
 	public List<LeaveDetail> queryAllLeaveDetail();
 	public List<LeaveDetail> queryLeaveDetailCheckStatus();

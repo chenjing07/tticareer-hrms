@@ -43,8 +43,17 @@
                     id: 'main-navigation-btn',
                     handler: 'onToggleNavigationSize'
                 },
-                '->',
-                {
+                '->',{
+                	iconCls:'x-fa fa-check-square-o',
+                	ui:'header',
+                	tooltip:'打卡',
+                	handler:'clockIn'
+                },{
+                	iconCls:'x-fa fa-calendar-times-o',
+                	ui:'header',
+                	tooltip:'销假',
+                	handler:'xiaojia'
+                },{
                     xtype: 'tbtext',
                     /*返回登录名*/
                     text:'用户名：Admin',

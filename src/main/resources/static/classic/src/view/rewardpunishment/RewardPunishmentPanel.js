@@ -29,8 +29,15 @@ Ext.define('Admin.view.rewardpunishment.RewardPunishmentPanel', {
            {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'rewardAndPunishmentState',text: '奖惩状态',flex:1},
        	   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'content',text: '奖惩说明',flex:3},
            {xtype: 'datecolumn',cls: 'content-column',dataIndex: 'createTime',text: '创建时间',renderer:Ext.util.Format.dateRenderer('Y/m/d H:i:s')},
-		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'statement',text: '状态',flex:1},
-		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'checkStatusment',text: '审核状态',flex:1},
+		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'statement',text: '状态',flex:1,hidden:true},
+		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'checkStatus',text: '审核状态',flex:1,
+			   renderer: function(val) {
+		            if (val =='1') {
+			            return '<span style="color:green;">已审查</span>';
+			        } else {
+			            return '<span style="color:blue;">待审查</span>';
+			        }
+       	   }},
 		   {xtype: 'gridcolumn',cls:'content-column',dataIndex: 'note',text: '备注',flex:1},
 		   
                 {xtype: 'actioncolumn',cls: 'content-column', width: 120,text: 'Actions',tooltip: 'edit ',

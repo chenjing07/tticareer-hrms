@@ -169,9 +169,11 @@ public class SalaryDeatilController {
 		salaryDetailService.deleteSalaryDetail(id);
 		SalaryDetail data=salaryDetailService.querySalaryDetailById(id);
 		if(data.getState()!=0) {
-			return JSONResult.ok(0);
+			return JSONResult.ok(1);
 		}
-		return JSONResult.ok(1);
+		String msg="操作失败";
+		return JSONResult.errorMsg(msg);
+		
 	}
 	/**
 	 * 删除多条薪酬信息，状态设置为0冻结
@@ -186,9 +188,10 @@ public class SalaryDeatilController {
 				for(Long i:ids) {
 					salaryDetailService.deleteSalaryDetail(i);
 				}
-				JSONResult.ok(1);
-			}			
-			return JSONResult.ok(0);
+				return JSONResult.ok(1);
+			}
+			String msg="操作失败";
+			return JSONResult.errorMsg(msg);
 	}
 	/**
 	 * 审查薪酬信息，状态设置为1
@@ -205,14 +208,14 @@ public class SalaryDeatilController {
 		SalaryDetail s=salaryDetailService.querySalaryDetailById(id);
 		if(s.getCheckStatus()==0) {
 		salaryDetailService.checkSalaryDetail(id);
-		return JSONResult.ok(s);
+		return JSONResult.ok(1);
 	    }else {
 	    	String msg="操作失败";
-	    	return JSONResult.ok(msg);
+	    	return JSONResult.errorMsg(msg);
 	    }
 	   }else {
 		   String msg="该用户没有操作权限";
-		   return JSONResult.ok(msg);
+		   return JSONResult.errorMsg(msg);
 	   }
 		
 	}

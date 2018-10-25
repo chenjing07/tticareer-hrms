@@ -9,7 +9,7 @@ Ext.define('Admin.view.archives.ArchivesAddWindow', {
     //minWidth: 300,
     width: 500,
     scrollable: true,
-    title: 'Archives Add Window',
+    title: '新增档案信息',
     closable: true,
     modal:true, //打开窗口后 不能操作其他模块
     

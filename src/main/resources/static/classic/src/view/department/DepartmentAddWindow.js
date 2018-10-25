@@ -8,7 +8,7 @@ Ext.define('Admin.view.department.DepartmentAddWindow', {
     //minWidth: 300,
     width: 500,
     scrollable: true,
-    title: 'Department Add Window',
+    title: '新增部门信息',
     closable: true,
     modal:true, //打开窗口后 不能操作其他模块
     

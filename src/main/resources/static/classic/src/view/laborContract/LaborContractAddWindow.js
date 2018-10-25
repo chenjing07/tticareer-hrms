@@ -9,7 +9,7 @@ Ext.define('Admin.view.laborContract.LaborContractAddWindow', {
     //minWidth: 300,
     width: 500,
     scrollable: true,
-    title: 'LaborContract Add Window',
+    title: '新增劳动合同',
     closable: true,
     modal:true, //打开窗口后 不能操作其他模块
     

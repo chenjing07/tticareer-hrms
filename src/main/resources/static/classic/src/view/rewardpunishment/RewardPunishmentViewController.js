@@ -173,10 +173,11 @@ Ext.define('Admin.view.rewardPunishment.RewardPunishmentViewController', {
 					var json = Ext.util.JSON.decode(response.responseText);
   					if (json.status==200) {
     					Ext.Msg.alert('操作结果', json.msg, function() {
-    						Store.reload();
+    						Store.load();
     					});
  				 	} else {
     					Ext.Msg.alert('操作失败', json.msg);
+    					Store.load();
   					}
             
 		}});

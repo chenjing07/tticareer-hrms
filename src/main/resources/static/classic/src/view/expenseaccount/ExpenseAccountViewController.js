@@ -177,6 +177,7 @@ Ext.define('Admin.view.expenseaccount.ExpenseAccountViewController', {
     					});
  				 	} else {
     					Ext.Msg.alert('操作失败', json.msg);
+    					Store.load();
   					}
             
 		}});

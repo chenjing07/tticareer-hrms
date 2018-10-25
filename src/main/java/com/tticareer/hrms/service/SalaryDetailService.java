@@ -3,11 +3,7 @@ package com.tticareer.hrms.service;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 import com.tticareer.hrms.pojo.SalaryDetail;
-import com.tticareer.hrms.pojo.dto.SalaryDetailDTO;
 public interface SalaryDetailService {
 	/*
 	 * 添加薪酬信息

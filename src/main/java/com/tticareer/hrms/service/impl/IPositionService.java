@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 import com.tticareer.hrms.mapper.PositionMapper;
-import com.tticareer.hrms.pojo.LaborContract;
 import com.tticareer.hrms.pojo.Position;
 import com.tticareer.hrms.pojo.dto.PositionIdAndName;
 import com.tticareer.hrms.service.PositionService;

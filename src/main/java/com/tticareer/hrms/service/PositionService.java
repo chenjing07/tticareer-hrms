@@ -3,7 +3,6 @@ package com.tticareer.hrms.service;
 import java.util.List;
 
 import com.tticareer.hrms.pojo.Position;
-import com.tticareer.hrms.pojo.dto.DepartmentIdAndName;
 import com.tticareer.hrms.pojo.dto.PositionIdAndName;
 
 

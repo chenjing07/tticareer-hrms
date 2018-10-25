@@ -2,12 +2,8 @@ package com.tticareer.hrms.pojo.dto;
 
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.tticareer.hrms.pojo.Employee;
 import com.tticareer.hrms.pojo.SalaryDetail;
-import com.tticareer.hrms.service.EmployeeService;
 import com.tticareer.hrms.util.BeanUtils;
 
 public class SalaryDetailDTO {

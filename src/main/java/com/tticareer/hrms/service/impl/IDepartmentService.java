@@ -1,7 +1,6 @@
 package com.tticareer.hrms.service.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.PageHelper;
 import com.tticareer.hrms.mapper.DepartmentMapper;
 import com.tticareer.hrms.pojo.Department;
-
-import com.tticareer.hrms.pojo.LaborContract;
 import com.tticareer.hrms.pojo.dto.DepartmentIdAndName;
-
 import com.tticareer.hrms.service.DepartmentService;
 
 import tk.mybatis.mapper.entity.Example;

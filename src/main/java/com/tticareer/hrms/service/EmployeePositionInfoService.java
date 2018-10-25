@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.tticareer.hrms.pojo.EmployeePositionInfo;
-import com.tticareer.hrms.pojo.LaborContract;
 
 
 /**

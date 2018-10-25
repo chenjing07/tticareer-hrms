@@ -204,12 +204,6 @@
                         iconCls: 'x-fa fa-align-justify',
                         viewType: 'employeeAssessment',
                         leaf: true
-                },
-                {
-                        text: '优秀团队管理',
-                        iconCls: 'x-fa  fa-slideshare',
-                        viewType: 'greatTeam',
-                        leaf: true
                 }]
         },
         {

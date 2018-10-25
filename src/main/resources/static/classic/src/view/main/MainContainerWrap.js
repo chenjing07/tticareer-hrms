@@ -30,17 +30,6 @@ Ext.define('Admin.view.main.MainContainerWrap', {
             // layout occurs too early for the reference to be resolved
             navTree = me.getComponent('navigationTreeList');
         
-    	Ext.Ajax.request({
-            url: 'authentication/getusername',
-            method: 'post',
-            success: function(response, options) {
-	            	var json = Ext.util.JSON.decode(response.responseText);
-		            
-		            	console.log(json.data);
-		            	Ext.getCmp('UserName').setText(json.data);
-			        
-            	}
-        	});
     	
         me.minHeight = height;
 

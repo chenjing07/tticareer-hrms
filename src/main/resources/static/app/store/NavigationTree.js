@@ -240,8 +240,7 @@
 			{
                 text: 'Login',
                 iconCls: 'x-fa fa-check',
-                //viewType: 'login',
-                html:'login.html',
+                viewType: 'login',
                 leaf: true
            }
         ]

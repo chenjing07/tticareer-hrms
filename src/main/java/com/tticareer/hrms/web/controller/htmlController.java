@@ -17,7 +17,7 @@ public class htmlController {
 
     @RequestMapping("/")
     public ModelAndView getThymeleaf() {
-        ModelAndView modelAndView = new ModelAndView("login");
+        ModelAndView modelAndView = new ModelAndView("index");
         return modelAndView;
     }
 

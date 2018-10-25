@@ -24,7 +24,9 @@
 	passApproveButton:function(button){
 		var grid = button.up('gridpanel');
 		var win=button.up('window');
-	    var values=win.down('form').getValues();//获得form数    
+	    var values=win.down('form').getValues();//获得form数   
+		var store1	= Ext.data.StoreManager.lookup('departmentApproveStore');
+	    var store2	= Ext.data.StoreManager.lookup('departmentGridStore');			
 		Ext.Ajax.request(
 			{url:'/department/approvePass', 
 			 method:'post', 
@@ -34,7 +36,9 @@
 				//console.log(json);
 				if (json.data) {
 					Ext.Msg.alert('操作成功', json.msg, function() {
-						grid.getStore().reload();
+						//grid.getStore().reload();
+						store1.load();
+						store2.load();
 					});
 				} else {
 					Ext.Msg.alert('操作失败', json.msg);
@@ -45,7 +49,9 @@
 	nopassApproveButton:function(button){
 		var grid = button.up('gridpanel');
 		var win=button.up('window');
-	    var values=win.down('form').getValues();//获得form数    
+	    var values=win.down('form').getValues();//获得form数  
+		var store1	= Ext.data.StoreManager.lookup('departmentApproveStore');
+	    var store2	= Ext.data.StoreManager.lookup('departmentGridStore');			
 		Ext.Ajax.request(
 			{url:'/department/approvePass', 
 			 method:'post', 
@@ -55,7 +61,9 @@
 				//console.log(json);
 				if (json.data) {
 					Ext.Msg.alert('操作成功', json.msg, function() {
-						grid.getStore().reload();
+						//grid.getStore().reload();
+						store1.load();
+						store2.load();
 					});
 				} else {
 					Ext.Msg.alert('操作失败', json.msg);
